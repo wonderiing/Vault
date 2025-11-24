@@ -64,6 +64,7 @@ Al conectarnos al servicio FTP con el usuario _anonymous_ al parecer lo que nos 
 > cat anon.txt
 53dd9c6005f3cdfc5a69c5c07388016d
 ```
+
 - El hash es un _md5_ con valor: _53dd9c6005f3cdfc5a69c5c07388016d:justin_
 
 Sobre el servicio de `apache2` realizamos fuzzing para descubrir posibles recursos:
@@ -78,6 +79,7 @@ Starting gobuster in directory enumeration mode
 /server-status        (Status: 403) [Size: 275]
 /file_upload.php      (Status: 200) [Size: 468]
 ```
+
 - _El único recurso interesante en file_upload.php -> Una subida de archivos_
 - _uploads/_ _al parecer es el directorio donde se almacenan los archivos subidos_
 

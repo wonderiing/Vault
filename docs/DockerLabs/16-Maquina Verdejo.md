@@ -17,6 +17,7 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.224/0.224/0.224/0.000 ms
 ```
+
 - Por el ttl asumo que es una maquina linux
 
 Ahora realizo un escaneo con nmap para ver que puertos están abiertos:
@@ -33,6 +34,7 @@ PORT     STATE SERVICE
 8089/tcp open  unknown
 MAC Address: 06:72:90:D3:81:3F (Unknown)
 ```
+
 - Puerto 80 HTTP, 22 SSH y 8089
 
 Procedo a realizar un segundo escaneo sobre los puertos abiertos para descubrir las versiones y servicios que están corriendo.
@@ -54,6 +56,7 @@ PORT     STATE SERVICE REASON         VERSION
 8089/tcp open  unknown syn-ack ttl 64
 | fingerprint-strings: 
 ```
+
 - Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u2
 - Puerto 80 HTTP: Apache httpd 2.4.59
 - Puerto 8089: No pudo detectar el servicio que corre 
@@ -63,6 +66,7 @@ Utilice whatweb para ver que otra informacion podía obtener del puerto 8089 que
 > whatweb http://172.17.0.2:8089/
 http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
 ```
+
 - Corre con Python
 ## Enumeración
 

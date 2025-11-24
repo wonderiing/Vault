@@ -25,6 +25,7 @@ PORT   STATE SERVICE
 MAC Address: B6:F0:3B:69:14:E0 (Unknown)
 
 ```
+
 - Puerto 80 HTTP y 22 SSH están abiertos
 
 Ahora procedo a realizar un segundo escaneo para ver mas informacion sobre las versiones y servicios que están corriendo.
@@ -43,6 +44,7 @@ PORT   STATE SERVICE VERSION
 MAC Address: B6:F0:3B:69:14:E0 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 22 SSH :  OpenSSH 8.2p1 Ubuntu 4ubuntu0.11
 - Puerto 80 HTTP:  Apache httpd 2.4.41 ((Ubuntu))
 
@@ -81,6 +83,7 @@ ffuf -w raft-large-directories.txt:FUZZ -u http://172.17.0.2/index.php?FUZZ=/etc
 -----------------------------------------------------------------------------------------------
 page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 ```
+
 - Descubrimos el parametro _page_
 
 Ahora volcamos el /etc/passwd
@@ -108,6 +111,7 @@ nota_mario.txt
 pinguino@dockerlabs:~$ cat nota_mario.txt
 La contraseña de mario es: invitaacachopo
 ```
+
 - invitaacachopo
 
 Por lo cual procedemos a migrar al usuario mario
@@ -124,6 +128,7 @@ Ahora lo que hicimos fue tratar de encontrar binarios con permisos SUID
 ----------------------------------------------------------
 /usr/bin/python3.8
 ```
+
 - Encontramos el binario python que pertenece al usuario root.
 
 Por lo cual ahora, sabiendo que el binario python tiene permisos SUID procedemos a explotarlo con ayuda de GTFObins
@@ -134,6 +139,7 @@ root
 # id
 uid=1001(mario) gid=1001(mario) euid=0(root) groups=1001(mario)
 ```
+
 - uid=1001(mario) ← Identidad real: Soy mario euid=0(root) ← Privilegios efectivos: Actúas como root
 
 

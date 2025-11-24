@@ -35,6 +35,7 @@ PORT   STATE SERVICE REASON
 22/tcp open  ssh     syn-ack
 80/tcp open  http    syn-ack
 ```
+
 - Puerto 80 HTTP y 22 SSH abiertos
 
 Tiro un segundo escaneo para ver que servicios y versiones están corriendo en los puertos.
@@ -59,6 +60,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_/admin/
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 80 HTTP: Apache/2.4.41
 - Puerto 22 SSH: OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)
 ## Enumeración

@@ -26,6 +26,7 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 ```
+
 - Puerto 80 HTTP y 22 SSH abiertos
 
 Tiro un segundo escaneo para ver que servicios, y versiones corren en los puertos abiertos
@@ -43,6 +44,7 @@ PORT   STATE SERVICE VERSION
 |_http-server-header: Apache/2.4.41 (Ubuntu)
 MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 ```
+
 - Los servicios que están corriendo son: 
 	- 80 HTTP Apache httpd 2.4.41 ((Ubuntu))
 	- 22 SSH OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
@@ -75,6 +77,7 @@ Starting gobuster in directory enumeration mode
 /whoami               (Status: 301) [Size: 309] [--> http://172.17.0.2/whoami/]
 /index.html           (Status: 200) [Size: 9487]
 ```
+
 - _script.js_ y _whoami_ es lo que mas me llama la atención
 
 ## Explotación
@@ -88,6 +91,7 @@ Le di una leída al _script.js_ y encontré esta parte de codigo:
     const header = document.querySelector('header');
     const delta = 5; // La cantidad mÃ­nima de scroll para ocultar el header
 ```
+
 - Al parecer existe un archivo llamado .env_de_baluchingon visible que supongo serán credenciales para el ssh.
 
 Lo segundo que me llamo la atención fue el directorio _whoami_
@@ -119,6 +123,7 @@ balu@6cde27e6f35a:~$ sudo -l
 User balu may run the following commands on 6cde27e6f35a:
     (chocolate) NOPASSWD: /usr/bin/php
 ```
+
 - Aquí vemos que existe un binario _php_ que puede ser ejecutado por el usuario chocolate
 
 Por lo cual procedemos a explotar el binario con ayuda de GTFObins
@@ -160,6 +165,7 @@ chocolate@6cde27e6f35a:/opt$ ps aux | grep root
 --------------------------------------------------
 root   1  0.0  0.0   2616  1428 ? Ss 21:33 0:00 /bin/sh -c service apache2 start && a2ensite 000-default.conf && service ssh start && while true; do php /opt/script.php; sleep 5; done
 ```
+
 - El usuario root esta ejecutando un bucle infinito que a su vez ejecuta el archivo _script.php_
 
 Sabiendo esto, básicamente podemos modificar el archivo _script.php_ para mandarnos una reverse shell, gracias a que el usuario root eventualmente va a ejecutar este script.

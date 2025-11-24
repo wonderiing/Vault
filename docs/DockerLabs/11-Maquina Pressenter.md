@@ -36,6 +36,7 @@ PORT   STATE SERVICE VERSION
 |_http-server-header: Apache/2.4.58 (Ubuntu)
 MAC Address: 02:29:1E:07:C2:61 (Unknown)
 ```
+
 - Corre el servicio Apache httpd 2.4.58 ((Ubuntu))
 
 ## Enumeración
@@ -99,6 +100,7 @@ Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plu
 [+] hacker
  | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
 ```
+
 - Encontramos 2 usuarios y 2 vulnerabilidades
 
 ## Explotación
@@ -152,6 +154,7 @@ define( 'DB_USER', 'admin' );
 /** Database password */
 define( 'DB_PASSWORD', 'rooteable' );
 ```
+
 - Descubrí las credenciales del usuario admin para la base de datos MySQL
 
 Decidí conectarme:

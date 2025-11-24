@@ -21,6 +21,7 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: 5E:17:D0:42:D8:82 (Unknown)
 ```
+
 - Puerto 80 y 22 abiertos
 
 Realizo un segundo escaneo para ver que servicios y versiones están corriendo
@@ -134,6 +135,7 @@ Matching Defaults entries for nico on 151ebf5d80e7:
 User nico may run the following commands on 151ebf5d80e7:
     (ALL) NOPASSWD: /bin/env
 ```
+
 - Encontramos que el binario _env_ puede ser ejecutado como root
 
 Procedimos a buscar en **GTFObins** la manera de explotar el binario env

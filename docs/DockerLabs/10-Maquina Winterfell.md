@@ -41,6 +41,7 @@ MAC Address: BA:6A:21:B3:CA:59 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
+
 - Se están corriendo un servicios apache en el puerto 80 y samba en los puertos 139 y 445
 
 ## Enumeración
@@ -91,6 +92,7 @@ Al ver que prácticamente no hay mucha informacion mas que los posibles usuarios
 ----------------------------------------------------------------
 SMB         172.17.0.2      445    7BDD00394D8E     [+] 7BDD00394D8E\jon:seacercaelinvierno
 ```
+
 - Al parecer tenemos acceso al servicio smb usando las credenciales _jon:seacercaelinvierno_.
 
 Procedo a enumerar los recursos del servicio smb a los cuales el usuario jon tiene acceso
@@ -103,6 +105,7 @@ Password for [WORKGROUP\jon]:
 	print$          Disk      Printer Drivers
 	shared          Disk      
 ```
+
 - Tengo acceso al recurso shared
 
 Me conecto a shared y veo que recursos existen dentro de el
@@ -137,6 +140,7 @@ Ok por ahora lo que tenemos es una contraseña y los usuarios _jon_, _daenerys_ 
 ```bash
 > ssh jon@172.17.0.2
 ```
+
 - El usuario con el que pude ingresar al SSH fue _jon_
 
 

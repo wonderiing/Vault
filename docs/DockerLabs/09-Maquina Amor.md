@@ -20,6 +20,7 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: 02:D1:20:12:D4:7B (Unknown)
 ```
+
 - Puerto 80 HTTP y 22 SSH abiertos
 
 Procedí con un segundo escaneo mas profundo para listar servicios y versiones

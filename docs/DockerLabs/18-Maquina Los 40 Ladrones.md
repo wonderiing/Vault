@@ -26,6 +26,7 @@ PORT   STATE SERVICE REASON
 80/tcp open  http    syn-ack ttl 64
 MAC Address: 72:F4:83:41:09:BF (Unknown)
 ```
+
 - Puerto 80 HTTP
 
 Ahora procedo a realizar un segundo escaneo sobre los puertos abiertos para descubrir versiones y servicios que están corriendo
@@ -40,6 +41,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_  Supported Methods: GET POST OPTIONS HEAD
 MAC Address: 72:F4:83:41:09:BF (Unknown)
 ```
+
 - Puerto 80: Apache httpd 2.4.58 ((Ubuntu))
 ## Enumeración
 
@@ -110,6 +112,7 @@ Ahora, sabiendo que el puerto 22 esta abierto y que _toctoc_ es un posible usuar
 ----------------------------------------------------------------------------
 [22][ssh] host: 172.17.0.2   login: toctoc   password: kittycat
 ```
+
 - Credenciales: toctoc:kittycat
 
 
@@ -130,6 +133,7 @@ User toctoc may run the following commands on c561ed7e00d4:
     (ALL : NOPASSWD) /opt/bash
     (ALL : NOPASSWD) /ahora/noesta/function
 ```
+
 - Aqui me encuentro el binario bash
 
 

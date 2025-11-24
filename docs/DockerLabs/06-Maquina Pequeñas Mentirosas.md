@@ -47,6 +47,7 @@ Con la pista anteriormente encontrada procedemos a hacer un ataque de fuerza bru
 [22][ssh] host: 172.17.0.2   login: a   password: secret
 1 of 1 target successfully completed, 1 valid password found
 ```
+
 - La password encontrada es _secret_
 
 Nos conectamos port ssh con el usuario _a_
@@ -143,6 +144,7 @@ Lo primero que hacemos es buscar binarios que puedan ser ejecutado como usuario 
 User spencer may run the following commands on 1f72134edab5:
     (ALL) NOPASSWD: /usr/bin/python3
 ```
+
 - Podemos ejecutar python 
 
 Sabiendo que podemos ejecutar el binario de python procedemos a ejecutarlo como root el usuario 

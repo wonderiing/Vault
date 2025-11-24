@@ -3,20 +3,26 @@ import re
 
 def fix_bullet_points(file_path):
     """
-    Fixes bullet points that appear immediately after bold text without a blank line.
+    Fixes bullet points that appear immediately after:
+    1. Bold text without a blank line
+    2. Code blocks without a blank line
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
     original_content = content
     
-    # Pattern: bold text followed immediately by a bullet point (no blank line)
+    # Pattern 1: bold text followed immediately by a bullet point (no blank line)
     # Match: **text**\n- bullet
     # Replace with: **text**\n\n- bullet
-    pattern = r'(\*\*[^*]+\*\*)\n(-\s)'
-    replacement = r'\1\n\n\2'
+    pattern1 = r'(\*\*[^*]+\*\*)\n(-\s)'
+    content = re.sub(pattern1, r'\1\n\n\2', content)
     
-    content = re.sub(pattern, replacement, content)
+    # Pattern 2: code block (```) followed immediately by a bullet point (no blank line)
+    # Match: ```\n- bullet
+    # Replace with: ```\n\n- bullet
+    pattern2 = r'(```)\n(-\s)'
+    content = re.sub(pattern2, r'\1\n\n\2', content)
     
     # Only write if changes were made
     if content != original_content:

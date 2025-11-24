@@ -27,6 +27,7 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: 3A:DD:05:B2:4F:BB (Unknown)
 ```
+
 - Puerto 80 HTTP y 22 SSH.
 
 Realizo un segundo escaneo sobre los puertos abiertos para ver que versiones y servicios están corriendo.
@@ -44,6 +45,7 @@ PORT   STATE SERVICE VERSION
 MAC Address: 3A:DD:05:B2:4F:BB (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13.5
 - Puerto 80 HTTP: Apache httpd 2.4.58
 
@@ -84,6 +86,7 @@ drwxrwxr-x 1 daniela daniela   10 Jan  9  2025 .local
 drwxrwxr-x 1 daniela daniela   18 Jan  9  2025 .secreto
 drwxrwxr-x 1 daniela daniela    8 Jan  9  2025 Desktop
 ```
+
 - Aquí es donde veo la carpeta .secreto
 
 En esta carpeta se encuentra un archivo llamado _passdiego_ que supongo que serán las credenciales para el usuario diego
@@ -96,6 +99,7 @@ La contraseña al parecer esta codificada en base64 por lo cual procedo a decodi
 ----------------------------------------------
 ballenanegra
 ```
+
 - Credenciales son diego:ballenanegra
 
 Al migrar al usuario diego y después de buscar bastante me encuentro con este archivo llamado ".-" en la carpeta /.local/share :

