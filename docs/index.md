@@ -48,6 +48,7 @@ Máquinas virtuales vulnerables para practicar técnicas de explotación.
 ## 🛠️ Stack Tecnológico
 
 **Backend Development:**
+
 - Java 17+
 - Spring Framework (Boot, Security, Data JPA, Cloud)
 - PostgreSQL / MySQL
