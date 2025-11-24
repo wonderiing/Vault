@@ -1,3 +1,18 @@
+<div class="home-layout" markdown>
+
+<div class="home-sidebar" markdown>
+
+### 📁 Secciones
+
+- [🏠 Inicio](index.md)
+- [🐳 DockerLabs](DockerLabs/index.md)
+- [💾 HackMyVm](HackMyVm/index.md)
+- [📦 HackTheBox](HackTheBox/index.md)
+
+</div>
+
+<div class="home-main" markdown>
+
 # 👋 WNDR23
 
 <div class="hero-section" markdown>
@@ -6,11 +21,15 @@ Jugador profesional de fortnite disfrazado de estudiante de Ingenieria en Desarr
 
 </div>
 
+</div>
+
+</div>
+
 ---
 
 ## 🚀 Sobre Mí
 
-Soy un estudiante que aprende for fun.
+Soy un estudiante que aprende escuchando Ariel Camacho de Fondo.
 
 - **💻 Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
 - **🔐 Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios

@@ -21,7 +21,9 @@ MAC Address: 42:80:CC:52:5B:B0 (Unknown)
 ```
 
 Tiramos un segundo escaneo sobre los puertos abiertos para listar mas informacion
+
 - Vemos que esta corriendo un Apache por el puerto 80 y el servicio SSH
+
 ```bash
 nmap -p22,80 -sCV --min-rate 5000 -Pn -n -oN ports.txt 172.17.0.3
 ---------------------------------------------------------------------
@@ -59,6 +61,7 @@ Lo primero que me llama la atención es la carpeta assets pero no encontramos na
 ![](../assets/Pasted image 20251101210542.png)
 
 Por lo que nos fijamos en el `index.php` que al parecer solo llama y hace referencia a la pagina principal, por lo que procedemos a hacer fuzzing para encontrar posibles parámetros:
+
 - Parametro `secret` correctamente encontrado
 ```bash
 >wfuzz -c --hc=403 --hw=169 -z file,/home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt http://172.17.0.3/index.php?FUZZ=test 
