@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #lfi #dockerlabs
 ![](../assets/Pasted image 20251103001153.png)
-#### Reconocimiento
+## Reconocimiento
 
 Empezamos tirando un reconocimiento a la maquina para verificar sus puertos abiertos:
 ```bash
@@ -42,7 +42,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ![](../assets/Pasted image 20251101210028.png)
 
 
-#### Enumeración
+## Enumeración
 
 Procedemos a hacer Fuzzing para descubrir recursos ocultos sobre la pagina web usando `gobuster`
 ```bash
@@ -70,7 +70,7 @@ ID           Response   Lines    Word       Chars       Payload
 000000944:   200        62 L     166 W      2582 Ch     "secret"   
 ```
 
-#### Explotación
+## Explotación
 
 Haciendo uso del parametro `secret` probamos con un Local File Inclution
 
@@ -99,7 +99,7 @@ Con la clave _rsa_ guardada en nuestro sistema procedimos a darle permisos y a c
 ```
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema lo primero que hicimos fue listar binarios que pudiéramos ejecutar.
 - En este caso encontramos uno el cual se podía ejecutar con el usuario luisillo

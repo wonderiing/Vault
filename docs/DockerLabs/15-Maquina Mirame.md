@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #sqli #password-cracking #esteganografia #dockerlabs
 
 ![](../assets/Pasted image 20251109234535.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comenzamos tirando un ping para comprobar conectividad:
 ```bash
@@ -49,7 +49,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
 - Puerto 80 HTTP: Apache httpd 2.4.61 ((Debian))
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 - Al parecer es un simple login
@@ -88,7 +88,7 @@ Por el ultimo el _page.php_
 ![](../assets/Pasted image 20251109195426.png)
 
 
-#### Explotación
+## Explotación
 
 El Formulario de Login, puede ser bypasseado con un simple SQLi 
 ```sql
@@ -154,6 +154,7 @@ Puede que alguna de estas credenciales nos sirva para conectarnos por SSH, por l
 
 Después me di cuenta que había una password llamada directoriotravieso, por lo cual me decidí a ver si en verdad era un directorio.
 - Al parecer si era un directorio que aloja una imagen llamada _miramebien.jpg_
+
 ![](../assets/Pasted image 20251109202221.png)
 
 Ahora que tengo una imagen, se me ocurrían 2 cosas:
@@ -207,7 +208,7 @@ carlos@9533d1fb3eb7:~$ id
 uid=1000(carlos) gid=1000(carlos) groups=1000(carlos),100(users)
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 
 Lo primero que hago dentro del sistema es ver que binarios puedo ejecutar como root o algún otro usuarios:

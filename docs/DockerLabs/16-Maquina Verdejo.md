@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #ssti #password-cracking
 
 ![](../assets/Pasted image 20251110164053.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad
 ```bash
@@ -64,7 +64,7 @@ Utilice whatweb para ver que otra informacion podía obtener del puerto 8089 que
 http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
 ```
 - Corre con Python
-#### Enumeración
+## Enumeración
 
 **Puerto 80**
 - Pagina default de apache, nada interesante
@@ -78,7 +78,7 @@ http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.
 
 Sabiendo que la web corre en python y el input del usuario se ve reflejado y es lo único que cambia de manera dinámica en la web, esto me hace pensar que puede que por detrás haya un framework como Flask o Django que emplee algún motor plantillas cono Jinja2 u otro que pueda ser vulnerable a SSTI.
 
-#### Explotación
+## Explotación
 
 Lo primero que intentamos fue cambiar el parametro `?user=` por una operatoria simple para comprobar si la web la realizaba correctamente y lo reflejaba.
 
@@ -109,7 +109,7 @@ verde
 verde@d56c80ae05a3:~$ id
 uid=1000(verde) gid=1000(verde) groups=1000(verde)
 ```
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema lo primero que hago es listar los binarios que puedo ejecutar como root y me encuentro esto
 - Binario bas64

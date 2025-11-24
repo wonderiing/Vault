@@ -8,7 +8,7 @@ Propiedades:
 ![](../assets/Pasted image 20251108192308.png)
 
 
-#### Reconocimiento
+## Reconocimiento
 
 Comenzamos comprobando la conectividad:
 ```bash
@@ -46,7 +46,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
 - En el puerto 80 corre un Apache httpd 2.4.58 ((Ubuntu)) y en el 22 OpenSSH 9.6p1 Ubuntu 3ubuntu13.4 (Ubuntu Linux; protocol 2.0)
-#### Enumeración
+## Enumeración
 
 **Puerto 80**
 Al parecer existe un generador de reportes, el cual nos permite crear un reporte con nombre/fecha y nos regresa la path donde se guardo y el contenido indicado:
@@ -76,7 +76,7 @@ Procedo a realizar fuzzing para tener un poco mas claro los recursos del servido
 - _reportes/_ es donde se guardan los reportes generados
 
 
-#### Explotación
+## Explotación
 
 Mi primer approach fue intentar subir una reverse shell en la tab de _upload_ 
 - Al parecer el archivo se sube correctamente pero no existe ningún directorio al cual yo pueda acceder para ejecutar el archivo
@@ -93,7 +93,9 @@ El resultado fue que el servidor no me interpreta el comando:
 ```
 
 Entonces ahora lo que intente fue usar las `;` para ver si el servidor me interpretaba de manera secuencial los comandos:
+
 ![](../assets/Pasted image 20251108202319.png)
+
 - Internamente lo que se supone que debería de suceder es algo asi:  las _;_ encadenan comandos, es decir se debería de volcar el output de mi comando /etc/passwd
 ```bash
 > echo 'Nombre: ; cat /etc/passwd' > archivo.txt
@@ -101,6 +103,7 @@ Entonces ahora lo que intente fue usar las `;` para ver si el servidor me interp
 
 Y efectivamente el servidor me interpreto el comando y me volcó el contenido.
 - aquí nos damos cuenta que existe otro usuario llamado _samara_
+
 ![](../assets/Pasted image 20251108202403.png)
 
 Ahora sabiendo que existe el usuario _samara_ y que el servidor me esta interpretando los comandos, se me ocurren varias cosas
@@ -109,6 +112,7 @@ Ahora sabiendo que existe el usuario _samara_ y que el servidor me esta interpre
 - Tratar de apuntar a la clave ssh de samara
 
 Lo que hice fue apuntar a la clave ssh de samara, ya que si me entablaba una reverse_shell iba a entrar como el usuario _www-data_ y existía la posibilidad de que igualmente tuviera que migrar a _samara.
+
 ![](../assets/Pasted image 20251108202905.png)
 
 Y la clave ssh fue volcada correctamente
@@ -123,7 +127,7 @@ Procedo a bajar la clave en mi sistema y conectarme por ssh
 samara@ad7c505509df:~$ whoami
 samara
 ```
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema lo primero que hago es ver que contenido existe en mi actual directorio
 ```bash

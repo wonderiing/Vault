@@ -3,7 +3,7 @@ Propiedades:
 - Plataforma: DockerLabs
 - Nivel: Easy
 - Tags:
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
 ```bash
@@ -36,7 +36,7 @@ PORT   STATE SERVICE VERSION
 MAC Address: E2:21:3D:14:26:FA (Unknown)
 ```
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 - Nos encontramos con un dominio raro, que no lleva a nada por lo cual lo metemos al /etc/hosts
@@ -47,7 +47,7 @@ MAC Address: E2:21:3D:14:26:FA (Unknown)
 Cuando accedemos al recurso, podemos ver que nos da un 403 Forbidden
 ![](../assets/Pasted image 20251111232421.png)
 
-#### Explotación
+## Explotación
 
 
 Vamos a tratar de bypassear el 403 Forbidden haciendo uso de las cabeceras `Refer` y `Host`
@@ -76,4 +76,4 @@ Ahora, podemos aplicar fuzzing, en este caso yo hice fuzzing de parámetros con 
 > ffuf -w directory-list-2.3-medium.txt -u "http://bypass403.pw/?FUZZ=/etc/passwd" -H "Referer: http://bypass403.pw" -fw 496
 pages                   [Status: 200, Size: 888, Words: 3, Lines: 20, Duration: 690ms]
 ```
-#### Escalada de Privilegios
+## Escalada de Privilegios

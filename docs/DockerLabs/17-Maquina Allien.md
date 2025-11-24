@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251110203526.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
 ```bash
@@ -58,7 +58,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 80 HTTP: Apache httpd 2.4.58 ((Ubuntu))
 - Puerto 139 y 445:  Samba smbd 4.6.2
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80**
 - Simple pagina de login
@@ -132,7 +132,7 @@ S-1-5-21-3519099135-2650601337-1395019858-1003 SAMBASERVER\satriani7 (Local User
 S-1-5-21-3519099135-2650601337-1395019858-1004 SAMBASERVER\administrador (Local User)
 ```
 - Nos interesa el user satriani7 y adminstrador
-#### Explotación
+## Explotación
 
 
 Con `netexec` realizamos un ataque de fuerza bruta al usuario `satriani7`

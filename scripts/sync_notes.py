@@ -109,14 +109,28 @@ def sync_notes():
     """
     print("🔄 Sincronizando notas de CTFs...")
     
-    # Limpiar directorio docs (excepto index.md si existe)
+    # Función para manejar errores de permisos en Windows
+    def handle_remove_readonly(func, path, exc):
+        """Error handler for Windows readonly files"""
+        import stat
+        if not os.access(path, os.W_OK):
+            os.chmod(path, stat.S_IWUSR)
+            func(path)
+        else:
+            raise
+    
+    # Limpiar directorio docs (excepto index.md y stylesheets)
     if DOCS_PATH.exists():
         for item in DOCS_PATH.iterdir():
             if item.name != "index.md" and item.name != "stylesheets":
-                if item.is_dir():
-                    shutil.rmtree(item)
-                else:
-                    item.unlink()
+                try:
+                    if item.is_dir():
+                        shutil.rmtree(item, onerror=handle_remove_readonly)
+                    else:
+                        item.unlink()
+                except Exception as e:
+                    print(f"⚠️  No se pudo eliminar {item.name}: {e}")
+                    # Continuar con el resto del proceso
     else:
         DOCS_PATH.mkdir(parents=True)
     
@@ -157,10 +171,13 @@ def sync_notes():
         assets_path = category_path / "assets"
         if assets_path.exists():
             dest_assets = docs_category_path / "assets"
-            if dest_assets.exists():
-                shutil.rmtree(dest_assets)
-            shutil.copytree(assets_path, dest_assets)
-            print(f"🖼️  {category}/assets: {len(list(assets_path.glob('*')))} archivos")
+            try:
+                if dest_assets.exists():
+                    shutil.rmtree(dest_assets, onerror=handle_remove_readonly)
+                shutil.copytree(assets_path, dest_assets)
+                print(f"🖼️  {category}/assets: {len(list(assets_path.glob('*')))} archivos")
+            except Exception as e:
+                print(f"⚠️  Error copiando assets de {category}: {e}")
     
     print("✅ Sincronización completada!")
 

@@ -3,7 +3,7 @@ Propiedades:
 - Plataforma: HackTheBox Academy
 - Nivel: Easy
 - Tags: #file-upload #password-cracking
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
 ```bash
@@ -61,7 +61,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 - Puerto 80 HTTP: Apache/2.4.41
 - Puerto 22 SSH: OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 ![](../assets/Pasted image 20251114192029.png)
@@ -142,7 +142,7 @@ Me guardo el hash y decido romperlo con john
 El recurso de /admin era un login al cual pude tener acceso mediante el leak de credenciales que habia en el directorio data
 ![](../assets/Pasted image 20251114193630.png)
 
-#### Explotación
+## Explotación
 
 
 Dentro del panel admin habia muchas opciones, entre ellas la que yo decidí explotar era el editor de temas. En nuestra fase de reconocimiento y enumeración nos dimos cuenta de que existía un directorio llamado **/themes**, entonces se me ocurrió ir al editor de temas y editar el archivo _template.php_ del tema _Innovation_ para obtener una web-shell
@@ -180,7 +180,7 @@ www-data@gettingstarted:/var/www/html/theme/Innovation$ id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@gettingstarted:/var/www/html/theme/Innovation$ 
 ```
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema, capturamos la primer flag user.txt en el directorio _/home//mrb3n_
 ```bash

@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #sqli #strings #hackmyvm
 
 ![](../assets/Pasted image 20251122185505.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
 ```bash
@@ -54,7 +54,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u5 (protocol 2.0)
 - Purto 80 HTTP: Apache httpd 2.4.62 ((Debian))
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 - Al parecer solo es una imagen.
@@ -90,7 +90,7 @@ Starting gobuster in directory enumeration mode
 **/auth-login.php**
 - Al parecer es un simple login.
 ![](../assets/Pasted image 20251122190759.png)
-#### Explotación
+## Explotación
 
 Lo primero que intente al ver el login, fue una `SQLi` y al parecer funciono, ya que me bypassie el login:
 ![](../assets/Pasted image 20251122191038.png)
@@ -154,7 +154,7 @@ uid=1000(shelly) gid=1000(shelly) groups=1000(shelly),24(cdrom),25(floppy),29(au
 shelly@NexusLabCTF:~/SA$ 
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema, liste por binarios que pudiera ejecutar como el usuario root:
 ```bash

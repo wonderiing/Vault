@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251103001103.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Comenzamos lanzando un nmap para ver todos los puertos abiertos:
 ```bash
@@ -35,7 +35,7 @@ PORT   STATE SERVICE VERSION
 - Al parecer nos comentan que encontremos la password para el usuario _a_
 ![](../assets/Pasted image 20251102225050.png)
 
-#### Explotación
+## Explotación
 
 Con la pista anteriormente encontrada procedemos a hacer un ataque de fuerza bruta con hydra para conseguir la clave para el usuario _a_ la cual intuimos será para acceder al servicio ssh
 
@@ -132,7 +132,7 @@ Nos conectamos por ssh con el usuario _spencer_
 > ssh spencer@172.17.0.2
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Lo primero que hacemos es buscar binarios que puedan ser ejecutado como usuario root:
 ```bash

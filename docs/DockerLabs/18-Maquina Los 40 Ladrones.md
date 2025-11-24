@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #port-knocking #ssh #brute-force
 
 ![](../assets/Pasted image 20251111220929.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
 ```bash
@@ -41,7 +41,7 @@ PORT   STATE SERVICE REASON         VERSION
 MAC Address: 72:F4:83:41:09:BF (Unknown)
 ```
 - Puerto 80: Apache httpd 2.4.58 ((Ubuntu))
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 - Pagina default de apache2
@@ -100,7 +100,7 @@ MAC Address: 72:F4:83:41:09:BF (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-#### Explotación
+## Explotación
 
 Ahora, sabiendo que el puerto 22 esta abierto y que _toctoc_ es un posible usuario procedí a realizar un ataque de fuerza bruta con Hydra
 ```bash
@@ -117,7 +117,7 @@ Procedo a conectarme
 ```
 
 ![](../assets/Pasted image 20251111220554.png)
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro de la maquina lo primero que hice fue listar binarios que pudiera ejecutar como root
 ```bash

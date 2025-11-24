@@ -6,7 +6,7 @@ Propiedades:
  
 ![](../assets/Pasted image 20251105215000.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Comenzamos con un escaneo con nmap para listar los puertos abiertos
 ```bash
@@ -46,7 +46,7 @@ Al parecer es una simple pagina web lo único que me llamo la atención fue el a
 - Veo el nombre de _carlota_ y _juan_ - Los cuales voy a utilizar para un ataque de fuerza bruta 
 ![](../assets/Pasted image 20251105215238.png)
 
-#### Explotación
+## Explotación
 
 Realice un ataque de fuerza bruta usando hydra
 - _babygirl_ fue la password encontrada
@@ -62,7 +62,7 @@ Me conecto mediante SSH
 ```
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Lo primero que veo es que existe una `imagen.jpg` en la ruta:
 ```

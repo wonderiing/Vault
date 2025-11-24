@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #dockerlabs #ssh #chatgpt
 
 ![](../assets/Pasted image 20251111230145.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
 ```bash
@@ -47,7 +47,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13.5
 - Puerto 80 HTTP: Apache httpd 2.4.58
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 - Pagina default de apache2. Al final de la pagina esta esta cadena:
@@ -67,7 +67,7 @@ Me conecto por SSH
 
 ![](../assets/Pasted image 20251111223633.png)
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema lo primero que hago es listar los recursos
 ```bash

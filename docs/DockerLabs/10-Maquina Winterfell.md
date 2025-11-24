@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251107000945.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Empiezo tirando un escaneo con nmap
 ```bash
@@ -43,7 +43,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 - Se están corriendo un servicios apache en el puerto 80 y samba en los puertos 139 y 445
 
-#### Enumeración
+## Enumeración
 
 
 **Puerto 80**
@@ -81,7 +81,7 @@ Con `smbmap` procedo a enumerar y listar recursos compartidos del servicio.
 	nobody                                            	NO ACCESS	Home Directories
 ```
 
-#### Explotación
+## Explotación
 
 Al ver que prácticamente no hay mucha informacion mas que los posibles usuarios y contraseñas que conseguí recopilar del servicio de apache lo primero que intento es un ataque de fuerza bruta al servicio _smb_ utilizando como diccionarios los posibles usuarios y contraseñas del servicio apache
 
@@ -140,7 +140,7 @@ Ok por ahora lo que tenemos es una contraseña y los usuarios _jon_, _daenerys_ 
 
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema con el usuario _jon_ lo primero que hice fue listar binarios para ver si podía migrar a algún usuario
 

@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251105000419.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Empiezo tirando un escaneo de nmap para ver los puertos que están abiertos
 
@@ -43,7 +43,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80**
 ![](../assets/Pasted image 20251105001227.png)
@@ -55,7 +55,7 @@ Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra v
 
 ![](../assets/Pasted image 20251105002745.png)
 - La web tiene un parametro que esta tratando de traerse un archivo y mostrarlo en la web por lo que me hace pensar que puede ser vulnerable a un Local File Inclution.
-#### Explotación
+## Explotación
 
 Sabiendo que la web esta tratando de traerse un archivo, lo que hice fue tratar de apuntar al archivo */etc/passwd* para ver si la web lo volcaba.
 ```
@@ -121,7 +121,7 @@ nico
 ```
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Hacemos un `sudo -l` para listar binarios que podamos ejecutar como usuario root 
 

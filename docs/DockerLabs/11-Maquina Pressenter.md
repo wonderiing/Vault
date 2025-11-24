@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251107001007.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Comenzamos tirando un ping para comprobar conexion
 ```bash
@@ -38,13 +38,15 @@ MAC Address: 02:29:1E:07:C2:61 (Unknown)
 ```
 - Corre el servicio Apache httpd 2.4.58 ((Ubuntu))
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80**
+
 ![](../assets/Pasted image 20251107001538.png)
 
 Segunda tab:
 Al parecer es un simple login
+
 ![](../assets/Pasted image 20251107001818.png)
 
 Viendo el codigo fuente encontramos un dominio:
@@ -99,7 +101,7 @@ Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plu
 ```
 - Encontramos 2 usuarios y 2 vulnerabilidades
 
-#### Explotación
+## Explotación
 
 Comenzamos haciendo un ataque de fuerza bruta sobre el usuario pressi
 ```bash
@@ -129,7 +131,7 @@ whoami
 www-data
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema intente hacer un _sudo -l_ pero al parecer no tenemos permisos. Por lo cual decidí apuntar al directorio _/tmp_ donde había un archivo que no podía leer a menos que fuera el usuario _mysql_
 ![](../assets/Pasted image 20251107011203.png)

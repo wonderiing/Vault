@@ -6,7 +6,7 @@ Propiedades:
 
 ![](../assets/Pasted image 20251105005855.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo con un escaneo con nmap para ver los puertos abiertos:
 ```bash
@@ -41,13 +41,13 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 Es una pagina de un casino o algo asi, y tiene un tab de login:
 ![](../assets/Pasted image 20251105010447.png)
 
-#### Explotación
+## Explotación
 
 Bypasse la tab de login con una _sqli_ 
 ![](../assets/Pasted image 20251105010533.png)

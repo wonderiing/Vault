@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #file-upload #dockerlabs #burpsuite
 
 ![](../assets/Pasted image 20251103001143.png)
-#### Reconocimiento
+## Reconocimiento
 
 Empezamos con un escaneo con Nmap para listar todos los puertos abiertos:
 ```bash
@@ -50,7 +50,7 @@ Service Info: OS: Unix
 - Pagina default de apache, no nos dice nada
 ![](../assets/Pasted image 20251101214354.png)
 
-#### Enumeración
+## Enumeración
 
 Al conectarnos al servicio FTP con el usuario _anonymous_ al parecer lo que nos encontramos es un archivo llamdo _anon.txt_ que contiene una especie de hash
 ```bash
@@ -81,10 +81,11 @@ Starting gobuster in directory enumeration mode
 - _uploads/_ _al parecer es el directorio donde se almacenan los archivos subidos_
 
 
-#### Explotación
+## Explotación
 
 Nos llama la atención el archivo _file_upload.php 
 - Al parecer es una simple subida de archivos
+
 ![](../assets/Pasted image 20251101220545.png)
 
 Con BurpSuite Interceptamos la petición para ver que es lo se envié por detrás y para realizar un ataque **Sniper** para ver que extensiones permite esa subida de archivos:
@@ -94,11 +95,13 @@ El resultado es que la subida de archivos permite los archivos  _.phar_ por lo c
 ![](../assets/Pasted image 20251101220837.png)
 
 Subimos el archivo y nos dirigimos a la directorio _uploads_ para ver si nuestro archivo se subió correctamente
+
 ![](../assets/Pasted image 20251101221020.png)
 - Efectivamente nuestro archivo ha sido subido
 
 Nos dirigimos a la ruta de nuestro archivo para comprobar que si nos esta interpretando el script php
 - Lanzamos el comando _whoami_
+
 ![](../assets/Pasted image 20251101221108.png)
 
 Ahora que sabemos que si nos esta interpretando el script procedemos a ponernos en escucha por el puerto 443 para establecer una reverse shell:
@@ -124,4 +127,4 @@ www-data
 www-data@ef19d4897c3d:/var/www/html/uploads$ 
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios

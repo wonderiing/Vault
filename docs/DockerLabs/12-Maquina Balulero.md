@@ -6,7 +6,7 @@ Propiedades:
  
 ![](../assets/Pasted image 20251108153451.png)
 
-#### Reconocimiento
+## Reconocimiento
 
 Empezamos tirando un ping para comprobar conectividad
 ```bash
@@ -50,8 +50,7 @@ MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 
 
 
-
-#### Enumeración
+### Enumeración
 
 **Puerto 80**
 - Es una pagina web de un perrito que esta cabron.
@@ -77,7 +76,7 @@ Starting gobuster in directory enumeration mode
 ```
 - _script.js_ y _whoami_ es lo que mas me llama la atención
 
-#### Explotación
+## Explotación
 
 Le di una leída al _script.js_ y encontré esta parte de codigo:
 
@@ -109,7 +108,7 @@ Procedo a conectarme mediante `SSH` con las credenciales lekeadas.
 ```
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del ssh lo primero que hago es listar directorios y listar posibles binarios que pueda usar para migrar a otros usuarios 
 ```bash

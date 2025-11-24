@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #ssh #brute-force #dockerlabs
 
 ![](../assets/Pasted image 20251103001202.png)
-#### Reconocimiento
+## Reconocimiento
 
 Empezamos Listando los puertos abiertos TCP del objetivo:
 ```bash
@@ -44,7 +44,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Es la web default de apache, lo cual no nos dice mucho
 ![](../assets/Pasted image 20251031194304.png)
 
-#### Enumeración
+## Enumeración
 
 Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recursos y archivos no visibles:
 ```bash
@@ -62,7 +62,7 @@ Dentro del archivo `index.php` pudimos encontrar una credencial:
 _JIFGHDS87GYDFIGD_ Podemos intuir que esta es la credencial de acceso del servicio SSH
 ![](../assets/Pasted image 20251031192525.png)
 
-#### Explotación
+## Explotación
 
 Realizamos un ataque de fuerza bruta sobre el servicio SSH para descubrir el usuario al que pertenece la contraseña
 - Se encuentra un usuario valido llamado _carlos_
@@ -78,7 +78,7 @@ Accedemos al servicio SSH con el usuario _carlos_
 ![](../assets/Pasted image 20251031192744.png)
 
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Ya conectado al SSH, buscamos binarios que se puedan ejecutar con permisos de administrador sin requerir de la contraseña
 - Encontramos un script.py ejecutable sin necesidad de contraseña
