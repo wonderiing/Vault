@@ -192,19 +192,6 @@ Dentro del sistema, capturamos la primer flag user.txt en el directorio _/home//
 cd mrb3n
 www-data@gettingstarted:/home/mrb3n$ ls
 ls
-user.txt
-www-data@gettingstarted:/home/mrb3n$ cat user.txt
-cat user.txt
-7002.......
-```
-
-Ahora para escalar al usuario root lo primero que hago es ver si existen binarios que pueda ejecutar como root
-- Aquí me encuentro el binario php 
-```bash
-> www-data@gettingstarted:/ >  sudo -l
-Matching Defaults entries for www-data on gettingstarted:
-    env_reset, mail_badpass,
-    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
 User www-data may run the following commands on gettingstarted:
     (ALL : ALL) NOPASSWD: /usr/bin/php

@@ -124,7 +124,7 @@ Procedo a conectarme
 ![](../assets/Pasted image 20251111220554.png)
 ## Escalada de Privilegios
 
-Dentro de la maquina lo primero que hice fue listar binarios que pudiera ejecutar como root
+Procedo a enumerar binarios con privilegios de SUDO:
 ```bash
 > sudo -l
 ---------------------------------------------------------------------------------------------------

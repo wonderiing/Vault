@@ -86,10 +86,11 @@ Starting gobuster in directory enumeration mode
 ![](../assets/Pasted image 20251110204600.png)
 **productos.php**
 
-- Es al parecer la pagina principal, voy a supone que es aquí a donde te redirigue cuando te logeas.
+- Es al parecer la pagina principal, voy a suponer que es aquí a donde te redirigue cuando te logeas.
 ![](../assets/Pasted image 20251110204745.png)
 
 **Puertos 139, 445 Servicio SMB**
+
 Enumere los recursos compartidos disponibles con smbmap y me encuentro con un recurso read-only al cual puedo acceder
 ```bash
 > smbmap -H 172.17.0.2
@@ -103,7 +104,9 @@ Enumere los recursos compartidos disponibles con smbmap y me encuentro con un re
 ```
 
 Procedo a conectarme al recurso, y listar el contenido:
+
 - Aquí es donde me encuentro un archivito llamdo _access.txt_
+
 ```bash
 > smbclient //172.17.0.2/myshare -N
 > smb: \> ls
@@ -170,9 +173,11 @@ Entonces ahora me conecto al servicio smb al recurso backup24
 > smbclient //172.17.0.2/backup24 -U satriani7%50cent
 ```
 
-Dentro del recurso _backup_, había un montón de directorios y archivos pero después de buscar me encontré con 2 archivos interesantes
+Dentro del recurso _backup_, había un montón de directorios y archivos pero después de buscar me encontré con 2 archivos interesantes que procedi a descargar.
+
 - _credentials.txt_ - Path /Documents/Personal
 - _notes.txt_ - Path /Documents/Personal
+
 ```bash
 > smb: \Documents\Personal\> get credentials.txt
 > smb: \Documents\Personal\> get notes.txt
@@ -219,6 +224,7 @@ Lo primero que hago es ver que recursos existen:
 ```
 
 Al parecer todos estos recursos corresponden al servicio apache el cual corre por el puerto 80, por lo cual ahora se me ocurren 2 opciones.
+
 - Crear una webshell, ya que el _info.php_ me indica que no hay ninguna función deshabilitado por lo cual podría ejecutar comandos en el navegador
 - Directamente entablarme una reverse_shell
 
@@ -244,7 +250,7 @@ www-data
 ```
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hice fue listar binarios que pudiera ejecutar como root:
+Procedo a enumerar binarios con privilegios de SUDO:
 ```bash
 www-data@0318689382b0:/$ sudo -l
 

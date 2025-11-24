@@ -103,7 +103,7 @@ Migro al usuario oscar
 > su oscar
 ```
 
-Con el usuario oscar liste binarios que pudiera ejecutar como administrador
+Procedo a enumerar binarios con privilegios de SUDO:
 ```bash
 > sudo -l
 -----------------------------------------------------------

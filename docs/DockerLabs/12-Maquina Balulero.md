@@ -115,7 +115,7 @@ Procedo a conectarme mediante `SSH` con las credenciales lekeadas.
 
 ## Escalada de Privilegios
 
-Dentro del ssh lo primero que hago es listar directorios y listar posibles binarios que pueda usar para migrar a otros usuarios 
+Procedo a enumerar binarios con privilegios de SUDO: 
 ```bash
 balu@6cde27e6f35a:~$ ls
 balu@6cde27e6f35a:~$ sudo -l

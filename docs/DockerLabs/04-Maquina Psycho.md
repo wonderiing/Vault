@@ -105,7 +105,8 @@ Con la clave _rsa_ guardada en nuestro sistema procedimos a darle permisos y a c
 
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hicimos fue listar binarios que pudiéramos ejecutar.
+Procedo a enumerar binarios con privilegios de SUDO:
+
 - En este caso encontramos uno el cual se podía ejecutar con el usuario luisillo
 ```bash
 > sudo -l

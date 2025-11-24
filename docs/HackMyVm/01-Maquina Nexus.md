@@ -163,7 +163,7 @@ shelly@NexusLabCTF:~/SA$
 
 ## Escalada de Privilegios
 
-Dentro del sistema, liste por binarios que pudiera ejecutar como el usuario root:
+Procedo a enumerar binarios con privilegios de SUDO:
 ```bash
 shelly@NexusLabCTF:~ > sudo -l
 sudo: unable to resolve host NexusLabCTF: Name or service not known
