@@ -32,6 +32,7 @@ PORT   STATE SERVICE VERSION
 ```
 
 **Presentación Puerto 80 HTTP**
+
 - Al parecer nos comentan que encontremos la password para el usuario _a_
 ![](../assets/Pasted image 20251102225050.png)
 
@@ -118,6 +119,7 @@ Al parecer tenemos que desencriptar el archivo llamado _hash_spencer.txt_
 ```
 
 Rompemos el hash con **john**
+
 - Contraseña encontrada _password1_
 ```bash
 > sudo john --format=raw-md5 hash_spencer.txt

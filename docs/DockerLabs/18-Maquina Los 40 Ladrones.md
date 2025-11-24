@@ -44,6 +44,7 @@ MAC Address: 72:F4:83:41:09:BF (Unknown)
 ## Enumeración
 
 **Puerto 80 HTTP**
+
 - Pagina default de apache2
 ![](../assets/Pasted image 20251111213632.png)
 
@@ -67,6 +68,7 @@ Starting gobuster in directory enumeration mode
 ```
 
 **qdefense.txt**
+
 - lo importante aquí es el _toctoc 7000 8000 9000_. Sabiendo que nmap solo pudo identificar un puerto abierto esta frase me hace pensar que pueda existir algun puerto que pueda descubrir a traves del Port Knocking y que toctoc sea algun usuario.
 ![](../assets/Pasted image 20251111213750.png)
 

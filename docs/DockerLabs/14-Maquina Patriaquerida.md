@@ -50,6 +50,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 #### Enumeración
 
 **Puerto 80 HTTP**
+
 - Al parecer es la pagina default de apache2
 ![](../assets/Pasted image 20251109144335.png)
 

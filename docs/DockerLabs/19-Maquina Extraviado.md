@@ -50,6 +50,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80 HTTP**
+
 - Pagina default de apache2. Al final de la pagina esta esta cadena:
 ` #.........................................................................................................ZGFuaWVsYQ== : Zm9jYXJvamE= `
 

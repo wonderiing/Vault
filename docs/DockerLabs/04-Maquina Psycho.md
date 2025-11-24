@@ -40,6 +40,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 **Puerto 80 Apache**
+
 - Vemos una pagina creada por un tal Luisillo pero nada de informacion relevante
 ![](../assets/Pasted image 20251101210028.png)
 

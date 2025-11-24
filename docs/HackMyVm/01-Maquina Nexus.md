@@ -57,6 +57,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80 HTTP**
+
 - Al parecer solo es una imagen.
 - En su codigo fuente no hay nada interesante.
 ![](../assets/Pasted image 20251122185851.png)
@@ -79,6 +80,7 @@ Starting gobuster in directory enumeration mode
 ```
 
 **/index2.php**
+
 - Esta pagina al parecer era como una terminal simulada, no tenia nada interesante.![](../assets/Pasted image 20251122190611.png)
 - Source code: Viendo su codigo fuente nos encontramos con esto. Al parecer es otro recurso oculto llamado /auth-login.php
 ```html
@@ -88,6 +90,7 @@ Starting gobuster in directory enumeration mode
 ```
 
 **/auth-login.php**
+
 - Al parecer es un simple login.
 ![](../assets/Pasted image 20251122190759.png)
 ## Explotación

@@ -67,9 +67,11 @@ http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.
 ## Enumeración
 
 **Puerto 80**
+
 - Pagina default de apache, nada interesante
 
 **Puerto 8089**
+
 - Whatweb: Identifica que corre con Python
 ![](../assets/Pasted image 20251110165559.png)
 - El input del usuario se ve reflejado en otra tab:

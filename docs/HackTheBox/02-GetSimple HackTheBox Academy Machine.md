@@ -111,10 +111,12 @@ En este directorio se almacenan los archivos de los temas, si por alguna razón 
 ![](../assets/Pasted image 20251114194453.png)
 
 **/data**
+
 - Este directorio contiene informacion valiosa de usuarios
 ![](../assets/Pasted image 20251114193342.png)
 
 **Credential Leak**
+
 - Credenciales encontradas en `http://10.129.155.171/data/users/admin.xml`
 - Al parecer son las credenciales del usuario admin
 ```xml

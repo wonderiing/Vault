@@ -52,6 +52,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80 HTTP**
+
 - Al parecer es un simple login
 ![](../assets/Pasted image 20251109194933.png)
 

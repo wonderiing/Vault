@@ -41,6 +41,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 **Puerto 80 HTTP**
+
 - Es la web default de apache, lo cual no nos dice mucho
 ![](../assets/Pasted image 20251031194304.png)
 

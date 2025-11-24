@@ -47,6 +47,7 @@ Service Info: OS: Unix
 
 
 **Puerto 80 HTTP**
+
 - Pagina default de apache, no nos dice nada
 ![](../assets/Pasted image 20251101214354.png)
 

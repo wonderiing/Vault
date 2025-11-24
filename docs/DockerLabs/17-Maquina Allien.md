@@ -61,6 +61,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80**
+
 - Simple pagina de login
 ![](../assets/Pasted image 20251110204129.png)
 
@@ -78,9 +79,11 @@ Starting gobuster in directory enumeration mode
 ```
 
 **Info.php**
+
 - en _disable_functions_ no hay ninguna función deshabilitada
 ![](../assets/Pasted image 20251110204600.png)
 **productos.php**
+
 - Es al parecer la pagina principal, voy a supone que es aquí a donde te redirigue cuando te logeas.
 ![](../assets/Pasted image 20251110204745.png)
 
@@ -234,7 +237,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 $ whoami
 www-data
 ```
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Dentro del sistema lo primero que hice fue listar binarios que pudiera ejecutar como root:
 ```bash

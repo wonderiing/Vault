@@ -53,6 +53,7 @@ MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 ### Enumeración
 
 **Puerto 80**
+
 - Es una pagina web de un perrito que esta cabron.
 ![](../assets/Pasted image 20251108154912.png)
 

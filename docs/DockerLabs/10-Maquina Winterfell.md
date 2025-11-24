@@ -47,6 +47,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 
 **Puerto 80**
+
 - Lo único relevante que noto en la pagina principal son los posibles usuarios _jon_, _Daenerys_ y _Arya_ 
 ![](../assets/Pasted image 20251106200304.png)
 

@@ -13,6 +13,7 @@
 
 ### Ventajas
 - **Gratuito y abierto a todos.**
+
 - **Uso eficiente de recursos** gracias al entorno contenerizado.
 - **Plataforma educativa y práctica**, perfecta tanto para principiantes como para usuarios avanzados.
 - **Entornos reproducibles**, fáciles de levantar en pocos segundos.
