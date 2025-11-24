@@ -1,8 +1,8 @@
-# 👋 Hola, soy **wonderiing** (wndr23)
+# 👋 WNDR23
 
 <div class="hero-section" markdown>
 
-Estudiante apasionado por el **desarrollo backend en Java** y la **ciberseguridad**. Este es mi espacio personal donde documento mi aprendizaje y experiencias.
+Jugador profesional de fortnite disfrazado de estudiante de Ingenieria en Desarrollo de Software.
 
 </div>
 
@@ -10,14 +10,16 @@ Estudiante apasionado por el **desarrollo backend en Java** y la **cibersegurida
 
 ## 🚀 Sobre Mí
 
-Soy un estudiante en constante aprendizaje, enfocado en dos áreas principales:
+Soy un estudiante que aprende for fun.
 
-- **💻 Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data)
+- **💻 Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
 - **🔐 Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios
+- **Cloud**: Amazon Web Services.
 
 Este sitio es mi cuaderno digital donde comparto:
+
 - ✅ Write-ups de CTFs resueltos
-- ✅ Notas de aprendizaje (próximamente: Spring Backend)
+- ✅ Notas de aprendizaje (próximamente: Spring Backend y otras cosas)
 - ✅ Técnicas y herramientas que voy descubriendo
 
 ---
@@ -47,45 +49,29 @@ Máquinas virtuales vulnerables para practicar técnicas de explotación.
 
 **Backend Development:**
 - Java 17+
-- Spring Framework (Boot, Security, Data JPA)
-- Maven / Gradle
+- Spring Framework (Boot, Security, Data JPA, Cloud)
 - PostgreSQL / MySQL
 - REST APIs
-
-**Cybersecurity Tools:**
-- Reconocimiento: `nmap`, `masscan`, `rustscan`
-- Web Enumeration: `gobuster`, `ffuf`, `wfuzz`
-- Exploitation: `metasploit`, `sqlmap`, `burp suite`
-- Post-exploitation: `linpeas`, `winpeas`, `pspy`
-- Password Cracking: `john`, `hashcat`, `hydra`
-
----
-
-## 📖 Metodología de Write-ups
-
-Cada write-up sigue una estructura clara:
-
-1. **Information Gathering** - Escaneo de puertos y servicios
-2. **Enumeration** - Enumeración detallada de servicios
-3. **Exploitation** - Explotación de vulnerabilidades encontradas
-4. **Privilege Escalation** - Escalada de privilegios al usuario root
-5. **Trophy** - Flags obtenidas y lecciones aprendidas
+- Docker
+- AWS
 
 ---
 
 ## 🔮 Próximamente
 
-- 📝 Notas de Spring Framework y Spring Boot
-- 🔒 Guías de Spring Security
+Tengo un monton de notas que inicialmente no escribi para que fueran compartidas ni leidas por alguien mas, por lo cual estan absurdamente mal escritas y solo las entiendo yo.
+
+- 📝 Notas Relacionados con Backend (SpringBoot, NestJs, Arquitecturas)
 - 🗄️ Patrones de diseño en Java
-- 🐳 Despliegue con Docker y Kubernetes
+- 📝 Notas Relacionadas con el Pentest (Enumeracion de Servicios, Herramientas etc..)
+- 🐳 Notas de Docker, AWS, SQL
 
 ---
 
 ## 📬 Conecta Conmigo
 
 - **GitHub**: [wonderiing](https://github.com/wonderiing)
-- **Pseudónimo**: wndr23
+- **Correo**: ca223871@gmail.com
 
 ---
 

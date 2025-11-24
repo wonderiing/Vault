@@ -1,5 +1,5 @@
 {
-    "buildCommand": "pip install -r requirements.txt && python scripts/sync_notes.py && mkdocs build",
+    "buildCommand": "pip install -r requirements.txt && mkdocs build",
     "outputDirectory": "site",
     "installCommand": "pip install -r requirements.txt",
     "framework": null

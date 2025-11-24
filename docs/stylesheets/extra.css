@@ -1,33 +1,35 @@
 /* ============================================
    GLASSMORPHISM DESIGN - wonderiing (wndr23)
+   Inspired by modern, subtle glass effects
    ============================================ */
 
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg-hover: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --gradient-primary: linear-gradient(135deg, #00d4aa 0%, #00b4d8 100%);
     --gradient-secondary: linear-gradient(135deg, #06ffa5 0%, #00d4aa 100%);
     --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
 /* ============================================
-   BACKGROUND GRADIENT - Darker Black
+   BACKGROUND GRADIENT - Dark Blue-Black
    ============================================ */
 .md-main {
-    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    background: linear-gradient(180deg, #0a0e1a 0%, #121826 50%, #0a0e1a 100%);
 }
 
 /* ============================================
-   HERO SECTION - Glassmorphism Card
+   HERO SECTION - Subtle Glassmorphism Card
    ============================================ */
 .hero-section {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
     border: 1px solid var(--glass-border);
-    padding: 2rem;
+    padding: 2.5rem;
     margin: 2rem 0;
     box-shadow: var(--glass-shadow);
     position: relative;
@@ -42,8 +44,8 @@
     width: 200%;
     height: 200%;
     background: var(--gradient-primary);
-    opacity: 0.1;
-    animation: gradient-rotate 15s ease infinite;
+    opacity: 0.05;
+    animation: gradient-rotate 20s ease infinite;
     z-index: -1;
 }
 
@@ -63,10 +65,11 @@
     font-size: 1.1rem;
     line-height: 1.8;
     margin: 0;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* ============================================
-   CATEGORY GRID - Glassmorphism Cards
+   CATEGORY GRID - Elegant Glass Cards
    ============================================ */
 .category-grid {
     display: grid;
@@ -77,14 +80,14 @@
 
 .category-grid h4 {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
     border: 1px solid var(--glass-border);
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     margin: 0;
     box-shadow: var(--glass-shadow);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
@@ -95,15 +98,17 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: var(--gradient-primary);
     transform: scaleX(0);
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
 .category-grid h4:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(0, 212, 170, 0.3);
+    transform: translateY(-8px);
+    background: var(--glass-bg-hover);
+    box-shadow: 0 16px 48px 0 rgba(0, 212, 170, 0.2);
+    border-color: rgba(0, 212, 170, 0.3);
 }
 
 .category-grid h4:hover::before {
@@ -119,7 +124,7 @@
 }
 
 /* ============================================
-   CODE BLOCKS - Original Style (No Glass)
+   CODE BLOCKS - Keep Original Style
    ============================================ */
 .highlight pre {
     border-radius: 8px;
@@ -136,12 +141,12 @@
 }
 
 .md-clipboard:hover {
-    background: rgba(0, 212, 170, 0.2);
+    background: rgba(0, 212, 170, 0.15);
     transform: scale(1.05);
 }
 
 /* ============================================
-   IMAGES - No Animations
+   IMAGES - Keep Current Style
    ============================================ */
 .md-content img {
     border-radius: 16px;
@@ -153,34 +158,35 @@
 }
 
 /* ============================================
-   TABLES - Glassmorphism Style
+   TABLES - Elegant Glassmorphism
    ============================================ */
 .md-typeset table:not([class]) {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
     border: 1px solid var(--glass-border);
     overflow: hidden;
     box-shadow: var(--glass-shadow);
 }
 
 .md-typeset table:not([class]) th {
-    background: rgba(0, 212, 170, 0.15);
+    background: rgba(0, 212, 170, 0.1);
     font-weight: 600;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .md-typeset table:not([class]) tr:hover {
-    background: rgba(0, 212, 170, 0.05);
+    background: rgba(0, 212, 170, 0.03);
 }
 
 /* ============================================
-   ADMONITIONS - Glassmorphism Callouts
+   ADMONITIONS - Subtle Glass Callouts
    ============================================ */
 .md-typeset .admonition {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     position: relative;
@@ -192,7 +198,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: 4px;
+    width: 3px;
     height: 100%;
     background: var(--gradient-primary);
 }
@@ -210,19 +216,19 @@
 }
 
 /* ============================================
-   INLINE CODE - Glassmorphism Badge
+   INLINE CODE - Subtle Badge
    ============================================ */
 .md-typeset code {
-    background: var(--glass-bg);
+    background: rgba(0, 212, 170, 0.1);
     backdrop-filter: blur(5px);
     border-radius: 6px;
-    border: 1px solid var(--glass-border);
-    padding: 0.2em 0.4em;
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 0.2em 0.5em;
     font-size: 0.9em;
 }
 
 /* ============================================
-   LINKS - Gradient Underline
+   LINKS - Smooth Gradient Underline
    ============================================ */
 .md-typeset a {
     text-decoration: none;
@@ -230,12 +236,14 @@
     background-size: 0% 2px;
     background-repeat: no-repeat;
     background-position: left bottom;
-    transition: background-size 0.3s ease;
+    transition: background-size 0.4s ease;
     border-bottom: none;
+    color: rgba(0, 212, 170, 0.9);
 }
 
 .md-typeset a:hover {
     background-size: 100% 2px;
+    color: #00d4aa;
 }
 
 /* ============================================
@@ -248,7 +256,7 @@
 }
 
 /* ============================================
-   HEADINGS - Gradient Text
+   HEADINGS - Elegant Gradient Text
    ============================================ */
 .md-typeset h1 {
     background: var(--gradient-primary);
@@ -256,11 +264,13 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .md-typeset h2 {
     position: relative;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .md-typeset h2::after {
@@ -268,52 +278,57 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60px;
-    height: 3px;
+    width: 50px;
+    height: 2px;
     background: var(--gradient-primary);
     border-radius: 2px;
 }
 
 /* ============================================
-   NAVIGATION - Glassmorphism Sidebar
+   NAVIGATION - Glass Sidebar
    ============================================ */
 .md-nav__item--active>.md-nav__link {
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    border-radius: 8px;
+    border-radius: 10px;
     border-left: 3px solid #00d4aa;
+    padding-left: 1rem;
 }
 
 /* ============================================
-   SEARCH - Glassmorphism Input
+   SEARCH - Elegant Glass Input
    ============================================ */
 .md-search__input {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
-    border-radius: 12px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
 }
 
 .md-search__input:focus {
-    border-color: #00d4aa;
+    border-color: rgba(0, 212, 170, 0.5);
+    background: var(--glass-bg-hover);
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
 }
 
 /* ============================================
-   SCROLLBAR - Custom Styling
+   SCROLLBAR - Elegant Styling
    ============================================ */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: var(--gradient-primary);
     border-radius: 10px;
+    transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -321,7 +336,7 @@
 }
 
 /* ============================================
-   ANIMATIONS - Subtle Fade In Only
+   ANIMATIONS - Smooth Fade In
    ============================================ */
 @keyframes fadeIn {
     from {
@@ -334,5 +349,21 @@
 }
 
 .md-content>* {
-    animation: fadeIn 0.4s ease-out;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ============================================
+   BUTTONS - Gradient Style
+   ============================================ */
+.md-button {
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.md-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
 }
