@@ -111,6 +111,21 @@ Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera enta
 Me conecto con éxito
 ```bash
 verde@d56c80ae05a3:~$ whoami
+verde
+verde@d56c80ae05a3:~$ id
+uid=1000(verde) gid=1000(verde) groups=1000(verde)
+```
+## Escalada de Privilegios
+
+Dentro del sistema lo primero que hago es listar los binarios que puedo ejecutar como root y me encuentro esto
+
+- Binario bas64
+
+```bash
+verde@d56c80ae05a3:~$ sudo -l
+User verde may run the following commands on d56c80ae05a3:
+    (root) NOPASSWD: /usr/bin/base64
+```
 
 Sabiendo que puedo ejecutar base64 como root básicamente puedo codificar - decodificar lo que me de la gana. Lo primero que intente fue leer `/etc/shadow` (hashes de contraseñas) pero no obtuve nada interesante
 

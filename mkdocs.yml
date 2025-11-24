@@ -132,10 +132,9 @@ nav:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
       - Maquina Psycho: DockerLabs/04-Maquina Psycho.md
-      - Maquina File: DockerLabs/05-Maquina File.md
+      - Maquina File -- INCOMPLETA: DockerLabs/05-Maquina File.md
       - Maquina Pequeñas Mentirosas: DockerLabs/06-Maquina Pequeñas Mentirosas.md
       - Maquina Pntopntobarra: DockerLabs/07-Maquina Pntopntobarra.md
-      - Maquina Showtime: DockerLabs/08-Maquina Showtime - INCOMPLETA.md
       - Maquina Amor: DockerLabs/09-Maquina Amor.md
       - Maquina Winterfell: DockerLabs/10-Maquina Winterfell.md
       - Maquina Pressenter: DockerLabs/11-Maquina Pressenter.md
@@ -147,7 +146,6 @@ nav:
       - Maquina Allien: DockerLabs/17-Maquina Allien.md
       - Maquina Los 40 Ladrones: DockerLabs/18-Maquina Los 40 Ladrones.md
       - Maquina Extraviado: DockerLabs/19-Maquina Extraviado.md
-      - Maquina ForbiddenHack: DockerLabs/20-Maquina ForbiddenHack -- INCOMPLETA.md
     - HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md

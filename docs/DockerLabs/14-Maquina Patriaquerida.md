@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #dockerlabs #lfi #suid
 
 ![](../assets/Pasted image 20251109193730.png)
-#### Reconocimiento
+## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
 ```bash
@@ -49,7 +49,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 80 HTTP:  Apache httpd 2.4.41 ((Ubuntu))
 
 
-#### Enumeración
+## Enumeración
 
 **Puerto 80 HTTP**
 
@@ -75,7 +75,7 @@ Como es un servicio apache2, seguramente ya estemos en la ruta /var/www/html ent
 ![](../assets/Pasted image 20251109150235.png)
 
 
-#### Explotación
+## Explotación
 
 Al parecer la web es capaz de volcar archivo por lo cual me hace pensar que es vulnerable a un LFI, podemos tratar de fuzzear sobr el archivo _index.php_ para descubrir algún parametro que nos permita volcar el /etc/passwd
 ```bash
@@ -102,7 +102,7 @@ uid=1000(pinguino) gid=1000(pinguino) groups=1000(pinguino)
 pinguino@dockerlabs:~$ 
 ```
 
-#### Escalada de Privilegios
+## Escalada de Privilegios
 
 Con el usuario _pinguino_ nos encontramos un archivo llamado nota_mario.txt que al parecer revela la contraseña del usuario mario
 ```bash
