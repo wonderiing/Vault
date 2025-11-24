@@ -1,15 +1,5 @@
 <div class="home-layout" markdown>
 
-<div class="home-sidebar" markdown>
-
-### 📁 Secciones
-
-- [🏠 Inicio](index.md)
-- [🐳 DockerLabs](DockerLabs/index.md)
-- [💾 HackMyVm](HackMyVm/index.md)
-- [📦 HackTheBox](HackTheBox/index.md)
-
-</div>
 
 <div class="home-main" markdown>
 
@@ -46,21 +36,6 @@ Este sitio es mi cuaderno digital donde comparto:
 ## 📚 Contenido Actual
 
 ### 🎯 [CTF Write-ups](DockerLabs/index.md)
-
-Documentación detallada de máquinas resueltas en diferentes plataformas:
-
-<div class="category-grid" markdown>
-
-#### [🐳 DockerLabs](DockerLabs/index.md)
-Plataforma de práctica con contenedores Docker. Ideal para empezar en pentesting.
-
-#### [📦 HackTheBox](HackTheBox/index.md)
-Una de las plataformas más populares de hacking ético. Máquinas realistas y desafiantes.
-
-#### [💾 HackMyVm](HackMyVm/index.md)
-Máquinas virtuales vulnerables para practicar técnicas de explotación.
-
-</div>
 
 ---
 

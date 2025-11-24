@@ -295,6 +295,16 @@
     padding-left: 1rem;
 }
 
+/* Navigation link hover - Simple color change */
+.md-nav__link:hover {
+    color: #00d4aa !important;
+    transition: color 0.3s ease;
+}
+
+.md-nav__link {
+    transition: color 0.3s ease;
+}
+
 /* ============================================
    SEARCH - Elegant Glass Input
    ============================================ */
