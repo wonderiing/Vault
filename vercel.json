@@ -1,5 +1,5 @@
 {
-    "buildCommand": "mkdocs build",
+    "buildCommand": "pip install -r requirements.txt && python -m mkdocs build",
     "outputDirectory": "site",
     "framework": null
 }
