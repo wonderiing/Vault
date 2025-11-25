@@ -149,6 +149,7 @@ nav:
     - HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
+      - Maquina Sysadmin: HackMyVm/02-Maquina Sysadmin.md
     - HackTheBox:
       - Inicio: HackTheBox/index.md
       - Maquina GetSimple: HackTheBox/02-GetSimple HackTheBox Academy Machine.md

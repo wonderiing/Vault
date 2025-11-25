@@ -106,9 +106,9 @@ def process_markdown_file(file_path, relative_path):
 def sync_notes():
     """
     Sincroniza las notas desde el repositorio de CTFs al directorio docs.
-    Actualiza archivos existentes y agrega nuevos sin borrar primero.
+    Solo copia archivos nuevos que no existan en el destino.
     """
-    print("🔄 Sincronizando notas de CTFs...")
+    print("🔄 Sincronizando notas de CTFs (solo archivos nuevos)...")
     
     # Crear directorio docs si no existe
     if not DOCS_PATH.exists():
@@ -129,38 +129,59 @@ def sync_notes():
         docs_category_path = DOCS_PATH / category
         docs_category_path.mkdir(exist_ok=True)
         
-        # Crear index.md para la categoría
+        # Crear index.md para la categoría si no existe
         category_index = docs_category_path / "index.md"
-        with open(category_index, 'w', encoding='utf-8') as f:
-            f.write(f"# {category}\n\n")
-            f.write(f"Write-ups de máquinas de {category}.\n\n")
+        if not category_index.exists():
+            with open(category_index, 'w', encoding='utf-8') as f:
+                f.write(f"# {category}\n\n")
+                f.write(f"Write-ups de máquinas de {category}.\n\n")
+            print(f"📝 Creado index.md para {category}")
         
-        # Copiar archivos .md
+        # Copiar archivos .md solo si no existen
         md_files = list(category_path.glob("*.md"))
-        print(f"📁 {category}: {len(md_files)} archivos")
+        new_files = 0
+        existing_files = 0
         
         for md_file in md_files:
-            relative_path = f"{category}/{md_file.name}"
-            processed_content = process_markdown_file(md_file, relative_path)
-            
             dest_file = docs_category_path / md_file.name
-            with open(dest_file, 'w', encoding='utf-8') as f:
-                f.write(processed_content)
+            
+            # Solo copiar si NO existe
+            if not dest_file.exists():
+                relative_path = f"{category}/{md_file.name}"
+                processed_content = process_markdown_file(md_file, relative_path)
+                
+                with open(dest_file, 'w', encoding='utf-8') as f:
+                    f.write(processed_content)
+                new_files += 1
+                print(f"  ✨ Nuevo: {md_file.name}")
+            else:
+                existing_files += 1
         
-        # Copiar carpeta assets si existe
+        print(f"📁 {category}: {new_files} nuevos, {existing_files} ya existentes")
+        
+        # Copiar carpeta assets si existe (solo archivos nuevos)
         assets_path = category_path / "assets"
         if assets_path.exists():
             dest_assets = docs_category_path / "assets"
-            # Copiar assets (sobrescribir si existe)
-            if dest_assets.exists():
-                # Copiar archivos individuales para evitar problemas de permisos
-                for asset_file in assets_path.glob("*"):
-                    if asset_file.is_file():
-                        shutil.copy2(asset_file, dest_assets / asset_file.name)
-                print(f"🖼️  {category}/assets: {len(list(assets_path.glob('*')))} archivos actualizados")
-            else:
-                shutil.copytree(assets_path, dest_assets)
-                print(f"🖼️  {category}/assets: {len(list(assets_path.glob('*')))} archivos copiados")
+            dest_assets.mkdir(exist_ok=True)
+            
+            new_assets = 0
+            existing_assets = 0
+            
+            for asset_file in assets_path.glob("*"):
+                if asset_file.is_file():
+                    dest_asset = dest_assets / asset_file.name
+                    
+                    # Solo copiar si NO existe
+                    if not dest_asset.exists():
+                        shutil.copy2(asset_file, dest_asset)
+                        new_assets += 1
+                        print(f"  🖼️  Nuevo asset: {asset_file.name}")
+                    else:
+                        existing_assets += 1
+            
+            if new_assets > 0 or existing_assets > 0:
+                print(f"🖼️  {category}/assets: {new_assets} nuevos, {existing_assets} ya existentes")
     
     print("✅ Sincronización completada!")
 
