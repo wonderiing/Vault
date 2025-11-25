@@ -161,7 +161,8 @@ Table: usuarios
 
 Puede que alguna de estas credenciales nos sirva para conectarnos por SSH, por lo cual trate de conectarme con cada uno de ellos pero no tuve éxito.
 
-Después me di cuenta que había una password llamada directoriotravieso, por lo cual me decidí a ver si en verdad era un directorio.
+En las credenciales obtenidas me di cuenta que había un password llamada directoriotravieso, por lo cual me decidí a ver si en verdad era un directorio.
+
 - Al parecer si era un directorio que aloja una imagen llamada _miramebien.jpg_
 
 ![](../assets/Pasted image 20251109202221.png)
@@ -170,7 +171,7 @@ Ahora que tengo una imagen, se me ocurrían 2 cosas:
 - Metadatos - Al analizar por metadatos con exiftool, no encontré nada relevante.
 - Esteganografía
 
-Ya que la primer opción no dio resultados me dio por intentar la segunda opción. Lo primero que intente fue ver si no requería de contraeña o si la contraseña era alguna de las contraseñas que había en mysql pero no tuve éxito.
+Ya que la primer opción no dio resultados me dio por intentar la segunda opción. Lo primero que intente fue ver si no requería de contraseña o si la contraseña era alguna de las contraseñas que había en mysql pero no tuve éxito.
 ```bash
 > steghide --extract -sf miramebien.jpg
 ```
@@ -187,7 +188,7 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 [i] Extracting to "miramebien.jpg.out".
 ```
 
-- Me extrajo un miramebien.jpg.out que renombre al archivo original _ocultito.zip_
+- Crackeamos la contraseña con exito y me extrajo un archivo llamado miramebien.jpg.out que renombre a _ocultito.zip_
 
 Liste el contenido del zip:
 ```bash
@@ -208,7 +209,7 @@ Ahora que ya tengo la contraseña puedo extraer el zip y ver el contenido del _s
 carlos:carlitos
 ```
 
-- Posibles credenciales SSH
+- Posibles credenciales SSH.
 
 Intento conectarme mediante SSH con esas credenciales y tengo éxito:
 ```bash
@@ -230,7 +231,9 @@ Lo primero que hago dentro del sistema es ver que binarios puedo ejecutar como r
 - Pero no tengo éxito ya que no tengo permisos
 
 Mi segundo approach fue buscar binarios con permisos SUID
-- Aquí es donde encuentro el binario _find_ que me va a servir para escalar privilegios
+
+- Aquí es donde encuentro el binario _find_ que me va a servir para escalar privilegios.
+
 ```bash
 > carlos@9533d1fb3eb7:~$ find / -perm -4000 2>/dev/null 
 -------------------------------------------------------
