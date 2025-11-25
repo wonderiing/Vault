@@ -88,8 +88,9 @@ Starting gobuster in directory enumeration mode
 - _index.php_ hace referencia al login
 - _auth.php_ es el script que controla el login
 
-Por el ultimo el _page.php_ 
-- Al parecer es simplemente sirve para consultar la temperatura
+Por ultimo el _page.php_.
+
+- Al parecer simplemente sirve para consultar la temperatura
 ![](../assets/Pasted image 20251109195426.png)
 
 
