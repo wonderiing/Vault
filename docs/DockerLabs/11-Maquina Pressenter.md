@@ -226,7 +226,7 @@ Migramos al usuario enter
 > su enter
 ```
 
-Lo primero que hice fue listar binarios con permisos
+Lo primero que hice fue listar binarios con privilegios de SUDO.
 ```bash
 > enter@23bf441840e6:/tmp$ sudo -l
 sudo -l
@@ -239,6 +239,8 @@ User enter may run the following commands on 23bf441840e6:
     (ALL : ALL) NOPASSWD: /usr/bin/cat
     (ALL : ALL) NOPASSWD: /usr/bin/whoami
 ```
+- Encontre el binario cat y whoami
+
 
 Lo primero que intente fue hacerle un `cat` al archivo temporal tmp.ZTRADbTigY. Pero no tuve éxito
 
