@@ -146,6 +146,7 @@ nav:
       - Maquina Allien: DockerLabs/17-Maquina Allien.md
       - Maquina Los 40 Ladrones: DockerLabs/18-Maquina Los 40 Ladrones.md
       - Maquina Extraviado: DockerLabs/19-Maquina Extraviado.md
+      - Maquina Paradise: DockerLabs/21-Maquina Paradise.md
     - HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
