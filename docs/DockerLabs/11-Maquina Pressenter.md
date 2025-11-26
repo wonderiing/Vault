@@ -68,11 +68,14 @@ El dominio no lleva a nada por lo cual decidí meterlo al /etc/hosts
 
 **Identificacion de Tecnologias Web**
 
-Wappalyzer detecta que esta nueva pagina es un WordPress.
+Accedo al nuevo dominio: ***pressenter.hl*** y Wappalyzer detecta que esta nueva pagina es un WordPress.
 
 ![](../assets/Pasted image 20251107003510.png)
 
 La ruta de `wp-admin` esta expuesta:
+
+- Si llegamos a obtener credenciales validas vamos a poder acceder al panel de administracion de Wordpress.
+
 ![](../assets/Pasted image 20251107003605.png)
 
 
