@@ -42,15 +42,23 @@ MAC Address: 02:D1:20:12:D4:7B (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
+- Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13
+- Puerto 80 HTTP: Apache httpd 2.4.58
+
+
 **Puerto 80 Apache**
-Al parecer es una simple pagina web lo único que me llamo la atención fue el apartado de despidos
-- Veo el nombre de _carlota_ y _juan_ - Los cuales voy a utilizar para un ataque de fuerza bruta 
+Al parecer es una simple pagina web con anuncios e informacion, no habia muchas cosas que llamaran mi atención, en su codigo fuente tampoco encontré nada.
+
+- Veo el nombre de _carlota_ y _juan_ - Posibles nombres de usuario.
+
 ![](../assets/Pasted image 20251105215238.png)
 
 ## Explotación
 
-Realice un ataque de fuerza bruta usando hydra
-- _babygirl_ fue la password encontrada
+Como no tengo mucha informacion y solo tengo 2 posibles usuarios opte por realizar un ataque de fuerza bruta al servicio SSH usando hydra.
+
+- _babygirl_ fue la password encontrada para el usuario carlota
+
 ```bash
 > hydra -l carlota -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2 -t 10
 ------------------------------------------------------------------------------
@@ -71,11 +79,13 @@ Lo primero que veo es que existe una `imagen.jpg` en la ruta:
 ```
 
 Por lo cual decidí bajármela en mi maquina
+
 ```bash
 > scp carlota@172.17.0.3:/home/carlota/Desktop/fotos/vacaciones/imagen.jpg /home/wndr/Machines/DockerLabs/amor
 ```
 
 Decidí usar `stgehide` para ver posibles mensajes ocultos mediante esteganografía.
+
 - Me extrajo un archivo llamado secret.txt que al parecer es un mensaje codificado en _base64_
 ```bash
 > steghide --extract -sf imagen.jpg
@@ -98,7 +108,10 @@ Supuse que el texto era alguna contraseña o algo asi, asi que decidí apuntar a
 oscar:x:1002:1002::/home/oscar:/bin/sh
 ```
 
-Migro al usuario oscar
+Encuentro el usuario oscar y decido migrar usando la contraseña anteriormente encontrada
+
+- oscar:eslacasadepinypon
+
 ```bash
 > su oscar
 ```
