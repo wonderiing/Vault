@@ -113,7 +113,7 @@ Me decidí por utilizar el mensaje como directorio y efectivamente existía un d
 ![](../assets/Pasted image 20251126160235.png)
 
 
-**Puerto 139,445 SMB **
+**Puerto 139,445 SMB**
 
 **Esta enumeracion del SMB, es un paso extra o didáctico, no se requiere para la explotación de la maquina.**
 
