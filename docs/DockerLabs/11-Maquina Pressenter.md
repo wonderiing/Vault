@@ -43,12 +43,15 @@ MAC Address: 02:29:1E:07:C2:61 (Unknown)
 
 **Puerto 80**
 
+- Pagina principal
+
 ![](../assets/Pasted image 20251107001538.png)
 
-Segunda tab:
-Al parecer es un simple login
+- Pagina de Login
 
 ![](../assets/Pasted image 20251107001818.png)
+
+**Codigo Fuente**
 
 Viendo el codigo fuente encontramos un dominio:
 ```html
@@ -63,7 +66,10 @@ El dominio no lleva a nada por lo cual decidí meterlo al /etc/hosts
 172.17.0.2 pressenter.hl
 ```
 
-Wappalyzer detecta que esta nueva pagina es un WordPress
+**Identificacion de Tecnologias Web**
+
+Wappalyzer detecta que esta nueva pagina es un WordPress.
+
 ![](../assets/Pasted image 20251107003510.png)
 
 La ruta de `wp-admin` esta expuesta:
@@ -101,27 +107,34 @@ Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plu
  | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
 ```
 
-- Encontramos 2 usuarios y 2 vulnerabilidades
+- Encontramos 2 usuarios uno llamado pressi y otro hacker.
+- 2 Vulnerabilidades encontradas.
 
 ## Explotación
 
-Comenzamos haciendo un ataque de fuerza bruta sobre el usuario pressi
+Opte por realizar un ataque de fuerza bruta sobre el usuario pressi utilizando la herramienta de `wpscan`.
+
 ```bash
 > sudo wpscan --url http://pressenter.hl -U pressi -P /usr/share/wordlists/rockyou.txt
 ---------------------------------------------------------------------------------------
 [!] Valid Combinations Found:
  | Username: pressi, Password: dumbass
 ```
+- Credenciales encontradas pressi:dumbass
+
+Con estas credenciales accedo al wordpress mediante el login.
 
 Dentro del wordpress me dirigí a la parte de herramientas y edite el `index.php` del tema `Twenty Twenty Two` para subir una reverse shell
+
 ![](../assets/Pasted image 20251107010844.png)
 
 
-Me puse en escucha
+Me puse en escucha por el puerto 443.
 ```bash
 > sudo nc -nlvp 443
 ```
- Y me dirigí a la ruta donde se guardan los temas para ejecutar la reverse shell
+
+ Y me dirigí a la ruta donde se guardan los temas para ejecutar la reverse shell.
  ```
  http://pressenter.hl/wp-content/themes/twentytwentytwo/
  ```
@@ -138,7 +151,9 @@ www-data
 Dentro del sistema intente hacer un _sudo -l_ pero al parecer no tenemos permisos. Por lo cual decidí apuntar al directorio _/tmp_ donde había un archivo que no podía leer a menos que fuera el usuario _mysql_
 ![](../assets/Pasted image 20251107011203.png)
 
-Por lo cual decidí ver el contenido del `wp-config.php`
+Por lo cual decidí ver el contenido del `wp-config.php`. Este archivo es el archivo de configuracion de wordpress, contiene informacion sensible como credenciales de base de datos, entre otras.
+
+
 ```bash
 > find / -name "wp-config.php" 2>/dev/null
 ------------------------------------------
@@ -238,4 +253,4 @@ whoami
 root
 ```
 
-***PWNED**
+***PWNED***
