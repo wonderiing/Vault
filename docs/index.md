@@ -66,8 +66,7 @@ Tengo un monton de notas que inicialmente no escribi para que fueran compartidas
 ## 📬 Conecta Conmigo
 
 - **GitHub**: [wonderiing](https://github.com/wonderiing)
-- **Correo**: ca223871@gmail.com
-
+- **Correo**: carlos.rdzz@proton.me
 ---
 
 > [!note] **Nota Educativa**
