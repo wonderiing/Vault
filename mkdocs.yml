@@ -155,3 +155,8 @@ nav:
     - HackTheBox:
       - Inicio: HackTheBox/index.md
       - Maquina GetSimple: HackTheBox/02-GetSimple HackTheBox Academy Machine.md
+    - TheHackerLabs:
+      - Inicio: TheHackerLabs/index.md
+      - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon2025.md
+      - Maquina Campana Feliz: TheHackerLabs/02-Maquina Campana Feliz.md
+      - Maquina TheFirstAvenger: TheHackerLabs/03-Maquina TheFirstAvenger.md
