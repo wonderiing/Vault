@@ -117,7 +117,7 @@ def sync_notes():
     notes_path = Path(NOTES_REPO_PATH)
     
     # Copiar y procesar archivos por categoría
-    categories = ["DockerLabs", "HackTheBox", "HackMyVm"]
+    categories = ["DockerLabs", "HackTheBox", "HackMyVm", "TheHackerLabs"]
     
     for category in categories:
         category_path = notes_path / category
