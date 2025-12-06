@@ -89,7 +89,7 @@ page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 
 
 
-Ahora podemos listar el archivo `/etc/passwd` en `http://172.17.0.2/index.php?page=/etc/passwd`.
+Ahora podemos listar archivos en `http://172.17.0.2/index.php?page=/etc/passwd`. Aprochandonos del parametro ?page
 
 ![](../assets/Pasted image 20251109151030.png)
 
