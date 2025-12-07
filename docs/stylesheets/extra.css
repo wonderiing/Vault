@@ -1,379 +1,174 @@
 /* ============================================
-   GLASSMORPHISM DESIGN - wonderiing (wndr23)
-   Inspired by modern, subtle glass effects
+   GITBOOK STYLE - wonderiing (wndr23)
+   Clean, flat, and focused design
    ============================================ */
 
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-bg-hover: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    --gradient-primary: linear-gradient(135deg, #00d4aa 0%, #00b4d8 100%);
-    --gradient-secondary: linear-gradient(135deg, #06ffa5 0%, #00d4aa 100%);
-    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --md-text-font-family: "Inter", sans-serif;
+    --md-code-font-family: "Roboto Mono", monospace;
+    --gitbook-blue: #3b82f6;
+    /* Common highlight color */
+    --gitbook-border: #e5e7eb;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-hue: 220;
+    --md-default-bg-color: #0d1117;
+    /* GitHub Dark dim */
+    --md-default-fg-color: #c9d1d9;
+    --md-default-fg-color--light: #8b949e;
+    --md-code-bg-color: #161b22;
+    --gitbook-border: #30363d;
 }
 
 /* ============================================
-   BACKGROUND GRADIENT - Dark Blue-Black
+   LAYOUT & SIDEBAR
    ============================================ */
-.md-main {
-    background: linear-gradient(180deg, #0a0e1a 0%, #121826 50%, #0a0e1a 100%);
+.md-main__inner {
+    margin-top: 0;
 }
 
-/* ============================================
-   HERO SECTION - Subtle Glassmorphism Card
-   ============================================ */
-.hero-section {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-    padding: 2.5rem;
-    margin: 2rem 0;
-    box-shadow: var(--glass-shadow);
-    position: relative;
-    overflow: hidden;
+/* Sidebar styling - Cleaner look */
+.md-sidebar {
+    border-right: 1px solid var(--gitbook-border);
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: var(--gradient-primary);
-    opacity: 0.05;
-    animation: gradient-rotate 20s ease infinite;
-    z-index: -1;
+[data-md-color-scheme="slate"] .md-sidebar {
+    background-color: #0d1117;
 }
 
-@keyframes gradient-rotate {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-}
-
-.hero-section p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-/* ============================================
-   CATEGORY GRID - Elegant Glass Cards
-   ============================================ */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.category-grid h4 {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    padding: 2rem 1.5rem;
-    margin: 0;
-    box-shadow: var(--glass-shadow);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.category-grid h4::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-}
-
-.category-grid h4:hover {
-    transform: translateY(-8px);
-    background: var(--glass-bg-hover);
-    box-shadow: 0 16px 48px 0 rgba(0, 212, 170, 0.2);
-    border-color: rgba(0, 212, 170, 0.3);
-}
-
-.category-grid h4:hover::before {
-    transform: scaleX(1);
-}
-
-.category-grid h4:nth-child(2)::before {
-    background: var(--gradient-secondary);
-}
-
-.category-grid h4:nth-child(3)::before {
-    background: var(--gradient-accent);
-}
-
-/* ============================================
-   CODE BLOCKS - Keep Original Style
-   ============================================ */
-.highlight pre {
-    border-radius: 8px;
-    padding: 1em;
-}
-
-/* Copy button styling */
-.md-clipboard {
-    border-radius: 8px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    transition: all 0.3s ease;
-}
-
-.md-clipboard:hover {
-    background: rgba(0, 212, 170, 0.15);
-    transform: scale(1.05);
-}
-
-/* ============================================
-   IMAGES - Keep Current Style
-   ============================================ */
-.md-content img {
-    border-radius: 16px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    max-width: 100%;
-    height: auto;
-    margin: 1.5rem 0;
-}
-
-/* ============================================
-   TABLES - Elegant Glassmorphism
-   ============================================ */
-.md-typeset table:not([class]) {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    border-radius: 16px;
-    border: 1px solid var(--glass-border);
-    overflow: hidden;
-    box-shadow: var(--glass-shadow);
-}
-
-.md-typeset table:not([class]) th {
-    background: rgba(0, 212, 170, 0.1);
+.md-nav__item .md-nav__link--active {
+    color: var(--gitbook-blue);
     font-weight: 600;
-    border-bottom: 1px solid var(--glass-border);
 }
 
-.md-typeset table:not([class]) tr:hover {
-    background: rgba(0, 212, 170, 0.03);
-}
-
-/* ============================================
-   ADMONITIONS - Subtle Glass Callouts
-   ============================================ */
-.md-typeset .admonition {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 16px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    position: relative;
-    overflow: hidden;
-}
-
-.md-typeset .admonition::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--gradient-primary);
-}
-
-.md-typeset .admonition.note::before {
-    background: var(--gradient-primary);
-}
-
-.md-typeset .admonition.tip::before {
-    background: var(--gradient-accent);
-}
-
-.md-typeset .admonition.warning::before {
-    background: var(--gradient-secondary);
+.md-nav__link:hover {
+    color: var(--gitbook-blue);
 }
 
 /* ============================================
-   INLINE CODE - Subtle Badge
-   ============================================ */
-.md-typeset code {
-    background: rgba(0, 212, 170, 0.1);
-    backdrop-filter: blur(5px);
-    border-radius: 6px;
-    border: 1px solid rgba(0, 212, 170, 0.2);
-    padding: 0.2em 0.5em;
-    font-size: 0.9em;
-}
-
-/* ============================================
-   LINKS - Smooth Gradient Underline
-   ============================================ */
-.md-typeset a {
-    text-decoration: none;
-    background: linear-gradient(to right, #00d4aa, #00b4d8);
-    background-size: 0% 2px;
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    transition: background-size 0.4s ease;
-    border-bottom: none;
-    color: rgba(0, 212, 170, 0.9);
-}
-
-.md-typeset a:hover {
-    background-size: 100% 2px;
-    color: #00d4aa;
-}
-
-/* ============================================
-   LISTS - Enhanced Spacing
-   ============================================ */
-.md-typeset ul li,
-.md-typeset ol li {
-    margin-bottom: 0.5em;
-    line-height: 1.8;
-}
-
-/* ============================================
-   HEADINGS - Elegant Gradient Text
+   TYPOGRAPHY & CONTENT
    ============================================ */
 .md-typeset h1 {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+    color: var(--md-default-fg-color);
 }
 
 .md-typeset h2 {
-    position: relative;
-    padding-bottom: 0.75rem;
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.md-typeset h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 2px;
-    background: var(--gradient-primary);
-    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-top: 2.5em;
+    border-bottom: 0;
+    /* Remove underline */
 }
 
 /* ============================================
-   NAVIGATION - Glass Sidebar
+   CODE BLOCKS
    ============================================ */
-.md-nav__item--active>.md-nav__link {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border-left: 3px solid #00d4aa;
-    padding-left: 1rem;
+.md-typeset pre {
+    border-radius: 6px;
+    border: 1px solid var(--gitbook-border);
 }
 
-/* Navigation link hover - Simple color change */
-.md-nav__link:hover {
-    color: #00d4aa !important;
-    transition: color 0.3s ease;
+/* Copy button */
+.md-clipboard {
+    color: var(--md-default-fg-color--light);
 }
 
-.md-nav__link {
-    transition: color 0.3s ease;
+/* Inline code */
+.md-typeset code {
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    background-color: var(--md-code-bg-color);
+    color: var(--md-default-fg-color);
 }
 
 /* ============================================
-   SEARCH - Elegant Glass Input
+   ADMONITIONS (Callouts)
+   ============================================ */
+.md-typeset .admonition {
+    border: none;
+    border-left: 4px solid;
+    border-radius: 4px;
+    box-shadow: none;
+    background-color: transparent;
+    /* Cleaner look */
+}
+
+.md-typeset .admonition.note {
+    border-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.md-typeset .admonition.tip {
+    border-color: #10b981;
+    background-color: rgba(16, 185, 129, 0.05);
+}
+
+.md-typeset .admonition.warning {
+    border-color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.05);
+}
+
+.md-typeset .admonition.danger {
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+.md-typeset table:not([class]) {
+    box-shadow: none;
+    border: 1px solid var(--gitbook-border);
+    border-radius: 6px;
+}
+
+.md-typeset table:not([class]) th {
+    background-color: var(--md-default-bg-color);
+    font-weight: 600;
+}
+
+/* ============================================
+   IMAGES
+   ============================================ */
+.md-content img {
+    border-radius: 6px;
+    border: 1px solid var(--gitbook-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   SEARCH
    ============================================ */
 .md-search__input {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    transition: all 0.3s ease;
-}
-
-.md-search__input:focus {
-    border-color: rgba(0, 212, 170, 0.5);
-    background: var(--glass-bg-hover);
-    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+    border-radius: 6px;
+    background-color: var(--md-default-bg-color);
+    border: 1px solid var(--gitbook-border);
 }
 
 /* ============================================
-   SCROLLBAR - Elegant Styling
+   CUSTOM - HERO SECTION (If still used)
    ============================================ */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--gradient-primary);
-    border-radius: 10px;
-    transition: background 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gradient-secondary);
-}
-
-/* ============================================
-   ANIMATIONS - Smooth Fade In
-   ============================================ */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.md-content>* {
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* ============================================
-   BUTTONS - Gradient Style
-   ============================================ */
-.md-button {
-    background: var(--gradient-primary);
+.hero-section {
+    background: transparent;
+    border: 1px solid var(--gitbook-border);
     border-radius: 12px;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.3s ease;
-    border: none;
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
-.md-button:hover {
+.category-grid h4 {
+    background: transparent;
+    border: 1px solid var(--gitbook-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.2s;
+}
+
+.category-grid h4:hover {
+    border-color: var(--gitbook-blue);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
 }

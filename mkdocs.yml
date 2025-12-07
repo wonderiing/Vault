@@ -11,20 +11,23 @@ repo_url: https://github.com/wonderiing/CTFs-WriteUps
 theme:
   name: material
   language: es
+  font:
+    text: Inter
+    code: Roboto Mono
   palette:
     # Dark mode (default)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
-      accent: cyan
+      primary: black
+      accent: lime
       toggle:
         icon: material/brightness-4
         name: Cambiar a modo claro
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal
-      accent: cyan
+      primary: white
+      accent: blue
       toggle:
         icon: material/brightness-7
         name: Cambiar a modo oscuro
@@ -33,7 +36,7 @@ theme:
     - navigation.instant      # Instant loading
     - navigation.tracking     # URL tracking
     - navigation.sections     # Navigation sections
-    - navigation.expand       # Expand navigation by default
+    # - navigation.expand       # Expand navigation by default
     - navigation.top          # Back to top button
     - search.suggest          # Search suggestions
     - search.highlight        # Highlight search results
