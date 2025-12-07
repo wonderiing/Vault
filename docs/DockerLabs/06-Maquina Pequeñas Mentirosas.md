@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #criptografia #dockerlabs 
 
-![](../assets/Pasted image 20251103001103.png)
+![](../assets/Pasted%20image%2020251103001103.png)
 
 ## Reconocimiento
 
@@ -34,7 +34,7 @@ PORT   STATE SERVICE VERSION
 **Presentación Puerto 80 HTTP**
 
 - Al parecer nos comentan que encontremos la password para el usuario _a_
-![](../assets/Pasted image 20251102225050.png)
+![](../assets/Pasted%20image%2020251102225050.png)
 
 ## Explotación
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #sqli #password-cracking #esteganografia #dockerlabs
 
-![](../assets/Pasted image 20251109234535.png)
+![](../assets/Pasted%20image%2020251109234535.png)
 ## Reconocimiento
 
 Comenzamos tirando un ping para comprobar conectividad:
@@ -57,7 +57,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80 HTTP**
 
 - Al parecer es un simple login
-![](../assets/Pasted image 20251109194933.png)
+![](../assets/Pasted%20image%2020251109194933.png)
 
 Viendo el codigo fuente noto que existe un script llamado `auth.php` que supongo que controla el login.
 ```php
@@ -91,7 +91,7 @@ Starting gobuster in directory enumeration mode
 Por ultimo el _page.php_.
 
 - Al parecer simplemente sirve para consultar la temperatura
-![](../assets/Pasted image 20251109195426.png)
+![](../assets/Pasted%20image%2020251109195426.png)
 
 
 ## Explotación
@@ -165,7 +165,7 @@ En las credenciales obtenidas me di cuenta que había un password llamada direct
 
 - Al parecer si era un directorio que aloja una imagen llamada _miramebien.jpg_
 
-![](../assets/Pasted image 20251109202221.png)
+![](../assets/Pasted%20image%2020251109202221.png)
 
 Ahora que tengo una imagen, se me ocurrían 2 cosas:
 - Metadatos - Al analizar por metadatos con exiftool, no encontré nada relevante.

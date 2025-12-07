@@ -66,7 +66,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80 HTTP**
-![](../assets/Pasted image 20251114192029.png)
+![](../assets/Pasted%20image%2020251114192029.png)
 
 utilizamos `whatweb` para ver que tecnologías corre por detrás
 - Nada interesante, ninguna version vieja para explotar.
@@ -85,7 +85,7 @@ http://gettingstarted.htb/
 ```
 
 Ahora la IP resuelve a este host:
-![](../assets/Pasted image 20251114192555.png)
+![](../assets/Pasted%20image%2020251114192555.png)
 
 Procedo a realizar Fuzzing con `gobuster`
 ```bash
@@ -110,12 +110,12 @@ Starting gobuster in directory enumeration mode
 En este directorio se almacenan los archivos de los temas, si por alguna razón yo consigo editar su codigo PHP tal vez pueda meter una web-shell
 
 - Existen 2 temas instalados, Cardinal e Innovation y asi es como se ve la estructura los 2 tienen en común el archivo _template.php_
-![](../assets/Pasted image 20251114194453.png)
+![](../assets/Pasted%20image%2020251114194453.png)
 
 **/data**
 
 - Este directorio contiene informacion valiosa de usuarios
-![](../assets/Pasted image 20251114193342.png)
+![](../assets/Pasted%20image%2020251114193342.png)
 
 **Credential Leak**
 
@@ -144,13 +144,13 @@ Me guardo el hash y decido romperlo con john
 
 **/admin**
 El recurso de /admin era un login al cual pude tener acceso mediante el leak de credenciales que habia en el directorio data
-![](../assets/Pasted image 20251114193630.png)
+![](../assets/Pasted%20image%2020251114193630.png)
 
 ## Explotación
 
 
 Dentro del panel admin habia muchas opciones, entre ellas la que yo decidí explotar era el editor de temas. En nuestra fase de reconocimiento y enumeración nos dimos cuenta de que existía un directorio llamado **/themes**, entonces se me ocurrió ir al editor de temas y editar el archivo _template.php_ del tema _Innovation_ para obtener una web-shell
-![](../assets/Pasted image 20251114194745.png)
+![](../assets/Pasted%20image%2020251114194745.png)
 
 Ahora, habiendo guardado el archivo podemos dirigirnos al path donde se guardan los temas para ver si nuestra web-shell funciona correctamente:
 
@@ -158,7 +158,7 @@ Ahora, habiendo guardado el archivo podemos dirigirnos al path donde se guardan 
 > http://10.129.155.171/theme/Innovation/template.php?cmd=whoami  # ?cmd=whoami es el comando ejecutado
 ```
 Resultado:
-![](../assets/Pasted image 20251114194917.png)
+![](../assets/Pasted%20image%2020251114194917.png)
 
 Ahora podemos proceder a entablarnos una reverse-shell
 

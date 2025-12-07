@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #wordpress #dockerlabs
 
-![](../assets/Pasted image 20251107001007.png)
+![](../assets/Pasted%20image%2020251107001007.png)
 
 ## Reconocimiento
 
@@ -45,11 +45,11 @@ MAC Address: 02:29:1E:07:C2:61 (Unknown)
 
 - Pagina principal
 
-![](../assets/Pasted image 20251107001538.png)
+![](../assets/Pasted%20image%2020251107001538.png)
 
 - Pagina de Login
 
-![](../assets/Pasted image 20251107001818.png)
+![](../assets/Pasted%20image%2020251107001818.png)
 
 **Codigo Fuente**
 
@@ -70,13 +70,13 @@ El dominio no lleva a nada por lo cual decidí meterlo al /etc/hosts
 
 Accedo al nuevo dominio: ***pressenter.hl*** y Wappalyzer detecta que esta nueva pagina es un WordPress.
 
-![](../assets/Pasted image 20251107003510.png)
+![](../assets/Pasted%20image%2020251107003510.png)
 
 La ruta de `wp-admin` esta expuesta:
 
 - Si llegamos a obtener credenciales validas vamos a poder acceder al panel de administracion de Wordpress.
 
-![](../assets/Pasted image 20251107003605.png)
+![](../assets/Pasted%20image%2020251107003605.png)
 
 
 Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plugins vulnerables
@@ -129,7 +129,7 @@ Con estas credenciales accedo al wordpress mediante el login.
 
 Dentro del wordpress me dirigí a la parte de herramientas y edite el `index.php` del tema `Twenty Twenty Two` para subir una reverse shell
 
-![](../assets/Pasted image 20251107010844.png)
+![](../assets/Pasted%20image%2020251107010844.png)
 
 
 Me puse en escucha por el puerto 443.
@@ -152,7 +152,7 @@ www-data
 ## Escalada de Privilegios
 
 Dentro del sistema intente hacer un _sudo -l_ pero al parecer no tenemos permisos. Por lo cual decidí apuntar al directorio _/tmp_ donde había un archivo que no podía leer a menos que fuera el usuario _mysql_
-![](../assets/Pasted image 20251107011203.png)
+![](../assets/Pasted%20image%2020251107011203.png)
 
 Por lo cual decidí ver el contenido del `wp-config.php`. Este archivo es el archivo de configuracion de wordpress, contiene informacion sensible como credenciales de base de datos, entre otras.
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #sqli #strings #hackmyvm
 
-![](../assets/Pasted image 20251122185505.png)
+![](../assets/Pasted%20image%2020251122185505.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -61,7 +61,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Al parecer solo es una imagen.
 - En su codigo fuente no hay nada interesante.
-![](../assets/Pasted image 20251122185851.png)
+![](../assets/Pasted%20image%2020251122185851.png)
 
 **Fuzzing**
 Procedo a realizar fuzzing con `gobuster` para descubrir posibles recursos.
@@ -82,7 +82,7 @@ Starting gobuster in directory enumeration mode
 
 **/index2.php**
 
-- Esta pagina al parecer era como una terminal simulada, no tenia nada interesante.![](../assets/Pasted image 20251122190611.png)
+- Esta pagina al parecer era como una terminal simulada, no tenia nada interesante.![](../assets/Pasted%20image%2020251122190611.png)
 - Source code: Viendo su codigo fuente nos encontramos con esto. Al parecer es otro recurso oculto llamado /auth-login.php
 ```html
 <li>NEXUS> initialize global protocol --login</li>
@@ -93,11 +93,11 @@ Starting gobuster in directory enumeration mode
 **/auth-login.php**
 
 - Al parecer es un simple login.
-![](../assets/Pasted image 20251122190759.png)
+![](../assets/Pasted%20image%2020251122190759.png)
 ## Explotación
 
 Lo primero que intente al ver el login, fue una `SQLi` y al parecer funciono, ya que me bypassie el login:
-![](../assets/Pasted image 20251122191038.png)
+![](../assets/Pasted%20image%2020251122191038.png)
 
 Entonces, podemos tratar de explotarla con SQLMap.
 - Aqui comprobamos que en efecto es vulnerable a SQLi

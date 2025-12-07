@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #dockerlabs #ssh #chatgpt
 
-![](../assets/Pasted image 20251111230145.png)
+![](../assets/Pasted%20image%2020251111230145.png)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
@@ -56,11 +56,11 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Pagina default de apache2. Al final de la pagina esta esta cadena:
 ` #.........................................................................................................ZGFuaWVsYQ== : Zm9jYXJvamE= `
 
-![](../assets/Pasted image 20251111223116.png)
+![](../assets/Pasted%20image%2020251111223116.png)
 
 
 Al Parecer es una cadena codificada en base64, por lo cual procedo a decodificarla con burpsuite
-![](../assets/Pasted image 20251111223301.png)
+![](../assets/Pasted%20image%2020251111223301.png)
 - Al parecer son credenciales, supongo que para el ssh daniela:focaroja
 
 Me conecto por SSH
@@ -68,7 +68,7 @@ Me conecto por SSH
 > ssh daniela@172.17.0.2
 ```
 
-![](../assets/Pasted image 20251111223633.png)
+![](../assets/Pasted%20image%2020251111223633.png)
 
 ## Escalada de Privilegios
 
@@ -90,7 +90,7 @@ drwxrwxr-x 1 daniela daniela    8 Jan  9  2025 Desktop
 - Aquí es donde veo la carpeta .secreto
 
 En esta carpeta se encuentra un archivo llamado _passdiego_ que supongo que serán las credenciales para el usuario diego
-![](../assets/Pasted image 20251111223755.png)
+![](../assets/Pasted%20image%2020251111223755.png)
 
 La contraseña al parecer esta codificada en base64 por lo cual procedo a decodificarla
 
@@ -130,6 +130,6 @@ _Mi lectura: **un oso polar (más concretamente: un oso de peluche polar azul)**
 
 Después de varios intentos logro logarme con la contraseña osoazul
 
-![](../assets/Pasted image 20251111225700.png)
+![](../assets/Pasted%20image%2020251111225700.png)
 
 ***PWNED**

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ftp #brainfuck #python-library-hijacking
 
-![](../assets/Pasted image 20251204164639.png)
+![](../assets/Pasted%20image%2020251204164639.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad:
@@ -90,7 +90,7 @@ PORT   STATE SERVICE REASON         VERSION
 - Al acceder a la web lo único que vemos es una imagen:
 - Su codigo fuente tampoco contiene nada interesante.
 
-![](../assets/Pasted image 20251204165646.png)
+![](../assets/Pasted%20image%2020251204165646.png)
 
 
 **Fuzzing.**

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #lfi #dockerlabs
 
-![](../assets/Pasted image 20251105000419.png)
+![](../assets/Pasted%20image%2020251105000419.png)
 
 ## Reconocimiento
 
@@ -47,14 +47,14 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Enumeración
 
 **Puerto 80**
-![](../assets/Pasted image 20251105001227.png)
+![](../assets/Pasted%20image%2020251105001227.png)
 
 Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista:
 ```
 > http://172.17.0.2/ejemplos.php?images=./ejemplo1.png
 ```
 
-![](../assets/Pasted image 20251105002745.png)
+![](../assets/Pasted%20image%2020251105002745.png)
 - La web tiene un parametro que esta tratando de traerse un archivo y mostrarlo en la web por lo que me hace pensar que puede ser vulnerable a un Local File Inclution.
 ## Explotación
 

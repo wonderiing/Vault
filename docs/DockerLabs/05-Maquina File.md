@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #file-upload #dockerlabs #burpsuite
 
-![](../assets/Pasted image 20251103001143.png)
+![](../assets/Pasted%20image%2020251103001143.png)
 ## Reconocimiento
 
 Empezamos con un escaneo con Nmap para listar todos los puertos abiertos:
@@ -49,7 +49,7 @@ Service Info: OS: Unix
 **Puerto 80 HTTP**
 
 - Pagina default de apache, no nos dice nada
-![](../assets/Pasted image 20251101214354.png)
+![](../assets/Pasted%20image%2020251101214354.png)
 
 ## Enumeración
 
@@ -89,23 +89,23 @@ Starting gobuster in directory enumeration mode
 Nos llama la atención el archivo _file_upload.php 
 - Al parecer es una simple subida de archivos
 
-![](../assets/Pasted image 20251101220545.png)
+![](../assets/Pasted%20image%2020251101220545.png)
 
 Con BurpSuite Interceptamos la petición para ver que es lo se envié por detrás y para realizar un ataque **Sniper** para ver que extensiones permite esa subida de archivos:
-![](../assets/Pasted image 20251101220710.png)
+![](../assets/Pasted%20image%2020251101220710.png)
 
 El resultado es que la subida de archivos permite los archivos  _.phar_ por lo cual ahora nos creamos un script en php para establecer una WebShell 
-![](../assets/Pasted image 20251101220837.png)
+![](../assets/Pasted%20image%2020251101220837.png)
 
 Subimos el archivo y nos dirigimos a la directorio _uploads_ para ver si nuestro archivo se subió correctamente
 
-![](../assets/Pasted image 20251101221020.png)
+![](../assets/Pasted%20image%2020251101221020.png)
 - Efectivamente nuestro archivo ha sido subido
 
 Nos dirigimos a la ruta de nuestro archivo para comprobar que si nos esta interpretando el script php
 - Lanzamos el comando _whoami_
 
-![](../assets/Pasted image 20251101221108.png)
+![](../assets/Pasted%20image%2020251101221108.png)
 
 Ahora que sabemos que si nos esta interpretando el script procedemos a ponernos en escucha por el puerto 443 para establecer una reverse shell:
 ```bash

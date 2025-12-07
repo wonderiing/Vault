@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #bruteforce #ffuf 
 
-![](../assets/Pasted image 20251201202103.png)
+![](../assets/Pasted%20image%2020251201202103.png)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
@@ -80,7 +80,7 @@ Encontramos los siguiente puertos abiertos:
 
 - Este puerto no es mas que una pagina en blanco, pero viendo su codigo fuente podemos ver 2 cadenas codificadas en `base64`
 
-![](../assets/Pasted image 20251201203112.png)
+![](../assets/Pasted%20image%2020251201203112.png)
 
 Decodificamos las cadenas y este es el contenido:
 
@@ -114,13 +114,13 @@ Realizamos fuzzing utilizando `feroxbuster` para ver que otros recursos podíamo
 
 - Encontramos el recurso `shell.php` que al parecer es solo un login para acceder a una shell.
 
-![](../assets/Pasted image 20251201204327.png)
+![](../assets/Pasted%20image%2020251201204327.png)
 
 ##### **Puerto 10000**
 
 - Aqui al parecer corre un servicio llamado `Webmin` que se utiliza para gestionar sistemas Unix/Windows de manera remota desde el navegador.
 
-![](../assets/Pasted image 20251201210415.png)
+![](../assets/Pasted%20image%2020251201210415.png)
 ## Explotación
 
 
@@ -160,20 +160,20 @@ lovely                  [Status: 200, Size: 1616, Words: 704, Lines: 53, Duratio
 
 Al acceder vemos una especie de web-shell.
 
-![](../assets/Pasted image 20251201210838.png)
+![](../assets/Pasted%20image%2020251201210838.png)
 
 Una vez dentro de esta shell intente entablarme una reverse-shell pero no tuve éxito. Por lo cual me dio por buscar directorios/archivos hasta que di con el directorio `/opt`.
 
 - Aqui me encontré un archivo llamado `CMS Webmin.txt` el cual decidí inspeccionar:
 - Encuentro credenciales para el webmin santaclaus:FelizNavidad2024
 
-![](../assets/Pasted image 20251201211547.png)
+![](../assets/Pasted%20image%2020251201211547.png)
 
 Al acceder al `Webmin` me voy al apartado de ejecución de comandos para ver que usuario soy.
 
 - Me encuentro que soy el usuario root.
 
-![](../assets/Pasted image 20251201211831.png)
+![](../assets/Pasted%20image%2020251201211831.png)
 
 
 ***PWNED***

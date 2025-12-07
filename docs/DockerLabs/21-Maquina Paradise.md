@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #ssh #brute-force 
 
 
-![](../assets/Pasted image 20251126163705.png)
+![](../assets/Pasted%20image%2020251126163705.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -85,7 +85,7 @@ Host script results:
 - Al parecer es una pagina para reservaciones.
 - El boton _Go to paradise_, nos redirigue a galery.html
 
-![](../assets/Pasted image 20251126152633.png)
+![](../assets/Pasted%20image%2020251126152633.png)
 
 
 
@@ -110,7 +110,7 @@ estoesunsecreto
 
 Me decidí por utilizar el mensaje como directorio y efectivamente existía un directorio llamado _estoesunsecreto_ y un archivo llamado _mensaje_para_lucas
 
-![](../assets/Pasted image 20251126160235.png)
+![](../assets/Pasted%20image%2020251126160235.png)
 
 
 **Puerto 139,445 SMB**

@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 from pathlib import Path
+from urllib.parse import quote
 
 # Configuración
 NOTES_REPO_PATH = r"d:\NOTAS-PROGRA-V1\NOTAS-PROGRA\CiberSeguridad\CTFs"
@@ -40,7 +41,10 @@ def convert_obsidian_images(content, relative_path):
         # Calcular la ruta relativa correcta desde el archivo actual
         depth = len(Path(relative_path).parts) - 1
         prefix = "../" * depth if depth > 0 else ""
-        return f"![]({prefix}assets/{image_name})"
+        
+        # URL encode the image name to handle spaces
+        encoded_name = quote(image_name)
+        return f"![]({prefix}assets/{encoded_name})"
     
     pattern = r'!\[\[([^\]]+\.(png|jpg|jpeg|gif|webp))\]\]'
     return re.sub(pattern, replace_image, content, flags=re.IGNORECASE)
