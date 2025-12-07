@@ -5,6 +5,7 @@ Propiedades:
 - Tags: #ssh #gdbserver #lfi #msfvenom
 
 ![](assets/Pasted%20image%2020251207102032.png)
+
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad:
@@ -38,6 +39,8 @@ MAC Address: 00:0C:29:6A:8D:81 (VMware)
 Sobre los puertos abiertos realizamos un segundo escaneo mas profundo para detectar versiones, servicios y correr un conjunto de scripts predeterminados.
 
 ```bash
+> sudo nmap -p 22,80,1337 -sV -sC -sS -Pn -n -T5 -vvv 192.168.1.210 -oN
+-------------------------------------------------
 PORT     STATE SERVICE VERSION
 22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
 | ssh-hostkey: 
@@ -68,7 +71,7 @@ Metemos el domino al `/etc/hosts`
 
 - Es una pagina de lamparas de lava
 
-![](assets/Pasted%20image%2020251207103052.png)
+![](../assets/Pasted%20image%2020251207103052.png)
 
 **Codigo Fuente.**
 
@@ -174,7 +177,7 @@ Entonces ahora podemos listar archivos
 
 - Listamos el `/etc/passwd`
 
-![](assets/Pasted%20image%2020251207110119.png)
+![](../assets/Pasted%20image%2020251207110119.png)
 
 - Encontramos el usuario `debian` y `Rodri`
 
@@ -341,6 +344,6 @@ ROOT_PASS=<ROOTPASS>
 
 Migramos al usuario root
 
-![](assets/Pasted%20image%2020251207120128.png)
+![](../assets/Pasted%20image%2020251207120128.png)
 
 ***PWNED***

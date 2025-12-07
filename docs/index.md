@@ -5,12 +5,6 @@
 
 # 👋 WNDR23
 
-<div class="hero-section" markdown>
-
-Jugador profesional de fortnite disfrazado de estudiante de Ingenieria en Desarrollo de Software.
-
-</div>
-
 </div>
 
 </div>
