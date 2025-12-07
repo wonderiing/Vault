@@ -43,7 +43,7 @@ def convert_obsidian_images(content, relative_path):
         
         # URL encode the image name to handle spaces
         encoded_name = quote(image_name)
-        return f"![]({prefix}assets/{encoded_name})"
+        return f"![](assets/{encoded_name})"
     
     pattern = r'!\[\[([^\]]+\.(png|jpg|jpeg|gif|webp))\]\]'
     return re.sub(pattern, replace_image, content, flags=re.IGNORECASE)

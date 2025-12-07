@@ -15,14 +15,9 @@ def fix_image_links(content):
         alt_text = match.group(1)
         url = match.group(2)
         
-        # Only process if it looks like a local asset (contains "assets/")
         if "assets/" in url:
-            # Fix incorrect relative path from previous script version
-            # Change ../assets/ to assets/ if present
             clean_url = url.replace("../assets/", "assets/")
             
-            # IMPORTANT: Fully decode by calling unquote repeatedly until no more changes
-            # This handles double encoding: %2520 -> %20 -> space
             decoded_url = clean_url
             while True:
                 new_decoded = unquote(decoded_url)
@@ -30,8 +25,6 @@ def fix_image_links(content):
                     break  # No more decoding possible
                 decoded_url = new_decoded
             
-            # Now encode properly (only once)
-            # safe="/" preserves the path separator
             encoded_url = quote(decoded_url, safe="/")
             
             if url != encoded_url:
@@ -39,7 +32,6 @@ def fix_image_links(content):
             return f"![{alt_text}]({encoded_url})"
         return match.group(0)
 
-    # Regex for standard markdown image: ![alt](url)
     pattern = r'!\[(.*?)\]\((.*?)\)'
     return re.sub(pattern, replace_link, content)
 

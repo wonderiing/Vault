@@ -18,13 +18,9 @@ def fix_bullet_points(file_path):
     pattern1 = r'(\*\*[^*]+\*\*)\n(-\s)'
     content = re.sub(pattern1, r'\1\n\n\2', content)
     
-    # Pattern 2: code block (```) followed immediately by a bullet point (no blank line)
-    # Match: ```\n- bullet
-    # Replace with: ```\n\n- bullet
     pattern2 = r'(```)\n(-\s)'
     content = re.sub(pattern2, r'\1\n\n\2', content)
     
-    # Only write if changes were made
     if content != original_content:
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)

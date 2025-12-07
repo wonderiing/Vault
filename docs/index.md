@@ -13,7 +13,7 @@
 
 ## 🚀 Sobre Mí
 
-Soy un estudiante que aprende escuchando Ariel Camacho de Fondo.
+Soy un estudiante de Ing. en Desarrollo de Software apasionado en
 
 - **💻 Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
 - **🔐 Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios
@@ -21,9 +21,9 @@ Soy un estudiante que aprende escuchando Ariel Camacho de Fondo.
 
 Este sitio es mi cuaderno digital donde comparto:
 
-- ✅ Write-ups de CTFs resueltos
-- ✅ Notas de aprendizaje (próximamente: Spring Backend y otras cosas)
-- ✅ Técnicas y herramientas que voy descubriendo
+- Write-ups de CTFs resueltos
+- Notas de aprendizaje (próximamente: Spring Backend y otras cosas)
+- Técnicas y herramientas que voy descubriendo
 
 ---
 
@@ -50,10 +50,10 @@ Este sitio es mi cuaderno digital donde comparto:
 
 Tengo un monton de notas que inicialmente no escribi para que fueran compartidas ni leidas por alguien mas, por lo cual estan absurdamente mal escritas y solo las entiendo yo.
 
-- 📝 Notas Relacionados con Backend (SpringBoot, NestJs, Arquitecturas)
-- 🗄️ Patrones de diseño en Java
-- 📝 Notas Relacionadas con el Pentest (Enumeracion de Servicios, Herramientas etc..)
-- 🐳 Notas de Docker, AWS, SQL
+- Notas Relacionados con Backend (SpringBoot, NestJs, Arquitecturas)
+- Patrones de diseño en Java
+- Notas Relacionadas con el Pentest (Enumeracion de Servicios, Herramientas etc..)
+- Notas de Docker, AWS, SQL
 
 ---
 
