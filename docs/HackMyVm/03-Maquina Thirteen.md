@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #lfi #hijacking 
 
 
-![](../assets/Pasted%20image%2020251130010617.png)
+![](assets/Pasted%20image%2020251130010617.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -73,7 +73,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Al parecer es una web para buscar archivos
 
-![](../assets/Pasted%20image%2020251129233701.png)
+![](assets/Pasted%20image%2020251129233701.png)
 
 **Source Code.**
 
@@ -92,7 +92,7 @@ Los 3 links te llevan a nueva pagina donde se presenta el mismo patrón:
 
 - Podemos ver que es el parametro _?theme_ el que esta listando el archivo.
 
-![](../assets/Pasted%20image%2020251129233849.png)
+![](assets/Pasted%20image%2020251129233849.png)
 
 **Fuzzing.**
 
@@ -122,7 +122,7 @@ Aqui nos damos cuenta que los archivos _welcome.txt_, _config.txt_ y _readme.txt
 - _config.txt_ -> _pbasvt.gkg_
 - _readme.txt_ -> _ernqzr.gkg_
 
-![](../assets/Pasted%20image%2020251129235009.png)
+![](assets/Pasted%20image%2020251129235009.png)
 
 ## Explotación
 
@@ -133,14 +133,14 @@ Después de varias pruebas descubrimos que el parámetro `?theme` debe enviarse 
 
 - Todos los recursos que aparece en el código fuente está en ROT13 y, al decodificar uno, obtenemos **config.txt**, el mismo archivo que encontramos por Fuzzing. Esto confirma que la página muestra los archivos siempre y cuando lo mandemos en formato `rot13`.
 
-![](../assets/Pasted%20image%2020251129235301.png)
+![](assets/Pasted%20image%2020251129235301.png)
 
 
 Por lo cual ahora yo puedo intentar aplicar `rot13` a algún path de un archivo para ver si la web me lo lista.
 
 - _/etc/passwd_ -> _/rgp/cnffjq_
 
-![](../assets/Pasted%20image%2020251129235611.png)
+![](assets/Pasted%20image%2020251129235611.png)
 
 - Descubrimos 2 usuarios: welcome y max
 
@@ -179,7 +179,7 @@ Al listar el archivo nos encontramos con credenciales del `FTP` y vemos que este
 
 - Credenciales: ADMIN:12345 
 
-![](../assets/Pasted%20image%2020251130000404.png)
+![](assets/Pasted%20image%2020251130000404.png)
 
 Al conectarnos al `FTP` podemos ver que tenemos acceso al script _ftp_server.py_ y que el script pertenece al usuario root.
 

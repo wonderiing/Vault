@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #gdbserver #lfi #msfvenom
 
-![](../assets/Pasted%20image%2020251207102032.png)
+![](assets/Pasted%20image%2020251207102032.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad:
@@ -68,7 +68,7 @@ Metemos el domino al `/etc/hosts`
 
 - Es una pagina de lamparas de lava
 
-![](../assets/Pasted%20image%2020251207103052.png)
+![](assets/Pasted%20image%2020251207103052.png)
 
 **Codigo Fuente.**
 
@@ -174,7 +174,7 @@ Entonces ahora podemos listar archivos
 
 - Listamos el `/etc/passwd`
 
-![](../assets/Pasted%20image%2020251207110119.png)
+![](assets/Pasted%20image%2020251207110119.png)
 
 - Encontramos el usuario `debian` y `Rodri`
 
@@ -341,6 +341,6 @@ ROOT_PASS=<ROOTPASS>
 
 Migramos al usuario root
 
-![](../assets/Pasted%20image%2020251207120128.png)
+![](assets/Pasted%20image%2020251207120128.png)
 
 ***PWNED***

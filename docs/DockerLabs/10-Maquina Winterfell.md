@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #dockerlabs #smb
 
-![](../assets/Pasted%20image%2020251107000945.png)
+![](assets/Pasted%20image%2020251107000945.png)
 
 ## Reconocimiento
 
@@ -50,7 +50,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80**
 
 - Lo único relevante que noto en la pagina principal son los posibles usuarios _jon_, _Daenerys_ y _Arya_ 
-![](../assets/Pasted%20image%2020251106200304.png)
+![](assets/Pasted%20image%2020251106200304.png)
 
 Procedo a realizar Fuzzing con gobuster
 ```bash
@@ -65,7 +65,7 @@ Starting gobuster in directory enumeration mode
 
 Encuentro un directorio llamado _/dragon_ donde al parecer esta un archivo llamado EpisodiosT1
 - Puede que sean posibles contraseñas por lo que procedo a bajarme la archivo 
-![](../assets/Pasted%20image%2020251106200637.png)
+![](assets/Pasted%20image%2020251106200637.png)
 
 **Servicio SMB**
 

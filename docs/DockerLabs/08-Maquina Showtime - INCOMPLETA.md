@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: 
 - Tags:
 
-![](../assets/Pasted%20image%2020251105005855.png)
+![](assets/Pasted%20image%2020251105005855.png)
 
 ## Reconocimiento
 
@@ -45,15 +45,15 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 **Puerto 80 HTTP**
 Es una pagina de un casino o algo asi, y tiene un tab de login:
-![](../assets/Pasted%20image%2020251105010447.png)
+![](assets/Pasted%20image%2020251105010447.png)
 
 ## Explotación
 
 Bypasse la tab de login con una _sqli_ 
-![](../assets/Pasted%20image%2020251105010533.png)
+![](assets/Pasted%20image%2020251105010533.png)
 
 Lo cual me llevo a esta tab:
-![](../assets/Pasted%20image%2020251105010553.png)
+![](assets/Pasted%20image%2020251105010553.png)
 
 Al parecer el login es vulnerable por lo que usamos `sqlmap` para dumpear todas las bases de datos
 ```bash

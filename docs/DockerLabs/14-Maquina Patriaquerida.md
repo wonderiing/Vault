@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #dockerlabs #lfi #suid
 
-![](../assets/Pasted%20image%2020251109193730.png)
+![](assets/Pasted%20image%2020251109193730.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -54,7 +54,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80 HTTP**
 
 - Al parecer es la pagina default de apache2
-![](../assets/Pasted%20image%2020251109144335.png)
+![](assets/Pasted%20image%2020251109144335.png)
 
 
 Procedí a hacer fuzzing para encontrar posibles recursos ocultos:
@@ -69,10 +69,10 @@ Starting gobuster in directory enumeration mode
 ```
 
 Encuentro un archivo llamado _index.php_ que contiene el siguiente contenido:
-![](../assets/Pasted%20image%2020251109144427.png)
+![](assets/Pasted%20image%2020251109144427.png)
 
 Como es un servicio apache2, seguramente ya estemos en la ruta /var/www/html entonces podemos ir a buscar el archivo directamente:
-![](../assets/Pasted%20image%2020251109150235.png)
+![](assets/Pasted%20image%2020251109150235.png)
 
 
 ## Explotación
@@ -91,7 +91,7 @@ page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 
 Ahora podemos listar archivos en `http://172.17.0.2/index.php?page=/etc/passwd`. Aprochandonos del parametro ?page
 
-![](../assets/Pasted%20image%2020251109151030.png)
+![](assets/Pasted%20image%2020251109151030.png)
 
 - Vemos que existen 2 usuarios uno llamado _pinguino_ y el otro _mario_
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #bludit #bruteforce 
 
-![](../assets/Pasted%20image%2020251130164722.png)
+![](assets/Pasted%20image%2020251130164722.png)
 
 ## Reconocimiento
 
@@ -79,7 +79,7 @@ Al acceder al dominio nos encontramos con esto:
 - La pagina usa Bludit un CMS no muy popular.
 - Obtenemos un posibles usuario Jaulacon2025.
 
-![](../assets/Pasted%20image%2020251130165919.png)
+![](assets/Pasted%20image%2020251130165919.png)
 
 
 **Codigo Fuente**.
@@ -95,7 +95,7 @@ Viendo el codigo fuente de la pagina se hace mucho mención a la versión `3.9.2
 
 Después de googlear para obtener mas informacion del CMS `Bludit` me encuentro que la ruta default para acceder al dashboard es `/admin/login`.
 
-![](../assets/Pasted%20image%2020251130171602.png)
+![](assets/Pasted%20image%2020251130171602.png)
 
 
 ## Explotación

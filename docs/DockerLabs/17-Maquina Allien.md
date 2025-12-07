@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #dockerlabs #smb #brute-force
 
-![](../assets/Pasted%20image%2020251110203526.png)
+![](assets/Pasted%20image%2020251110203526.png)
 
 ## Reconocimiento
 
@@ -65,7 +65,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80**
 
 - Simple pagina de login
-![](../assets/Pasted%20image%2020251110204129.png)
+![](assets/Pasted%20image%2020251110204129.png)
 
 Realizamos fuzzing para descubrir recursos:
 ```bash
@@ -83,11 +83,11 @@ Starting gobuster in directory enumeration mode
 **Info.php**
 
 - en _disable_functions_ no hay ninguna función deshabilitada
-![](../assets/Pasted%20image%2020251110204600.png)
+![](assets/Pasted%20image%2020251110204600.png)
 **productos.php**
 
 - Es al parecer la pagina principal, voy a suponer que es aquí a donde te redirigue cuando te logeas.
-![](../assets/Pasted%20image%2020251110204745.png)
+![](assets/Pasted%20image%2020251110204745.png)
 
 **Puertos 139, 445 Servicio SMB**
 
@@ -268,6 +268,6 @@ uid=0(root) gid=0(root) groups=0(root)
 
 ```
 
-![](../assets/Pasted%20image%2020251110214639.png)
+![](assets/Pasted%20image%2020251110214639.png)
 
 ***PWNED*

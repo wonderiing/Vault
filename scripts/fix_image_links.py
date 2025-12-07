@@ -1,25 +1,39 @@
 import os
 import re
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 DOCS_PATH = Path(__file__).parent.parent / "docs"
 
 def fix_image_links(content):
     """
-    Finds standard markdown image links and URL-encodes the path.
-    Example: ![](../assets/My Image.png) -> ![](../assets/My%20Image.png)
+    Finds standard markdown image links and fixes URL encoding.
+    Decodes any existing encoding first (including double encoding), then re-encodes properly.
+    Example: ![](assets/Pasted%2520image.png) -> ![](assets/Pasted%20image.png)
     """
     def replace_link(match):
         alt_text = match.group(1)
         url = match.group(2)
         
-        # Only encode if it looks like a local asset (contains "assets/")
+        # Only process if it looks like a local asset (contains "assets/")
         if "assets/" in url:
-            # We want to keep the directory structure but encode the filename
-            # or simply encode the whole path but keep slashes.
-            # safe='/:' keeps slashes and protocol chars if any (though these are local)
-            encoded_url = quote(url, safe="/.")
+            # Fix incorrect relative path from previous script version
+            # Change ../assets/ to assets/ if present
+            clean_url = url.replace("../assets/", "assets/")
+            
+            # IMPORTANT: Fully decode by calling unquote repeatedly until no more changes
+            # This handles double encoding: %2520 -> %20 -> space
+            decoded_url = clean_url
+            while True:
+                new_decoded = unquote(decoded_url)
+                if new_decoded == decoded_url:
+                    break  # No more decoding possible
+                decoded_url = new_decoded
+            
+            # Now encode properly (only once)
+            # safe="/" preserves the path separator
+            encoded_url = quote(decoded_url, safe="/")
+            
             if url != encoded_url:
                 print(f"    Fixed: {url} -> {encoded_url}")
             return f"![{alt_text}]({encoded_url})"
@@ -30,10 +44,11 @@ def fix_image_links(content):
     return re.sub(pattern, replace_link, content)
 
 def main():
-    print("🔧 Scanning for unencoded image links...")
+    print("Scanning for image links with incorrect encoding...")
     count = 0
     
     for md_file in DOCS_PATH.rglob("*.md"):
+        print(f"Processing: {md_file.name}")
         with open(md_file, 'r', encoding='utf-8') as f:
             content = f.read()
             
@@ -42,10 +57,12 @@ def main():
         if content != new_content:
             with open(md_file, 'w', encoding='utf-8') as f:
                 f.write(new_content)
-            print(f"✅ Updated: {md_file.name}")
+            print(f"[OK] Updated: {md_file.name}")
             count += 1
+        else:
+            print(f"  No changes needed")
             
-    print(f"\n✨ Done! Fixed links in {count} files.")
+    print(f"\nDone! Fixed links in {count} files.")
 
 if __name__ == "__main__":
     main()

@@ -38,9 +38,8 @@ def convert_obsidian_images(content, relative_path):
     """
     def replace_image(match):
         image_name = match.group(1)
-        # Calcular la ruta relativa correcta desde el archivo actual
-        depth = len(Path(relative_path).parts) - 1
-        prefix = "../" * depth if depth > 0 else ""
+        # The assets are in the same directory as the markdown file (in 'assets' subdir)
+        # So we don't need relative path calculation like ../
         
         # URL encode the image name to handle spaces
         encoded_name = quote(image_name)

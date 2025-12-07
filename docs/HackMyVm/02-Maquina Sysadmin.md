@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #path-hijacking #file-upload #command-hijacking
 
- ![](../assets/Pasted%20image%2020251124205441.png)
+ ![](assets/Pasted%20image%2020251124205441.png)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
@@ -61,7 +61,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Al parecer es una subida de archivos, que acepta extensiones tipo c.
 
-![](../assets/Pasted%20image%2020251124210144.png)
+![](assets/Pasted%20image%2020251124210144.png)
 
 - Source Code: En el codigo fuente podemos ver un comentario algo interesante:
 

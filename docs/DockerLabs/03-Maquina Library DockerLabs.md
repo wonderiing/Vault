@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #brute-force #dockerlabs
 
-![](../assets/Pasted%20image%2020251103001202.png)
+![](assets/Pasted%20image%2020251103001202.png)
 ## Reconocimiento
 
 Empezamos Listando los puertos abiertos TCP del objetivo:
@@ -44,7 +44,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80 HTTP**
 
 - Es la web default de apache, lo cual no nos dice mucho
-![](../assets/Pasted%20image%2020251031194304.png)
+![](assets/Pasted%20image%2020251031194304.png)
 
 ## Enumeración
 
@@ -62,7 +62,7 @@ Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recur
 
 Dentro del archivo `index.php` pudimos encontrar una credencial:
 _JIFGHDS87GYDFIGD_ Podemos intuir que esta es la credencial de acceso del servicio SSH
-![](../assets/Pasted%20image%2020251031192525.png)
+![](assets/Pasted%20image%2020251031192525.png)
 
 ## Explotación
 
@@ -79,7 +79,7 @@ Realizamos un ataque de fuerza bruta sobre el servicio SSH para descubrir el usu
 
 
 Accedemos al servicio SSH con el usuario _carlos_ 
-![](../assets/Pasted%20image%2020251031192744.png)
+![](assets/Pasted%20image%2020251031192744.png)
 
 
 ## Escalada de Privilegios
@@ -135,5 +135,5 @@ Procedemos a ejecutar el `script.py`
 ```
 
 Ya somos root:
-![](../assets/Pasted%20image%2020251031194151.png)
+![](assets/Pasted%20image%2020251031194151.png)
 

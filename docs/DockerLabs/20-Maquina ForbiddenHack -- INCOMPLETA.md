@@ -41,11 +41,11 @@ MAC Address: E2:21:3D:14:26:FA (Unknown)
 **Puerto 80 HTTP**
 - Nos encontramos con un dominio raro, que no lleva a nada por lo cual lo metemos al /etc/hosts
 - bypass403.pw
-![](../assets/Pasted%20image%2020251111232350.png)
+![](assets/Pasted%20image%2020251111232350.png)
 
 **bypass403.pw**
 Cuando accedemos al recurso, podemos ver que nos da un 403 Forbidden
-![](../assets/Pasted%20image%2020251111232421.png)
+![](assets/Pasted%20image%2020251111232421.png)
 
 ## Explotación
 
@@ -69,7 +69,7 @@ Priority: u=0, i
 
 La petición nos da como resultado esto:
 - Al parecer conseguimos bypassear el 403
-![](../assets/Pasted%20image%2020251111232852.png)
+![](assets/Pasted%20image%2020251111232852.png)
 
 Ahora, podemos aplicar fuzzing, en este caso yo hice fuzzing de parámetros con `ffuf` para ver si existía algún parametro vulnerable que me permitiera volcar los archivos mediante un LFI.
 ```bash

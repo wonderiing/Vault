@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #credential-leak #ssh #dockerlabs
  
-![](../assets/Pasted%20image%2020251108153451.png)
+![](assets/Pasted%20image%2020251108153451.png)
 
 ## Reconocimiento
 
@@ -57,10 +57,10 @@ MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 **Puerto 80**
 
 - Es una pagina web de un perrito que esta cabron.
-![](../assets/Pasted%20image%2020251108154912.png)
+![](assets/Pasted%20image%2020251108154912.png)
 
 En su codigo fuente lo mas relevante son los _script.js_
-![](../assets/Pasted%20image%2020251108165633.png)
+![](assets/Pasted%20image%2020251108165633.png)
 
 
 Procedí a realizar fuzzing para ver que mas podía encontrar
@@ -96,7 +96,7 @@ Le di una leída al _script.js_ y encontré esta parte de codigo:
 
 Lo segundo que me llamo la atención fue el directorio _whoami_
 - Al parecer no tenia nada interesante
-![](../assets/Pasted%20image%2020251108160610.png)
+![](assets/Pasted%20image%2020251108160610.png)
 
 Ahora, sabiendo que existe un archivo visible llamado `.env_de_baluchingon` mi idea era tratar de listarlo en todos los directorios para ver si alguno me lo volcaba. Entonces procedi a listarlo desde la raíz para ver si tenia suerte.
 ```bash
@@ -104,7 +104,7 @@ http://172.17.0.2/.env_de_baluchingon
 ```
 
 Y al parecer tuve suerte a la primera
-![](../assets/Pasted%20image%2020251108160744.png)
+![](assets/Pasted%20image%2020251108160744.png)
 
 Procedo a conectarme mediante `SSH` con las credenciales lekeadas. 
 

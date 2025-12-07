@@ -3,7 +3,7 @@ Propiedades:
 - Plataforma: DockerLabs
 - Nivel: Easy
 - Tags: #ssh #lfi #dockerlabs
-![](../assets/Pasted%20image%2020251103001153.png)
+![](assets/Pasted%20image%2020251103001153.png)
 ## Reconocimiento
 
 Empezamos tirando un reconocimiento a la maquina para verificar sus puertos abiertos:
@@ -42,7 +42,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80 Apache**
 
 - Vemos una pagina creada por un tal Luisillo pero nada de informacion relevante
-![](../assets/Pasted%20image%2020251101210028.png)
+![](assets/Pasted%20image%2020251101210028.png)
 
 
 ## Enumeración
@@ -59,7 +59,7 @@ Starting gobuster in directory enumeration mode
 ```
 
 Lo primero que me llama la atención es la carpeta assets pero no encontramos nada
-![](../assets/Pasted%20image%2020251101210542.png)
+![](assets/Pasted%20image%2020251101210542.png)
 
 Por lo que nos fijamos en el `index.php` que al parecer solo llama y hace referencia a la pagina principal, por lo que procedemos a hacer fuzzing para encontrar posibles parámetros:
 
@@ -84,7 +84,7 @@ Haciendo uso del parametro `secret` probamos con un Local File Inclution
 
 Efectivamente la web es vulnerable a Local File Inclution y nos vuelca el contenido del _/etc/passwd_
 - Notamos 2 usuarios aparte de root los cuales son _vaxei_ y _lusillo_
-![](../assets/Pasted%20image%2020251101211127.png)
+![](assets/Pasted%20image%2020251101211127.png)
 
 Lo primero que hicimos fue realizar un ataque fuerza bruta con Hydra al servicio _ssh_  pero no obtuvimos ningún resultado. Por lo cual optamos por tratar de volcar el contenido de las claves _.rsa_ de los dos usuarios
 
@@ -93,7 +93,7 @@ Lo primero que hicimos fue realizar un ataque fuerza bruta con Hydra al servicio
 ```
 
 Efectivamente la clave _.rsa_ de vaxei estaba expuesta
-![](../assets/Pasted%20image%2020251101211411.png)
+![](assets/Pasted%20image%2020251101211411.png)
 
 Con la clave _rsa_ guardada en nuestro sistema procedimos a darle permisos y a conectarnos mediante _ssh_
 
@@ -120,7 +120,7 @@ Procedimos a explotar el binario _perl_
 > sudo -u luisillo /usr/bin/perl -e 'exec "/bin/sh";' 
 ```
 
-![](../assets/Pasted%20image%2020251101212006.png)
+![](assets/Pasted%20image%2020251101212006.png)
 
 Denuevo realizamos el mismo proceso de buscar binarios con permisos de ejecución:
 
@@ -131,7 +131,7 @@ User luisillo may run the following commands on 2dfea34fe709:
 ```
 
 Encontramos un script en python que procedimos a inspeccionar y ejecutar para saber que hacia:
-![](../assets/Pasted%20image%2020251101212209.png)
+![](assets/Pasted%20image%2020251101212209.png)
 
 El script aparentemente llama a un modulo llamado `subprocess` que no existe, por lo cual procedimos a realizar un **Python Library Hijacking** que se va a encargar de ejecutar una bash con permiso root
 
@@ -148,4 +148,4 @@ $ sudo -u root /usr/bin/python3 /opt/paw.py
 ```
 
 Somos root:
-![](../assets/Pasted%20image%2020251101212443.png)
+![](assets/Pasted%20image%2020251101212443.png)

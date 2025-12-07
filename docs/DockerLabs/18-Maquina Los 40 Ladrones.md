@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #port-knocking #ssh #brute-force
 
-![](../assets/Pasted%20image%2020251111220929.png)
+![](assets/Pasted%20image%2020251111220929.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -48,7 +48,7 @@ MAC Address: 72:F4:83:41:09:BF (Unknown)
 **Puerto 80 HTTP**
 
 - Pagina default de apache2
-![](../assets/Pasted%20image%2020251111213632.png)
+![](assets/Pasted%20image%2020251111213632.png)
 
 Procedo a realizar fuzzing con gobuster para descubrir recursos ocultos.
 - Aquí me encuentro el archivo _qdefense.txt_
@@ -72,7 +72,7 @@ Starting gobuster in directory enumeration mode
 **qdefense.txt**
 
 - lo importante aquí es el _toctoc 7000 8000 9000_. Sabiendo que nmap solo pudo identificar un puerto abierto esta frase me hace pensar que pueda existir algun puerto que pueda descubrir a traves del Port Knocking y que toctoc sea algun usuario.
-![](../assets/Pasted%20image%2020251111213750.png)
+![](assets/Pasted%20image%2020251111213750.png)
 
 **Port Knocking**
 El Port knocking es una técnica para ocultar un puerto detras de una "contraseña" que consiste en una secuencia de conexiones de red a puertos específicos para que el puerto objetivo se abra momentáneamente a nuestra IP.
@@ -121,7 +121,7 @@ Procedo a conectarme
 > ssh toctoc@172.17.0.2
 ```
 
-![](../assets/Pasted%20image%2020251111220554.png)
+![](assets/Pasted%20image%2020251111220554.png)
 ## Escalada de Privilegios
 
 Procedo a enumerar binarios con privilegios de SUDO:
@@ -142,6 +142,6 @@ Ahora con ayuda de GTFObins exploto el binario bash para escalar a root:
 > toctoc@c561ed7e00d4:~$ sudo /opt/bash
 ```
 
-![](../assets/Pasted%20image%2020251111220534.png)
+![](assets/Pasted%20image%2020251111220534.png)
 
 ***PWNED**

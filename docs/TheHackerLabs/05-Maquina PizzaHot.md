@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #bruteforce #sudo
 
-![](../assets/Pasted%20image%2020251205153349.png)
+![](assets/Pasted%20image%2020251205153349.png)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -65,7 +65,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Al parecer es una pagina de pizzas.
 
-![](../assets/Pasted%20image%2020251205155527.png)
+![](assets/Pasted%20image%2020251205155527.png)
 
 **Source Code.**
 
