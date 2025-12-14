@@ -159,8 +159,11 @@ nav:
       - Maquina Thirteen: HackMyVm/03-Maquina Thirteen.md
     - HackTheBox:
       - Inicio: HackTheBox/index.md
-      - Maquina GetSimple: HackTheBox/02-GetSimple HackTheBox Academy Machine.md
       - Maquina Cap: HackTheBox/01-Maquina Cap.md
+      - Maquina GetSimple: HackTheBox/02-GetSimple HackTheBox Academy Machine.md
+      - Maquina Lame: HackTheBox/04-Maquina Lame.md
+      - Maquina Jerry: HackTheBox/05-Maquina Jerry.md
+      - Maquina Sau: HackTheBox/06-Maquina Sau.md
     - TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
