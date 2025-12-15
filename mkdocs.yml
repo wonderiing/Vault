@@ -164,6 +164,9 @@ nav:
       - Maquina Lame: HackTheBox/04-Maquina Lame.md
       - Maquina Jerry: HackTheBox/05-Maquina Jerry.md
       - Maquina Sau: HackTheBox/06-Maquina Sau.md
+      - Maquina GoodGames: HackTheBox/07-Maquina GoodGames.md
+      - Maquina Devvortex: HackTheBox/08-Maquina Devvortex.md
+      - Maquina Precious: HackTheBox/09-Maquina Precious.md
     - TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
