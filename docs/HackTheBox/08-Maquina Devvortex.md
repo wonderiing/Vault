@@ -266,7 +266,7 @@ $
 
 
 
-## Escalada de Privilegios
+## Escalada de privilegios usuario logan
 
 Dentro del sistema me topo con el archivo `configuration.php`
 
@@ -325,17 +325,18 @@ show tables;
 +-------------------------------+
 ```
 
-- Listo el contenido de la tabla sd4fg_users
+- Listo el contenido de la tabla sd4fg_users 
+
 ```bash
 mysql> select * from sd4fg_users;
+
+# Aqui el output se bugeo full por alguna razon
+
+logan:logan@devvortex.htb:$2y$10$IT4k5kmSGvHSO9d6M/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12
+
 ```
 
-| id  | name       | username | email               | password                                                       | block | sendEmail | registerDate        | lastvisitDate       | activation | params                                                                                                                                                    | lastResetTime | resetCount | otpKey | otep | requireReset | authProvider |
-| --- | ---------- | -------- | ------------------- | -------------------------------------------------------------- | ----- | --------- | ------------------- | ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------ | ---- | ------------ | ------------ |
-| 649 | lewis      | lewis    | lewis@devvortex.htb | `$2y$10$6V52x.SD8Xc7hNlVwUTrI.ax4BIAYuhVBMVvnYWRceBmy8XdEzm1u` | 0     | 1         | 2023-09-25 16:44:24 | 2025-12-15 00:31:29 | 0          |                                                                                                                                                           | NULL          | 0          |        |      | 0            |              |
-| 650 | logan paul | logan    | logan@devvortex.htb | `$2y$10$IT4k5kmSGvHSO9d6M/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12` | 0     | 0         | 2023-09-26 19:15:42 | NULL                |            | `{"admin_style":"","admin_language":"","language":"","editor":"","timezone":"","a11y_mono":"0","a11y_contrast":"0","a11y_highlight":"0","a11y_font":"0"}` | NULL          | 0          |        |      | 0            |              |
-
-Nos encontramos con un usuario `logan` el cual podemos verificar que si existe por su directorio `home` y su aparicion en el `/etc/passwd`
+Nos encontramos con un usuario `logan` el cual podemos verificar que si existe por su directorio `home` y su aparición en el `/etc/passwd`
 
 ```bash
 www-data@devvortex:~$ cat /etc/passwd | grep logan
@@ -345,9 +346,9 @@ logan:x:1000:1000:,,,:/home/logan:/bin/bash
 
 Ahora tenemos las credenciales
 
-- logan:$2y$10$IT4k5kmSGvHSO9d6M/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12
+- logan:$2y$10$IT4k5kmSGvHSO9d6M/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12 
 
-Con ayuda de [hashes.com](hashes.com) crackeamos el hash.
+Con ayuda de [hashes.com](hashes.com) crackeamos el hash. 
 
 ![](assets/Pasted%20image%2020251214190526.png)
 
@@ -364,6 +365,8 @@ logan@devvortex:/var/www$ id
 id
 uid=1000(logan) gid=1000(logan) groups=1000(logan
 ```
+
+## Escalada a root.
 
 Enumere binarios que pudiera ejecutar como root y me encuentro con esto.
 
