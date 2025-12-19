@@ -168,6 +168,9 @@ nav:
       - Maquina Devvortex: HackTheBox/08-Maquina Devvortex.md
       - Maquina Precious: HackTheBox/09-Maquina Precious.md
       - Maquina Nibbles: HackTheBox/10-Maquina Nibbles.md
+      - Maquina Busqueda: HackTheBox/11-Maquina Busqueda.md
+      - Maquina BoardLight: HackTheBox/12-Maquina BoardLight.md
+      - Maquina Editor: HackTheBox/13-Maquina Editor.md
     - TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
