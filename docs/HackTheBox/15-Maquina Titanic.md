@@ -1,4 +1,3 @@
-
 Propiedades:
 - OS: Linux 
 - Plataforma: HackTheBox
