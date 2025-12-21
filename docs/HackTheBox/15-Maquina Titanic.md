@@ -3,7 +3,7 @@ Propiedades:
 - OS: Linux 
 - Plataforma: HackTheBox
 - Nivel: Easy
-- Tags: #gitea
+- Tags: #gitea #lfi #path-traversal #path-hijacking #magick 
 
 
 ![](assets/Pasted%20image%2020251220231520.png)
@@ -186,7 +186,51 @@ Me encontré 2 repositorios.
 
 ![](assets/Pasted%20image%2020251220210639.png)
 
-Y 2 usuarios.
+**Repositorio docker-config.**
+
+Aqui encontramos 2 `docker-compose`
+
+- Docker compose de **Gitea** nos muestra la path de su instalación.
+
+```yaml
+version: '3'
+
+services:
+  gitea:
+    image: gitea/gitea
+    container_name: gitea
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:2222:22"  # Optional for SSH access
+    volumes:
+      - /home/developer/gitea/data:/data # Replace with your path
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+```
+
+- Docker compose de `mysql` nos muestra la password de la base de datos.
+
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'MySQLP@$$w0rd!'
+      MYSQL_DATABASE: tickets 
+      MYSQL_USER: sql_svc
+      MYSQL_PASSWORD: sql_password
+    restart: always
+```
+
+
+También encontramos 2 usuarios.
 
 ![](assets/Pasted%20image%2020251220210654.png)
 
@@ -212,7 +256,7 @@ Lo primero que intente fue un LFI y funciono correctamente.
 
 ![](assets/Pasted%20image%2020251220212410.png)
 
-Ahora, anteriormente descubrimos 2 repositorios en el **Gitea**. El repositorio **docker-config** contenía un archivo **docker-compose.yml** donde nos mostraba donde estaba la ruta de instalación de Gitea.
+Ahora anteriormente descubrimos que el repositorio **docker-config** contenía un archivo **docker-compose.yml** donde nos mostraba donde estaba la ruta de instalación de Gitea.
 
 - /home/developer/gitea/data 
 
