@@ -310,7 +310,7 @@ Por lo cual ahora voy a tratar de conectarme con `rpcclient` para ver si puedo e
 
 - `querydispinfo` para ver la descripción de los usuarios.
 
- ```bash
+```bash
 > rpcclient -U michael.wrightson 10.129.16.14
 
 rpcclient $> querydispinfo
