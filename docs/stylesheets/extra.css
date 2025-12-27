@@ -24,6 +24,37 @@
 /* ============================================
    LAYOUT & SIDEBAR
    ============================================ */
+
+/* Maximize content width - Better space utilization */
+.md-grid {
+    max-width: 95%;
+    /* Use 95% of screen width instead of default ~1220px */
+}
+
+/* For very large screens, set a reasonable max */
+@media screen and (min-width: 1920px) {
+    .md-grid {
+        max-width: 1800px;
+    }
+}
+
+/* Adjust content container */
+.md-content {
+    max-width: none;
+    /* Remove default max-width restriction */
+}
+
+/* Optimize sidebar widths */
+.md-sidebar--primary {
+    width: 15rem;
+    /* Slightly wider for better navigation */
+}
+
+.md-sidebar--secondary {
+    width: 15rem;
+    /* Table of contents sidebar */
+}
+
 .md-main__inner {
     margin-top: 0;
 }
