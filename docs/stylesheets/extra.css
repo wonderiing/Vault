@@ -1,65 +1,47 @@
-/* ============================================
-   GITBOOK STYLE - wonderiing (wndr23)
-   Clean, flat, and focused design
-   ============================================ */
-
 :root {
     --md-text-font-family: "Inter", sans-serif;
     --md-code-font-family: "Roboto Mono", monospace;
     --gitbook-blue: #3b82f6;
-    /* Common highlight color */
     --gitbook-border: #e5e7eb;
 }
 
 [data-md-color-scheme="slate"] {
     --md-hue: 220;
     --md-default-bg-color: #0d1117;
-    /* GitHub Dark dim */
     --md-default-fg-color: #c9d1d9;
     --md-default-fg-color--light: #8b949e;
     --md-code-bg-color: #161b22;
     --gitbook-border: #30363d;
 }
 
-/* ============================================
-   LAYOUT & SIDEBAR
-   ============================================ */
+/* LAYOUT & SIDEBAR */
 
-/* Maximize content width - Better space utilization */
 .md-grid {
     max-width: 95%;
-    /* Use 95% of screen width instead of default ~1220px */
 }
 
-/* For very large screens, set a reasonable max */
 @media screen and (min-width: 1920px) {
     .md-grid {
         max-width: 1800px;
     }
 }
 
-/* Adjust content container */
 .md-content {
     max-width: none;
-    /* Remove default max-width restriction */
 }
 
-/* Optimize sidebar widths */
 .md-sidebar--primary {
     width: 15rem;
-    /* Slightly wider for better navigation */
 }
 
 .md-sidebar--secondary {
     width: 15rem;
-    /* Table of contents sidebar */
 }
 
 .md-main__inner {
     margin-top: 0;
 }
 
-/* Sidebar styling - Cleaner look */
 .md-sidebar {
     border-right: 1px solid var(--gitbook-border);
 }
@@ -77,11 +59,16 @@
     color: var(--gitbook-blue);
 }
 
-/* ============================================
-   TYPOGRAPHY & CONTENT
-   ============================================ */
+/* TYPOGRAPHY & CONTENT */
+
+.md-typeset {
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
 .md-typeset h1 {
     font-weight: 800;
+    font-size: 1.6rem;
     letter-spacing: -0.025em;
     margin-bottom: 1.5rem;
     color: var(--md-default-fg-color);
@@ -89,40 +76,41 @@
 
 .md-typeset h2 {
     font-weight: 700;
+    font-size: 1.25rem;
     letter-spacing: -0.015em;
     margin-top: 2.5em;
     border-bottom: 0;
-    /* Remove underline */
 }
 
-/* ============================================
-   CODE BLOCKS - ENHANCED SYNTAX HIGHLIGHTING
-   ============================================ */
+.md-typeset h3 {
+    font-size: 1.05rem;
+}
 
-/* Code block container - Dark black like Gitbook */
+.md-typeset h4 {
+    font-size: 0.9rem;
+}
+
+/* CODE BLOCKS */
+
 .md-typeset pre {
     border-radius: 6px;
     border: 1px solid var(--gitbook-border);
     background-color: #1e1e1e !important;
-    /* Dark black like Gitbook */
 }
 
 [data-md-color-scheme="default"] .md-typeset pre {
     background-color: #f6f8fa !important;
-    /* Light mode */
 }
 
-/* Code content */
 .md-typeset pre>code {
     background-color: transparent;
+    font-size: 0.85rem;
 }
 
-/* Copy button */
 .md-clipboard {
     color: var(--md-default-fg-color--light);
 }
 
-/* Inline code */
 .md-typeset code {
     border-radius: 4px;
     padding: 0.2em 0.4em;
@@ -131,78 +119,57 @@
     font-size: 0.85em;
 }
 
-/* ============================================
-   BASH SYNTAX HIGHLIGHTING IMPROVEMENTS
-   ============================================ */
+/* SYNTAX HIGHLIGHTING */
 
-/* Bash prompts (>) - Make them stand out */
 .highlight .gp {
     color: #66d9ef !important;
-    /* Cyan for prompts */
     font-weight: 600;
     user-select: none;
-    /* Don't select prompts when copying */
 }
 
-/* Comments in code */
 .highlight .c,
 .highlight .c1,
 .highlight .cm {
     color: #75715e !important;
-    /* Muted gray for comments */
     font-style: italic;
 }
 
-/* Strings */
 .highlight .s,
 .highlight .s1,
 .highlight .s2,
 .highlight .se {
     color: #e6db74 !important;
-    /* Yellow for strings */
 }
 
-/* Keywords and built-ins */
 .highlight .k,
 .highlight .kn,
 .highlight .nb {
     color: #f92672 !important;
-    /* Pink for keywords */
     font-weight: 500;
 }
 
-/* Functions and commands */
 .highlight .nf,
 .highlight .fm {
     color: #a6e22e !important;
-    /* Green for functions */
 }
 
-/* Numbers */
 .highlight .m,
 .highlight .mi,
 .highlight .mf {
     color: #ae81ff !important;
-    /* Purple for numbers */
 }
 
-/* Variables */
 .highlight .nv,
 .highlight .vc {
     color: #fd971f !important;
-    /* Orange for variables */
 }
 
-/* Operators */
 .highlight .o {
     color: #f92672 !important;
-    /* Pink for operators */
 }
 
-/* Light mode adjustments */
 [data-md-color-scheme="default"] .highlight .gp {
     color: #0969da !important;
-    /* Blue prompts in light mode */
 }
 
 [data-md-color-scheme="default"] .highlight .c,
@@ -226,16 +193,14 @@
     color: #6f42c1 !important;
 }
 
-/* ============================================
-   ADMONITIONS (Callouts)
-   ============================================ */
+/* ADMONITIONS */
+
 .md-typeset .admonition {
     border: none;
     border-left: 4px solid;
     border-radius: 4px;
     box-shadow: none;
     background-color: transparent;
-    /* Cleaner look */
 }
 
 .md-typeset .admonition.note {
@@ -258,13 +223,13 @@
     background-color: rgba(239, 68, 68, 0.05);
 }
 
-/* ============================================
-   TABLES
-   ============================================ */
+/* TABLES */
+
 .md-typeset table:not([class]) {
     box-shadow: none;
     border: 1px solid var(--gitbook-border);
     border-radius: 6px;
+    font-size: 0.9rem;
 }
 
 .md-typeset table:not([class]) th {
@@ -272,27 +237,24 @@
     font-weight: 600;
 }
 
-/* ============================================
-   IMAGES
-   ============================================ */
+/* IMAGES */
+
 .md-content img {
     border-radius: 6px;
     border: 1px solid var(--gitbook-border);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* ============================================
-   SEARCH
-   ============================================ */
+/* SEARCH */
+
 .md-search__input {
     border-radius: 6px;
     background-color: var(--md-default-bg-color);
     border: 1px solid var(--gitbook-border);
 }
 
-/* ============================================
-   CUSTOM - HERO SECTION (If still used)
-   ============================================ */
+/* HERO SECTION */
+
 .hero-section {
     background: transparent;
     border: 1px solid var(--gitbook-border);
@@ -314,21 +276,16 @@
     transform: translateY(-2px);
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
+/* RESPONSIVE DESIGN */
 
-/* Tablets and smaller laptops (768px - 1024px) */
 @media screen and (max-width: 1024px) {
     .md-grid {
         max-width: 98%;
-        /* Use more space on tablets */
     }
 
     .md-sidebar--primary,
     .md-sidebar--secondary {
         width: 12rem;
-        /* Narrower sidebars */
     }
 
     .md-typeset h1 {
@@ -339,20 +296,17 @@
         font-size: 1.5rem;
     }
 
-    /* Reduce padding in code blocks */
     .md-typeset pre {
         padding: 0.8rem;
     }
 }
 
-/* Mobile landscape and small tablets (481px - 767px) */
 @media screen and (max-width: 767px) {
     .md-grid {
         max-width: 100%;
         padding: 0 1rem;
     }
 
-    /* Typography adjustments */
     .md-typeset h1 {
         font-size: 1.6rem;
         margin-bottom: 1rem;
@@ -367,12 +321,10 @@
         font-size: 1.1rem;
     }
 
-    /* Code blocks - Better mobile experience */
     .md-typeset pre {
         font-size: 0.75rem;
         padding: 0.6rem;
         overflow-x: auto;
-        /* Enable horizontal scroll */
     }
 
     .md-typeset code {
@@ -380,37 +332,31 @@
         word-break: break-word;
     }
 
-    /* Tables - Make them scrollable */
     .md-typeset table:not([class]) {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
 
-    /* Images - Full width on mobile */
     .md-content img {
         max-width: 100%;
         height: auto;
     }
 
-    /* Admonitions - Less padding */
     .md-typeset .admonition {
         padding: 0.6rem 0.8rem;
         margin: 1rem 0;
     }
 
-    /* Hero section - Stack on mobile */
     .hero-section {
         padding: 1.5rem;
     }
 
     .category-grid {
         grid-template-columns: 1fr;
-        /* Single column on mobile */
     }
 }
 
-/* Mobile portrait (320px - 480px) */
 @media screen and (max-width: 480px) {
     .md-grid {
         padding: 0 0.5rem;
@@ -429,51 +375,44 @@
         font-size: 1rem;
     }
 
-    /* Even smaller code on very small screens */
     .md-typeset pre {
         font-size: 0.7rem;
         padding: 0.5rem;
     }
 
-    /* Inline code */
     .md-typeset code {
         font-size: 0.75em;
         padding: 0.15em 0.3em;
     }
 
-    /* Search bar */
     .md-search__input {
         font-size: 0.9rem;
     }
 
-    /* Navigation - Better touch targets */
     .md-nav__link {
         padding: 0.6rem 0.8rem;
     }
 }
 
-/* Large screens - Optimize reading experience */
 @media screen and (min-width: 1440px) {
     .md-typeset {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 0.85rem;
+        line-height: 1.65;
     }
 
     .md-typeset h1 {
-        font-size: 2.5rem;
+        font-size: 1.75rem;
     }
 
     .md-typeset h2 {
-        font-size: 2rem;
+        font-size: 1.35rem;
     }
 
-    /* Prevent code blocks from being too wide */
     .md-typeset pre {
         max-width: 100%;
     }
 }
 
-/* Print styles - Bonus for documentation */
 @media print {
 
     .md-sidebar,
