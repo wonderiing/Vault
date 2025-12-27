@@ -313,3 +313,181 @@
     border-color: var(--gitbook-blue);
     transform: translateY(-2px);
 }
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets and smaller laptops (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+    .md-grid {
+        max-width: 98%;
+        /* Use more space on tablets */
+    }
+
+    .md-sidebar--primary,
+    .md-sidebar--secondary {
+        width: 12rem;
+        /* Narrower sidebars */
+    }
+
+    .md-typeset h1 {
+        font-size: 1.8rem;
+    }
+
+    .md-typeset h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Reduce padding in code blocks */
+    .md-typeset pre {
+        padding: 0.8rem;
+    }
+}
+
+/* Mobile landscape and small tablets (481px - 767px) */
+@media screen and (max-width: 767px) {
+    .md-grid {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    /* Typography adjustments */
+    .md-typeset h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .md-typeset h2 {
+        font-size: 1.3rem;
+        margin-top: 1.5em;
+    }
+
+    .md-typeset h3 {
+        font-size: 1.1rem;
+    }
+
+    /* Code blocks - Better mobile experience */
+    .md-typeset pre {
+        font-size: 0.75rem;
+        padding: 0.6rem;
+        overflow-x: auto;
+        /* Enable horizontal scroll */
+    }
+
+    .md-typeset code {
+        font-size: 0.8em;
+        word-break: break-word;
+    }
+
+    /* Tables - Make them scrollable */
+    .md-typeset table:not([class]) {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Images - Full width on mobile */
+    .md-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Admonitions - Less padding */
+    .md-typeset .admonition {
+        padding: 0.6rem 0.8rem;
+        margin: 1rem 0;
+    }
+
+    /* Hero section - Stack on mobile */
+    .hero-section {
+        padding: 1.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
+    }
+}
+
+/* Mobile portrait (320px - 480px) */
+@media screen and (max-width: 480px) {
+    .md-grid {
+        padding: 0 0.5rem;
+    }
+
+    .md-typeset h1 {
+        font-size: 1.4rem;
+        letter-spacing: -0.02em;
+    }
+
+    .md-typeset h2 {
+        font-size: 1.2rem;
+    }
+
+    .md-typeset h3 {
+        font-size: 1rem;
+    }
+
+    /* Even smaller code on very small screens */
+    .md-typeset pre {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+    }
+
+    /* Inline code */
+    .md-typeset code {
+        font-size: 0.75em;
+        padding: 0.15em 0.3em;
+    }
+
+    /* Search bar */
+    .md-search__input {
+        font-size: 0.9rem;
+    }
+
+    /* Navigation - Better touch targets */
+    .md-nav__link {
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+/* Large screens - Optimize reading experience */
+@media screen and (min-width: 1440px) {
+    .md-typeset {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .md-typeset h1 {
+        font-size: 2.5rem;
+    }
+
+    .md-typeset h2 {
+        font-size: 2rem;
+    }
+
+    /* Prevent code blocks from being too wide */
+    .md-typeset pre {
+        max-width: 100%;
+    }
+}
+
+/* Print styles - Bonus for documentation */
+@media print {
+
+    .md-sidebar,
+    .md-header,
+    .md-footer {
+        display: none;
+    }
+
+    .md-content {
+        max-width: 100%;
+    }
+
+    .md-typeset pre {
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+}
