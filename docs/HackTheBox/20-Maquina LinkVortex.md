@@ -2,7 +2,7 @@ Propiedades:
 - OS: Linux
 - Plataforma: HackTheBox
 - Nivel: Easy
-- Tags:
+- Tags: #ghost #git #subdomain-enumeration #CVE-2023-40028 #symlinks
 
 ![](assets/Pasted%20image%2020251225212310.png)
 
