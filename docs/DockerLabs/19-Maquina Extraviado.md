@@ -2,12 +2,14 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #dockerlabs #ssh #chatgpt
+- Tags: #base64 #password-reuse #riddle
 
 ![](assets/Pasted%20image%2020251111230145.png)
+
 ## Reconocimiento
 
-Comienzo con un ping para comprobar conectividad:
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
@@ -18,7 +20,8 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 2.441/2.441/2.441/0.000 ms
 ```
 
-Realizo un escaneo con nmap para ver que puertos están abiertos:
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > nmap -p- --open -sS -n -Pn --min-rate 5000 172.17.0.2
 ---------------------------------------------------------
@@ -28,9 +31,10 @@ PORT   STATE SERVICE
 MAC Address: 3A:DD:05:B2:4F:BB (Unknown)
 ```
 
-- Puerto 80 HTTP y 22 SSH.
+- Puertos 22 y 80 abiertos.
 
-Realizo un segundo escaneo sobre los puertos abiertos para ver que versiones y servicios están corriendo.
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 > nmap -p 80,22 -sS -sC -sV -Pn -n --min-rate 5000 172.17.0.2 -oN target.txt
 -------------------------------------------------------------------------------
@@ -46,33 +50,50 @@ MAC Address: 3A:DD:05:B2:4F:BB (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-- Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13.5
-- Puerto 80 HTTP: Apache httpd 2.4.58
+- Puerto 22 SSH OpenSSH 9.6p1 Ubuntu 3ubuntu13.5
+- Puerto 80 HTTP Apache httpd 2.4.58
 
 ## Enumeración
 
-**Puerto 80 HTTP**
+### Puerto 80 HTTP
 
-- Pagina default de apache2. Al final de la pagina esta esta cadena:
-` #.........................................................................................................ZGFuaWVsYQ== : Zm9jYXJvamE= `
+La página principal muestra la página por defecto de Apache2. Al final de la página encuentro una cadena codificada.
+
+```
+#.........................................................................................................ZGFuaWVsYQ== : Zm9jYXJvamE=
+```
 
 ![](assets/Pasted%20image%2020251111223116.png)
 
+La cadena parece estar codificada en Base64. Utilizo Burp Suite para decodificarla.
 
-Al Parecer es una cadena codificada en base64, por lo cual procedo a decodificarla con burpsuite
 ![](assets/Pasted%20image%2020251111223301.png)
-- Al parecer son credenciales, supongo que para el ssh daniela:focaroja
 
-Me conecto por SSH
-```
+- Credenciales decodificadas: `daniela:focaroja`
+
+### Acceso SSH
+
+Me conecto por SSH con las credenciales encontradas.
+
+```bash
 > ssh daniela@172.17.0.2
+daniela@172.17.0.2's password: focaroja
+Welcome to Ubuntu 24.04.1 LTS (GNU/Linux 6.12.32-amd64 x86_64)
+
+daniela@dockerlabs:~$ whoami
+daniela
+daniela@dockerlabs:~$ id
+uid=1000(daniela) gid=1000(daniela) groups=1000(daniela)
 ```
 
 ![](assets/Pasted%20image%2020251111223633.png)
 
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hago es listar los recursos
+### Migración al usuario diego
+
+Dentro del sistema enumero el contenido del directorio home.
+
 ```bash
 > daniela@dockerlabs:~$ ls -la
 total 12
@@ -87,12 +108,13 @@ drwxrwxr-x 1 daniela daniela   18 Jan  9  2025 .secreto
 drwxrwxr-x 1 daniela daniela    8 Jan  9  2025 Desktop
 ```
 
-- Aquí es donde veo la carpeta .secreto
+- Encuentro un directorio oculto `.secreto`
 
-En esta carpeta se encuentra un archivo llamado _passdiego_ que supongo que serán las credenciales para el usuario diego
+Dentro del directorio encuentro un archivo llamado `passdiego`.
+
 ![](assets/Pasted%20image%2020251111223755.png)
 
-La contraseña al parecer esta codificada en base64 por lo cual procedo a decodificarla
+La contraseña parece estar codificada en Base64. La decodifico.
 
 ```bash
 > echo "YmFsbGVuYW5lZ3Jh" | base64 -d; echo
@@ -100,12 +122,23 @@ La contraseña al parecer esta codificada en base64 por lo cual procedo a decodi
 ballenanegra
 ```
 
-- Credenciales son diego:ballenanegra
+- Credenciales: `diego:ballenanegra`
 
-Al migrar al usuario diego y después de buscar bastante me encuentro con este archivo llamado ".-" en la carpeta /.local/share :
-- Al parecer es un acertijo del cual no tengo ni idea
+Migro al usuario `diego`.
+
 ```bash
->diego@dockerlabs:~/.local/share$ ls -la
+> daniela@dockerlabs:~$ su diego
+Password: ballenanegra
+diego@dockerlabs:/home/daniela$ whoami
+diego
+```
+
+### Escalada a Root gracias a chat gpt
+
+Después de explorar el sistema como `diego`, encuentro un archivo llamado `.-` en el directorio `~/.local/share`.
+
+```bash
+> diego@dockerlabs:~/.local/share$ ls -la
 --------------------------------------------------
 total 4
 -rw-r--r-- 1 root  root  319 Jan 11  2025 .-
@@ -119,17 +152,26 @@ con un pelaje que brilla, como la brisa.
 No soy un rey, pero en cuentos soy fiel,
 de un color inusual, como el cielo y el mar
 tambien.
-Soy amigo de los ni~nos, en historias de
-ensue~no.
-Quien soy, que en el frio encuentro mi due~no?
-
+Soy amigo de los niños, en historias de
+ensueño.
+Quien soy, que en el frio encuentro mi dueño?
 ```
 
-Después de preguntarle a mi mejor amigo chatgpt que piensa el me dice esto:
-_Mi lectura: **un oso polar (más concretamente: un oso de peluche polar azul)**._
+El archivo es un acertijo y, como honestamente no tenía idea de la respuesta, decidí preguntarle a ChatGPT a qué animal podría referirse.
 
-Después de varios intentos logro logarme con la contraseña osoazul
+ChatGPT me indico que se trataba de un "oso polar azul" por lo cual simplemente intente variaciones y finalmente di con `osoazul`
+
+
+
+```bash
+> diego@dockerlabs:~/.local/share$ su root
+Password: osoazul
+root@dockerlabs:/home/diego/.local/share# whoami
+root
+root@dockerlabs:/home/diego/.local/share# id
+uid=0(root) gid=0(root) groups=0(root)
+```
 
 ![](assets/Pasted%20image%2020251111225700.png)
 
-***PWNED**
+***PWNED***

