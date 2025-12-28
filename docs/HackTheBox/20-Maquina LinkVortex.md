@@ -72,7 +72,7 @@ La pagina es una pagina informativa sobre partes de computadoras:
 
 En el footer podemos ver **Powered By Ghost**
 
-- Ghose es parecido a un `CMS` y nos permite crear posts.
+- Ghost es un `CMS` que nos permite crear posts y muchas otras cosas..
 
 ![](assets/Pasted%20image%2020251225212912.png)
 
@@ -96,7 +96,7 @@ En la ruta `/ghost` podemos ver el panel de login para el CMS
 
 ![](assets/Pasted%20image%2020251225213513.png)
 
-Al colocar un usuario que no existe `ghost` nos indica que efectivamente ese usuario no existe por lo cual tenemos una vía potencial de enumerar los usuarios
+Al colocar un usuario que no existe `ghost` nos indica que efectivamente ese usuario no existe por lo cual tenemos una vía potencial de enumerar usuarios validos.
 
 ![](assets/Pasted%20image%2020251225213828.png)
 
@@ -104,7 +104,7 @@ Al colocar un usuario que no existe `ghost` nos indica que efectivamente ese usu
 
 Wappalyzer detecta que corren las siguiente tecnologías:
 
-- `expreejs` - Framework de backend que corre sobre `nodejs`
+- `expressjs` - Framework de backend que corre sobre `nodejs`
 - `React` - Framework frontend
 
 ![](assets/Pasted%20image%2020251225213018.png)
@@ -246,7 +246,7 @@ ENTRYPOINT ["/entry.sh"]
 CMD ["node", "current/index.js"]
 ```
 
-- Ruta de instalación de Ghost `/var/lib/ghost/config.production.json
+- Ruta de instalación de Ghost `/var/lib/ghost/config.production.json`
 - Version de Ghost 5.58.0
 
 Con `git log` vi el historial de commits del repositorio y podemos confirmar la version `v5.58.0` de Ghost.
@@ -448,7 +448,7 @@ User bob may run the following commands on linkvortex:
     (ALL) NOPASSWD: /usr/bin/bash /opt/ghost/clean_symlink.sh *.png
 ```
 
-- El script recibe como parámetro un archivo `.png` y comprueba si es un enlace simbólico.  Si el symlink apunta a una ruta que contiene `/etc` o `/root`, el enlace es eliminado. En caso contrario, el archivo se mueve a cuarentena y **solo se muestra su contenido si `CHECK_CONTENT=true`** (por defecto está en `false`).
+El script recibe como parámetro un archivo `.png` y comprueba si es un enlace simbólico.  Si el symlink apunta a una ruta que contiene `/etc` o `/root`, el enlace es eliminado. En caso contrario, el archivo se mueve a cuarentena y **solo se muestra su contenido si `CHECK_CONTENT=true`** (por defecto está en `false`).
 
 ```bash
 bob@linkvortex:~$ cat /opt/ghost/clean_symlink.sh                                                                                                                            
@@ -487,7 +487,7 @@ fi
 El problema es que la validación **no es recursiva**: el script únicamente verifica el **primer nivel** del enlace simbólico.  
 Esto permite encadenar symlinks, haciendo que el `.png` apunte a otro `.png`, el cual finalmente redirige a un archivo crítico.
 
-El script solo valida `segundo.png`, que no apunta directamente a una ruta crítica, permitiendo así el acceso indirecto a `/etc/passwd`.
+Por lo cual voy a crear los 2 archivos con symlinks.
 
 ```bash
 bob@linkvortex:~$ ln -s /etc/passwd primero.png
@@ -496,6 +496,9 @@ bob@linkvortex:~$ ln -s /home/bob/primero.png segundo.png
 lrwxrwxrwx 1 bob  bob    11 Dec 26 05:05 primero.png -> /etc/passwd
 lrwxrwxrwx 1 bob  bob    21 Dec 26 05:06 segundo.png -> /home/bob/primero.png
 ```
+
+- El script solo valida que `segundo.png` no apunte directamente a una ruta crítica, permitiendo así el acceso indirecto a `/etc/passwd`.
+
 
 Para el tema de variable solo basta con setear el valor a `true` antes de ejecutar:
 
