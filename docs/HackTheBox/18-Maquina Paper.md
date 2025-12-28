@@ -264,7 +264,7 @@ Solo tenemos que hacer un curl y jugar con los parámetros de static y order.
 <p>http://chat.office.paper/register/8qozr226AhkCHZdyY</p>
 ```
 
-- Podemos ver el nuevo subdominio `chat.office.paper` donde esta el nuevo chat privado del que hablaban antes.
+- El draft habla sobre que las comunicaciones de la empresa van a migrar a nuevo sistema de chat y podemos ver el nuevo subdominio `chat.office.paper` donde esta el nuevo chat privado del que hablaban antes.
 
 
 Metí el subdominio al `/etc/hosts` y me dirigo a la url `http://chat.office.paper/register/8qozr226AhkCHZdyY` para crearme una cuenta.
@@ -289,7 +289,7 @@ Después de buscar entre la multitud de archivos, me encuentro con un `.env` en 
 
 ![](assets/Pasted%20image%2020251223215150.png)
 
-Se que existe el usuario dwight por lo cual puedo tratar de reutilizar la password en el `SSH`.
+Se que existe el usuario dwight por lo cual puedo tratar de reutilizar la password en el `SSH`. Alternativamente podriamos echarle un vistazo al `/etc/passwd` para confirmar el usuario.
 
 - dwight:Queenofblad3s!23
 
@@ -344,6 +344,8 @@ https://blog.theori.io/research/CVE-2022-32250-linux-kernel-lpe-2022/
 Vulnerable to CVE-2021-3560
 
 ```
+
+### Explotando CVE-2021-3560
 
 **Polkit** es un componente fundamental en sistemas operativos tipo Unix (como Linux) que controla los permisos, permitiendo que aplicaciones sin privilegios interactúen con servicios privilegiados de forma segura y centralizada. Polkit es un proceso en segundo plano y es basicamente quien te popea la pantalla de "Autenticación Requerida" cuando realizas alguna acciona.  
 
