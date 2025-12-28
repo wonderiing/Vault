@@ -95,7 +95,7 @@ Accedemos al servicio SSH cona las credenciales:
 
 ## Escalada de Privilegios
 
-Dentro del sistema lo primero que hago es enumerar binarios que pueda ejecutar como el usuario `sudo`.
+Dentro del sistema lo primero que hago es enumerar binarios que pueda ejecutar como el usuario `root`.
 
 - Encontramos un script en `/opt/script.py` que puede ser ejecutado por cualquier usuario sin necesidad de contraseña
 

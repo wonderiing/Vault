@@ -115,9 +115,7 @@ Con `smbmap` procedo a enumerar y listar recursos compartidos del servicio SMB s
 
 ## Explotación
 
-Al tener posibles usuarios y contraseñas recopilados del servicio HTTP, decidí realizar un ataque de **Password Spraying** contra el servicio SMB utilizando `netexec`.
-
-El Password Spraying consiste en probar una misma contraseña contra múltiples usuarios, lo cual es menos intrusivo que un ataque de fuerza bruta tradicional y tiene menor probabilidad de bloquear cuentas.
+Por ahora tengo 3 posibles usuarios y una lista de posibles contraseñas por lo cual puedo tratar de realizar un ataque de fuerza bruta sobre el servicio **SMB** utilizando `netexec`.
 
 ```bash
 > nxc smb 172.17.0.2 -u possible_users.txt -p possible_passwords.txt
@@ -202,6 +200,37 @@ User jon may run the following commands on 7bdd00394d8e:
 ```
 
 - Puedo ejecutar el script `/home/jon/.mensaje.py` como el usuario `aria` sin contraseña.
+
+El script al parecer simplemente encripta mensajes.
+
+```python
+> cat .mensaje.py
+
+import hashlib
+import getpass
+
+def encriptar_mensaje():
+    mensaje = input('Ingrese el mensaje que desea encriptar: ')
+
+    mensaje_bytes = mensaje.encode('utf-8')
+
+    hash_obj = hashlib.sha256()
+
+    hash_obj.update(mensaje_bytes)
+
+    hash_resultado = hash_obj.hexdigest()
+
+    print(f'Mensaje Original: {mensaje}')
+    print(f'Hash SHA-256: {hash_resultado}')
+
+if __name__ == '__main__':
+    usuario_actual = getpass.getuser()
+
+    if usuario_actual == 'jon' or usuario_actual == 'aria':
+        encriptar_mensaje()
+    else:
+        print('Lo siento, no tienes permiso para ejecutar este script.')
+```
 
 Esta es una oportunidad para realizar un **Python Script Hijacking**. Como tengo permisos de escritura sobre el script, puedo modificar su contenido para ejecutar comandos arbitrarios como el usuario `aria`.
 
