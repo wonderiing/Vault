@@ -395,7 +395,7 @@ Server: Python/3.9 aiohttp/3.9.1
 Una búsqueda por internet por vulnerabilidades para la version `3.9.1` de `aiohttp` me lleva al siguiente [CVE-2024-23334](https://security.snyk.io/vuln/SNYK-DEBIAN13-PYTHONAIOHTTP-6210121)
 
 !!! info
-**aiohttp** es un framework HTTP asíncrono para Python. Al configurarlo como servidor web, se define una ruta raíz para servir archivos estáticos. La opción `follow_symlinks` controla si se permiten enlaces simbólicos. Cuando `follow_symlinks` está en `true`, no se valida que los archivos solicitados permanezcan dentro del directorio raíz, lo que permite ataques de **Path Traversal** y la lectura de archivos arbitrarios del sistema.
+    **aiohttp** es un framework HTTP asíncrono para Python. Al configurarlo como servidor web, se define una ruta raíz para servir archivos estáticos. La opción `follow_symlinks` controla si se permiten enlaces simbólicos. Cuando `follow_symlinks` está en `true`, no se valida que los archivos solicitados permanezcan dentro del directorio raíz, lo que permite ataques de **Path Traversal** y la lectura de archivos arbitrarios del sistema.
 
 Si fuzzeamos para descubrir la ruta de los archivos estáticos nos vamos a dar cuenta que es `assets`
 
