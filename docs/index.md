@@ -11,12 +11,12 @@
 
 ---
 
-## 🚀 Sobre Mí
+## Sobre Mí
 
 Soy un estudiante de Ing. en Desarrollo de Software apasionado en
 
-- **💻 Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
-- **🔐 Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios
+- **Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
+- **Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios
 - **Cloud**: Amazon Web Services.
 
 Este sitio es mi cuaderno digital donde comparto:
@@ -27,13 +27,13 @@ Este sitio es mi cuaderno digital donde comparto:
 
 ---
 
-## 📚 Contenido Actual
+## Contenido Actual
 
-### 🎯 [CTF Write-ups](DockerLabs/index.md)
+### [CTF Write-ups](DockerLabs/index.md)
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Le muevo a: 
 
 **Backend Development:**
 
@@ -43,12 +43,14 @@ Este sitio es mi cuaderno digital donde comparto:
 - REST APIs
 - Docker
 - AWS
+- TypeScript 
+- NodeJs / NestJs
 
 ---
 
-## 🔮 Próximamente
+## Próximamente
 
-Tengo un monton de notas que inicialmente no escribi para que fueran compartidas ni leidas por alguien mas, por lo cual estan absurdamente mal escritas y solo las entiendo yo.
+Tengo un monton de notas que inicialmente no escribi para que fueran compartidas ni leidas por alguien mas, por lo cual estan absurdamente mal escritas y solo las entiendo yo por lo cual las planeo reescribir.
 
 - Notas Relacionados con Backend (SpringBoot, NestJs, Arquitecturas)
 - Patrones de diseño en Java
@@ -57,7 +59,7 @@ Tengo un monton de notas que inicialmente no escribi para que fueran compartidas
 
 ---
 
-## 📬 Conecta Conmigo
+## Conecta Conmigo
 
 - **GitHub**: [wonderiing](https://github.com/wonderiing)
 - **Correo**: carlos.rdzz@proton.me
