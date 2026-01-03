@@ -1,6 +1,6 @@
 :root {
     --md-text-font-family: "Inter", sans-serif;
-    --md-code-font-family: "Roboto Mono", monospace;
+    --md-code-font-family: "JetBrains Mono", monospace;
     --gitbook-blue: #3b82f6;
     --gitbook-border: #e5e7eb;
 }

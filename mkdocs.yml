@@ -13,7 +13,7 @@ theme:
   language: es
   font:
     text: Inter
-    code: Roboto Mono
+    code: JetBrains Mono
   palette:
     # Dark mode (default)
     - media: "(prefers-color-scheme: dark)"
