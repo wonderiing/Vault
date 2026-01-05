@@ -327,7 +327,7 @@ Dentro del sistema enumere manualmente mis privilegios y los grupos a los que pe
 
 - **BloodHound** es una herramienta de **enumeración y análisis de Active Directory** que usa **grafos** para identificar **relaciones de confianza, permisos y rutas de escalada de privilegios** entre usuarios, grupos y equipos dentro de un dominio.
 
-Lo primero que tenemos que hacer es utilizar un **Ingestor** que basicamente se va a encargar de recopilar toda la informacion del dominio.
+Lo primero que tenemos que hacer es utilizar un **Ingestor** que basicamente se va a encargar de recopilar toda la informacion del dominio. En este caso usamos `bloodhound-python` pero existen otros como `SharpHound.exe` etc.
 
 ```bash
 ──(wndr㉿wndr)-[~/Machines/hackthebox/forest]
@@ -362,7 +362,9 @@ INFO: Done in 00M 31S
 INFO: Compressing output into 20260104180430_bloodhound.zip
 ```
 
-Esto nos genera un zip que contiene la informacion y la cual podemos importar y visualizar en **BloodHound.**
+- Esto nos genera un zip que contiene la informacion y la cual podemos  importar y visualizar en **BloodHound.**
+
+Ahora tenemos que ejecutar `bloodhound`
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/hackthebox/forest]
@@ -371,15 +373,15 @@ Esto nos genera un zip que contiene la informacion y la cual podemos importar y 
 
 - Esto nos abrirá una interfaz visual en el navegador donde podremos importar nuestro zip. Si es la primera vez que lo ejecutas seguramente requerirá un proceso de instalación simple.
 
-Nos iremos a la parte de `Explore -> Search` y colocaremos nuestro nodo **svc-alfresco** que es corresponde al usuario al que ya tenemos acceso.
+Nos iremos a la parte de `Explore -> Search` y colocaremos nuestro nodo **svc-alfresco** que corresponde al usuario al que ya tenemos acceso.
 
-- Le daremos click y Nos iremos a `Cypher -> Shortest Paths to Domain Admins` para.
+- Le daremos click y Nos iremos a `Cypher -> Shortest Paths to Domain Admins`.
 
 ![](assets/Pasted%20image%2020260104181218.png)
 
-Obtendremos varias Paths entre ellas la siguiente:
+- Lo que sucedera es que obtendremos varias Paths para escalar privilegios entre ellas la siguiente.
 
-En esta path podemos ver que nuestro usuario alfresco pertenece al group **Service Account** que a su vez pertenece a **Privileged IT Accounts** que a su vez pertenece a **Account Operators**
+En este path podemos ver que nuestro usuario alfresco pertenece al grupo **Service Account** que a su vez pertenece a **Privileged IT Accounts** que a su vez pertenece a **Account Operators**
 
 - Vamos a empezar desde el nodo de **Account Operators**.
 
@@ -387,7 +389,7 @@ En esta path podemos ver que nuestro usuario alfresco pertenece al group **Servi
 
 - Account Operators tiene la capacidad de crear y modificar usuarios y grupos a nivel de dominio.
 
-Gracias a que soy parte de **Account Operators** lo primero que voy a hacer es crearme un usuario para posteriormente meterlo al grupo **Exchange Windows Permissions** que corresponde al siguiente nodo.
+Gracias a que soy parte de **Account Operators** lo primero que voy a hacer es crearme un usuario para posteriormente meterlo al grupo **Exchange Windows Permissions** que corresponde al siguiente nodo en la escalada de privielegios.
 
 ```powershell
 *Evil-WinRM* PS C:\Users\ > net user wndr wndr123 /add /domain
