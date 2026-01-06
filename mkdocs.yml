@@ -153,6 +153,7 @@ nav:
       - Maquina Extraviado: DockerLabs/19-Maquina Extraviado.md
       - Maquina Paradise: DockerLabs/21-Maquina Paradise.md
       - Maquina Dance Samba: DockerLabs/22-Maquina Dance Samba.md
+      - Maquina Domain: DockerLabs/23-Maquina Domain.md
     - HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
