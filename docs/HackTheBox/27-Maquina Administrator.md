@@ -536,7 +536,6 @@ $krb5tgs$23$*ethan$ADMINISTRATOR.HTB$administrator.htb/ethan*$85e296fc0d03af9f25
 
 Ahora que tenemos acceso al usuario **ethan** podemos abusar de **GetChanges** como nos lo indicaba BloodHound para realizar un DCSync.
 
-- Recordemos que GetChanges
 
 ```bash
 You may perform a dcsync attack to get the password hash of an arbitrary principal using impacket's secretsdump.py example script:
@@ -548,7 +547,7 @@ You can also perform the more complicated ExtraSids attack to hop domain trusts.
 
 Utilizando `impacket-secrestdump` realizamos el ataque DCSync:
 
-- Básicamente el ataque DCSync simula el comportamiento de un DC y le pide al `DC` real replicar sus credenciales.
+- DCSync es un permiso/derecho legitimo que se utiliza para replicar los secretos de un `DC` a otro.
 
 ```bash
 ┌──(venv)─(wndr㉿wndr)-[~/Tools/targetedKerberoast]
