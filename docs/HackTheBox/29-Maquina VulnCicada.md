@@ -512,8 +512,8 @@ El único cambio que vamos a hacer es que no vamos a relayear la autenticación 
 
 El primer paso en envenenar el DNS para añadir un nuevo registro que apunte a nuestro Host.
 
-- Este paso es importante ya que es el que nos va a permitir forzar la autenticación y capturarlas.
-- Este registro hace que cuando el DC intente conectarse a ese nombre, llegue a mi servidor malicioso en lugar del legítimo.
+- Este paso es importante ya que es el que nos va a permitir forzar la autenticación.
+- Este registro hace que cuando el DC intente conectarse a dicho hostname lo resuelva a mi IP.
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/hackthebox/vulncicada/loot]
@@ -577,9 +577,9 @@ En mi caso voy a usar PetitPotam para forzar la autenticación.
     **PetitPotam** es una técnica de "coerción de autenticación" que **fuerza a una máquina Windows a autenticarse contra un servidor que TÚ eliges**.
     Petit Potam se aprovecha de la función `EfsRpcAddUsersToFile` que añade usuarios a archivos cifrados. Esta función es parte de `Encrypting File System` (EFS), una característica de windows que permite cifrar archivos y carpetas.
 
-    El problema es que cualquier usuario autenticado puede llamar a `EfsRpcAddUsersToFile` y que puedes especificar una ruta UNC como archivo objetivo y esa ruta UNC puede apuntar al servidor que tu controlas
+    El problema es que cualquier usuario autenticado puede llamar a `EfsRpcAddUsersToFile` y también puede especificar una ruta UNC como archivo objetivo a su vez esa ruta UNC puede apuntar a un archivo en un servidor que tu controlas.
 
-    Entonces lo que sucede es algo asi: Usuario llama a `EfsRpcAddUsersToFile` y le dice al DC `Agrega un usuario a este servidor \\tuservidor\share\archivo.txt` -> El `DC` al momento de agregar el usuario a dicho archivo va a tratar de autenticarse contra nuestro servidor lo cual nos permite capturar esa autenticación.
+    Entonces lo que sucede es algo asi: Usuario llama a `EfsRpcAddUsersToFile` y le dice al DC `Agrega un usuario a este archivo \\tuservidor\share\archivo.txt` -> El `DC` al momento de agregar el usuario a dicho archivo va a tratar de autenticarse contra nuestro servidor lo cual nos permite capturar esa autenticación.
 
 Podemos ejecutar PetitPotam con `netexec` y apuntando al LISTENER que creamos anteriormente en el registro DNS que resuelve a nuestra IP.
 
@@ -672,7 +672,6 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [*] Saving ticket in administrator.ccache
 ```
 
-Usamos el TGT para obtener una shell via `psexec`.
 
 ```bash
 ──(wndr㉿wndr)-[~/Machines/hackthebox/vulncicada/loot]
