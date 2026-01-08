@@ -258,7 +258,7 @@ Me voy a crear un directorio y me voy a montar los recursos.
 └─$ sudo mount -t nfs 10.129.234.48:/ ./targetNFS/ -o nolock
 ```
 
-Esto es lo que podemos ver:
+Esto es lo que contenia el recurso:
 
 ```bash
 ┌──(wndr㉿wndr)-[~/…/hackthebox/vulncicada/content/targetNFS]
@@ -288,7 +288,7 @@ Esto es lo que podemos ver:
 
 Al abrir ambas imágenes encontré algo interesante en **Rosie.Powell/marketing.png**
 
-```
+```bash
 ┌──(wndr㉿wndr)-[~/…/vulncicada/content/targetNFS/profiles]
 └─$ sudo open Rosie.Powell/marketing.png
 ```
@@ -315,7 +315,7 @@ Con Kerbrute podemos validar los usuarios que encontramos en el NFS.
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Tools]
-└─$ ./kerbrute userenum --dc 10.129.234.48 -d cicada.vl /home/wndr/Machines/hackthebox/vulncicada/users.txt
+└─$ ./kerbrute userenum --dc 10.129.234.48 -d cicada.vl users.txt
 
     __             __               __
    / /_____  _____/ /_  _______  __/ /____
@@ -553,7 +553,7 @@ Ahora con con `krbelayx` vamos a levantar nuestro servicio `SMB` para capturar y
 
 - Lo ideal es que cuando todo el ataque sea efectuado, `krbrelayx` generara un certificado para la cuenta `DC-JPQ225$` (la cuenta de máquina del Domain Controller)
 
-Ahora necesitamos una forma de forzar la autenticación contra nuestro servidor fake. 
+Ahora necesitamos una forma de forzar la autenticación contra nuestro servidor SMB. 
 
 - Hay distintas formas de hacer esto y con `netexec` podemos ver cuales nos sirven.
 
@@ -672,6 +672,7 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [*] Saving ticket in administrator.ccache
 ```
 
+Y con el TGT obtenemos una shell via `psexec`.
 
 ```bash
 ──(wndr㉿wndr)-[~/Machines/hackthebox/vulncicada/loot]
