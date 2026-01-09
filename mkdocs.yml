@@ -189,6 +189,7 @@ nav:
       - Maquina Administrator: HackTheBox/27-Maquina Administrator.md
       - Maquina TombWatcher: HackTheBox/28-Maquina TombWatcher.md
       - Maquina VulnCicada: HackTheBox/29-Maquina VulnCicada.md
+      - Maquina TimeLapse: HackTheBox/30-Maquina TimeLapse.md
     - TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
