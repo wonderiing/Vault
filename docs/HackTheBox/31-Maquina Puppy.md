@@ -151,14 +151,13 @@ SMB         10.129.232.75   445    DC               SYSVOL          READ        
 
 ### Puerto 135 RCP
 
-Enumeracion de usuarios y grupos.
-
-- Nuestro usuario actual pertenece al grupo HR.
+Puedo conectarme por RPC para enumerar usuarios y grupos:
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/hackthebox/puppy]
 └─$ rpcclient -U 'levi.james' puppy.htb
 Password for [WORKGROUP\levi.james]:
+
 rpcclient $> enumdomusers
 user:[Administrator] rid:[0x1f4]
 user:[Guest] rid:[0x1f5]
@@ -384,14 +383,14 @@ SMB         10.129.232.75   445    DC               [-] PUPPY.HTB\Guest:ILY2025!
 
 ### GenericAll sobre adam.silver.
 
-Devuelta a `bloodhound` puedo ver los outbound control objects de **ant.edwards**
+Ahora que tengo acceso como el usuario **ant.edwards** puedo ir devuelta a `bloodhound` para ver lo siguiente:
 
 - ant.edwards es miembro del grupo **Senior Devs** que a su vez tiene el derecho **GenericAll** sobre el usuario adam.silver
 - adam.silver es miembro de Remote Managment Users, lo que nos permite acceso a la maquina.
 
 ![](assets/Pasted%20image%2020260109144251.png)
 
-Una de las formas de abusar de **GenericWrite*** es realizar un: cambio de contraseña sobre  el usuario adam.silver. Esto lo podemos hacer con net rpc.
+Una de las formas de abusar de **GenericWrite** es realizar un cambio de contraseña sobre el usuario adam.silver. Esto lo podemos hacer con net rpc.
 
 ```bash
 ┌──(venv)─(wndr㉿wndr)-[~/Tools/targetedKerberoast]
@@ -589,7 +588,7 @@ The command completed successfully.
 
 ### Descifrando DPAPI
 
-Me decidí por checar si existían archivos DPAPI y me encontré con lo siguiente:
+Me decidí por checar si existían archivos protegidos por DPAPI y me encontré con lo siguiente:
 
 ```bash
 *Evil-WinRM* PS C:\Users\steph.cooper\AppData\Roaming\Microsoft\Credentials> dir -Force
