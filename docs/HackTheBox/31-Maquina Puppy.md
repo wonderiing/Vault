@@ -615,8 +615,7 @@ Mode                 LastWriteTime         Length Name
     Las rutas tipicas de DPAPI suele ser:
     - `C:\Users\<user>\AppData\Roaming\Microsoft\Protect\` - MasterKey
     - `C:\Users\<user>\AppData\Local\Microsoft\Credentials\`
-    - `C:\Users\<user>\AppData\Roaming\Microsoft\Credentials\
-`
+    - `C:\Users\<user>\AppData\Roaming\Microsoft\Credentials\`
 
 También encontré la master key.
 
