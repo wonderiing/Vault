@@ -608,11 +608,13 @@ Mode                 LastWriteTime         Length Name
     **DPAPI** (**Data Protection API**) es un **mecanismo de Windows para cifrar secretos de forma automática**, ligado al **usuario o al sistema**.
 
     DPAPI protege secretos como
+    
     - Credenciales para RDP, SMB, WinRM,
     - Certificados
     - Credenciales de Navegadores y Microsoft Vaults.
 
     Las rutas tipicas de DPAPI suele ser:
+
     - `C:\Users\<user>\AppData\Roaming\Microsoft\Protect\` - MasterKey
     - `C:\Users\<user>\AppData\Local\Microsoft\Credentials\`
     - `C:\Users\<user>\AppData\Roaming\Microsoft\Credentials\`
