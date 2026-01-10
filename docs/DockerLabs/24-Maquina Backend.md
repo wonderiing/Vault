@@ -112,7 +112,7 @@ Content-Type: text/html
 
 #### Fuzzing.
 
-Realice fuzzing de directorios y de parámetros en todas los recurso, pero no encontré nada raro.
+Realice fuzzing de directorios y de parámetros en todas los recursos, pero no encontré nada raro.
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/dockerlabs/backend]
@@ -155,7 +155,7 @@ server-status           [Status: 403, Size: 275, Words: 20, Lines: 10, Duration:
 
 Dada la poca informacion que tengo supongo que la única via potencial para ganar acceso a la maquina es a través del login.
 
-Por lo cual intercepte la petición de `login` y coloque una simple comilla para ver si me tiraba un error y podía algun tipo de inyección SQL o de comandos.
+Por lo cual intercepte la petición de `login` y coloque una simple comilla para ver si me tiraba un error y podía generar algun tipo de inyección SQL o de comandos.
 
 ```bash
 username='&password=pepe
