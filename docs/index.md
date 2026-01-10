@@ -29,7 +29,7 @@ Este sitio es mi cuaderno digital donde comparto:
 
 ## Contenido Actual
 
-### [CTF Write-ups](DockerLabs/index.md)
+### [CTF Write-ups](HackTheBox/index.md)
 
 ---
 

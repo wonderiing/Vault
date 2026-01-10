@@ -120,32 +120,6 @@ extra:
 nav:
   - Home: index.md
   - CTFs:
-    - 🚩 DockerLabs:
-      - Inicio: DockerLabs/index.md
-      - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
-      - Maquina Psycho: DockerLabs/04-Maquina Psycho.md
-      - Maquina File -- INCOMPLETA: DockerLabs/05-Maquina File.md
-      - Maquina Pequeñas Mentirosas: DockerLabs/06-Maquina Pequeñas Mentirosas.md
-      - Maquina Pntopntobarra: DockerLabs/07-Maquina Pntopntobarra.md
-      - Maquina Amor: DockerLabs/09-Maquina Amor.md
-      - Maquina Winterfell: DockerLabs/10-Maquina Winterfell.md
-      - Maquina Pressenter: DockerLabs/11-Maquina Pressenter.md
-      - Maquina Balulero: DockerLabs/12-Maquina Balulero.md
-      - Maquina Vulnvault: DockerLabs/13-Maquina Vulnvault.md
-      - Maquina Patriaquerida: DockerLabs/14-Maquina Patriaquerida.md
-      - Maquina Mirame: DockerLabs/15-Maquina Mirame.md
-      - Maquina Verdejo: DockerLabs/16-Maquina Verdejo.md
-      - Maquina Allien: DockerLabs/17-Maquina Allien.md
-      - Maquina Los 40 Ladrones: DockerLabs/18-Maquina Los 40 Ladrones.md
-      - Maquina Extraviado: DockerLabs/19-Maquina Extraviado.md
-      - Maquina Paradise: DockerLabs/21-Maquina Paradise.md
-      - Maquina Dance Samba: DockerLabs/22-Maquina Dance Samba.md
-      - Maquina Domain: DockerLabs/23-Maquina Domain.md
-    - 🚩 HackMyVm:
-      - Inicio: HackMyVm/index.md
-      - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
-      - Maquina Sysadmin: HackMyVm/02-Maquina Sysadmin.md
-      - Maquina Thirteen: HackMyVm/03-Maquina Thirteen.md
     - 🚩 HackTheBox:
       - Inicio: HackTheBox/index.md
       - Maquina Cap: HackTheBox/01-Maquina Cap.md
@@ -178,6 +152,32 @@ nav:
       - Maquina VulnCicada: HackTheBox/29-Maquina VulnCicada.md
       - Maquina TimeLapse: HackTheBox/30-Maquina TimeLapse.md
       - Maquina Puppy: HackTheBox/31-Maquina Puppy.md
+    - 🚩 DockerLabs:
+      - Inicio: DockerLabs/index.md
+      - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
+      - Maquina Psycho: DockerLabs/04-Maquina Psycho.md
+      - Maquina File -- INCOMPLETA: DockerLabs/05-Maquina File.md
+      - Maquina Pequeñas Mentirosas: DockerLabs/06-Maquina Pequeñas Mentirosas.md
+      - Maquina Pntopntobarra: DockerLabs/07-Maquina Pntopntobarra.md
+      - Maquina Amor: DockerLabs/09-Maquina Amor.md
+      - Maquina Winterfell: DockerLabs/10-Maquina Winterfell.md
+      - Maquina Pressenter: DockerLabs/11-Maquina Pressenter.md
+      - Maquina Balulero: DockerLabs/12-Maquina Balulero.md
+      - Maquina Vulnvault: DockerLabs/13-Maquina Vulnvault.md
+      - Maquina Patriaquerida: DockerLabs/14-Maquina Patriaquerida.md
+      - Maquina Mirame: DockerLabs/15-Maquina Mirame.md
+      - Maquina Verdejo: DockerLabs/16-Maquina Verdejo.md
+      - Maquina Allien: DockerLabs/17-Maquina Allien.md
+      - Maquina Los 40 Ladrones: DockerLabs/18-Maquina Los 40 Ladrones.md
+      - Maquina Extraviado: DockerLabs/19-Maquina Extraviado.md
+      - Maquina Paradise: DockerLabs/21-Maquina Paradise.md
+      - Maquina Dance Samba: DockerLabs/22-Maquina Dance Samba.md
+      - Maquina Domain: DockerLabs/23-Maquina Domain.md
+    - 🚩 HackMyVm:
+      - Inicio: HackMyVm/index.md
+      - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
+      - Maquina Sysadmin: HackMyVm/02-Maquina Sysadmin.md
+      - Maquina Thirteen: HackMyVm/03-Maquina Thirteen.md
     - 🚩 TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
