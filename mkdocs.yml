@@ -12,25 +12,12 @@ theme:
   name: material
   language: es
   font:
-    text: Inter
+    text: Ubuntu Mono
     code: JetBrains Mono
   palette:
-    # Dark mode (default)
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black
-      accent: lime
-      toggle:
-        icon: material/brightness-4
-        name: Cambiar a modo claro
-    # Light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: white
-      accent: blue
-      toggle:
-        icon: material/brightness-7
-        name: Cambiar a modo oscuro
+    scheme: slate
+    primary: black
+    accent: purple
   
   features:
     - navigation.instant      # Instant loading
@@ -133,7 +120,7 @@ extra:
 nav:
   - Home: index.md
   - CTFs:
-    - DockerLabs:
+    - 🚩 DockerLabs:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
       - Maquina Psycho: DockerLabs/04-Maquina Psycho.md
@@ -154,12 +141,12 @@ nav:
       - Maquina Paradise: DockerLabs/21-Maquina Paradise.md
       - Maquina Dance Samba: DockerLabs/22-Maquina Dance Samba.md
       - Maquina Domain: DockerLabs/23-Maquina Domain.md
-    - HackMyVm:
+    - 🚩 HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
       - Maquina Sysadmin: HackMyVm/02-Maquina Sysadmin.md
       - Maquina Thirteen: HackMyVm/03-Maquina Thirteen.md
-    - HackTheBox:
+    - 🚩 HackTheBox:
       - Inicio: HackTheBox/index.md
       - Maquina Cap: HackTheBox/01-Maquina Cap.md
       - Maquina GetSimple: HackTheBox/02-GetSimple HackTheBox Academy Machine.md
@@ -191,7 +178,7 @@ nav:
       - Maquina VulnCicada: HackTheBox/29-Maquina VulnCicada.md
       - Maquina TimeLapse: HackTheBox/30-Maquina TimeLapse.md
       - Maquina Puppy: HackTheBox/31-Maquina Puppy.md
-    - TheHackerLabs:
+    - 🚩 TheHackerLabs:
       - Inicio: TheHackerLabs/index.md
       - Maquina JaulaCon2025: TheHackerLabs/01-Maquina JaulaCon.md
       - Maquina Campana Feliz: TheHackerLabs/02-Maquina Campana Feliz.md
@@ -199,3 +186,4 @@ nav:
       - Maquina Cyberpunk: TheHackerLabs/04-Maquina Cyberpunk.md
       - Maquina PizzaHot: TheHackerLabs/05-Maquina PizzaHot.md
       - Maquina LavaShop: TheHackerLabs/06-Maquina LavaShop.md
+
