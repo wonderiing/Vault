@@ -111,6 +111,9 @@ extra_css:
 
 # Extra
 extra:
+  analytics:
+    provider: google
+    property: G-89PJFHK1T1
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/wonderiing/CTFs-WriteUps
