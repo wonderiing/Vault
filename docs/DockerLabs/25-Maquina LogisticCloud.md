@@ -264,9 +264,9 @@ La api de minio esta corriendo por el puerto 9000 y sigue la siguiente sintaxis:
 http://IP:PUERTO/BUCKET/OBJETO
 ```
 
-En Bucket podemos tratar de utilizar el que nos indico el codigo fuente de la web:
+Podría enumerar las políticas del bucket con `aws-cli` pero primero voy a tirarle un simple curl para ver si el bucket es publico.
 
-- huguelogistics-data
+- huguelogistics-data es el nombre del bucket (sacado del codigo fuente).
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/dockerlabs/logisticcloud]
@@ -293,7 +293,7 @@ En Bucket podemos tratar de utilizar el que nos indico el codigo fuente de la we
 </ListBucketResult>
 ```
 
-- Al parecer existe un objeto con nombre **backup.xlsx** dentro del bucket. Este objeto corresponde a lo que nos indico la nota en la web.
+- Al parecer el bucket es publico y existe un objeto con nombre **backup.xlsx**.
 
 Puedo descargarme este objeto:
 
