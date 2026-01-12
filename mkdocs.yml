@@ -177,6 +177,7 @@ nav:
       - Maquina Dance Samba: DockerLabs/22-Maquina Dance Samba.md
       - Maquina Domain: DockerLabs/23-Maquina Domain.md
       - Maquina Backend: DockerLabs/24-Maquina Backend.md
+      - Maquina LogisticCloud: DockerLabs/25-Maquina LogisticCloud.md
     - 🚩 HackMyVm:
       - Inicio: HackMyVm/index.md
       - Maquina Nexus: HackMyVm/01-Maquina Nexus.md
