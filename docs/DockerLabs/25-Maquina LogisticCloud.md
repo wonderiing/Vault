@@ -431,7 +431,7 @@ zacariascoca@example.net:#4M#NiaqQU
 
 ### Login BruteForce.
 
-Con los archivos de credenciales anteriormente generados puedo tratar de brute forcea el panel de login de la web en el puerto **80**:
+Con los archivos de credenciales anteriormente generados puedo tratar de brute forcear el panel de login de la web en el puerto **80**:
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/dockerlabs/logisticcloud]
@@ -477,7 +477,7 @@ Aparte de eso, no se observan muchos elementos relevantes. Sin embargo, destaca 
 Asimismo, se identifican **departamentos** como **Logística**, **Inventario** y **Transporte**.
 Esto sugiere que la aplicación web podría presentar un comportamiento **dinámico**, modificando su funcionalidad o contenido en función del **rol del usuario autenticado**.
 
-La tab de **Informacion Logistica** nos indica que la web es un sistema de logística por lo cual voy a genera un archivo de credenciales filtrando por lo siguiente:
+La tab de **Informacion Logistica** nos indica que la web es un sistema de logística por lo cual voy a generar un archivo de credenciales filtrando por lo siguiente:
 
 - Departamento: Logistica
 - Rol:  Jefe de Área que parece ser el rol mas "alto".
