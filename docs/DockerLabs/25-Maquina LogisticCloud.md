@@ -2,7 +2,7 @@ Propiedades:
 - OS: Linux
 - Plataforma: DockerLabs
 - Nivel: Medium
-- Tags: #keepass #login-bruteforce #minio #john #password-cracking #xlsx
+- Tags: #keepass #login-bruteforce #minio #john #password-cracking #xlsx #bucket-enumeration
 
 
 ## Reconocimiento
@@ -264,9 +264,55 @@ La api de minio esta corriendo por el puerto 9000 y sigue la siguiente sintaxis:
 http://IP:PUERTO/BUCKET/OBJETO
 ```
 
-Podría enumerar las políticas del bucket con `aws-cli` pero primero voy a tirarle un simple curl para ver si el bucket es publico.
+Puedo enumerar las políticas del bucket:
 
 - huguelogistics-data es el nombre del bucket (sacado del codigo fuente).
+
+```bash
+┌──(wndr㉿wndr)-[~/Machines/dockerlabs/logisticcloud]
+└─$ aws --no-sign-request --endpoint-url http://172.17.0.2:9000 s3api get-bucket-policy --bucket huguelogistics-data \ 
+     | jq .
+     
+{
+  "Effect": "Allow",
+  "Principal": {
+    "AWS": [
+      "*"
+    ]
+  },
+  "Action": [
+    "s3:ListBucket",
+    "s3:GetBucketPolicy",
+    "s3:GetObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::huguelogistics-data",
+    "arn:aws:s3:::huguelogistics-data/*"
+  ],
+  "Sid": "AllowPublicReadPolicy"
+}
+```
+
+- Existe la politica: AllowPublicReadPolicy
+
+!!! info
+    **AllowPublicReadPolicy**
+    Política que permite acceso público de solo lectura al bucket `huguelogistics-data`.
+
+    - **Principal:** `*` (cualquier usuario, autenticado o no)
+    - **Acciones permitidas:**
+
+    - `s3:ListBucket` → Enumerar objetos del bucket
+    - `s3:GetBucketPolicy` → Leer la política del bucket
+    - `s3:GetObject` → Descargar objetos
+    - **Recursos afectados:**
+
+    - `arn:aws:s3:::huguelogistics-data`
+    - `arn:aws:s3:::huguelogistics-data/*`
+
+    **Impacto:** el contenido del bucket es públicamente accesible en modo lectura sin necesidad de credenciales.
+
+Con curl puedo ver que objetos existen dentro del bucket.
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/dockerlabs/logisticcloud]
@@ -293,7 +339,7 @@ Podría enumerar las políticas del bucket con `aws-cli` pero primero voy a tira
 </ListBucketResult>
 ```
 
-- Al parecer el bucket es publico y existe un objeto con nombre **backup.xlsx**.
+- existe un objeto con nombre **backup.xlsx**.
 
 Puedo descargarme este objeto:
 
