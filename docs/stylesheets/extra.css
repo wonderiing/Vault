@@ -344,11 +344,22 @@
     background-color: transparent;
     padding: 0.8rem 1rem;
     margin: 1em 0;
+    font-size: 0.9rem;
+    /* Increased from default */
 }
 
 .md-typeset .admonition-title {
     font-weight: 700;
     margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    /* Slightly larger title */
+}
+
+/* Increase font size for admonition content */
+.md-typeset .admonition p,
+.md-typeset .admonition li {
+    font-size: 0.75rem;
+    line-height: 1.6;
 }
 
 .md-typeset .admonition.note {
