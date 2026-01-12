@@ -24,7 +24,7 @@ rtt min/avg/max/mdev = 2.650/2.650/2.650/0.000 ms
 
 Ahora puedo triar un escaneo con nmap para ver que puertos tenemos abiertos.
 
-```bash\
+```bash
 ┌──(wndr㉿wndr)-[~]
 └─$ sudo nmap -p- -Pn -n -sS --min-rate 5000 -vvv 172.17.0.2
 
