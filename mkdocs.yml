@@ -12,7 +12,7 @@ theme:
   name: material
   language: es
   font:
-    text: Ubuntu Mono
+    text: JetBrains Mono
     code: JetBrains Mono
   palette:
     scheme: slate
