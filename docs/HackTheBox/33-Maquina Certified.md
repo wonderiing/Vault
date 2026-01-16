@@ -348,7 +348,7 @@ Con el control total del objeto puedo agregarme al grupo Management.
 
 Y Con rpcclient lo podemos confirmar.
 
-- 0x44f somos nosotros.
+- 0x44f es el rid de judith.mader.
 
 ```bash
 group:[Management] rid:[0x450]
@@ -369,10 +369,12 @@ El permiso **GenericWrite** me permite modificar distintos atributos del objeto 
 
 En este caso, abuso de este permiso para escribir en el atributo `msDS-KeyCredentialLink`, el cual almacena **claves públicas autorizadas para autenticación Kerberos PKINIT**.  
 
-Al añadir mi propia clave pública a este atributo, creo un método alternativo de autenticación que me permite **obtener un TGT Kerberos y autenticarme como el usuario `management_svc` sin conocer su contraseña**. Esto lo podemos hacer sobre
+Al añadir mi propia clave pública a este atributo, creo un método alternativo de autenticación que me permite **obtener un TGT Kerberos y autenticarme como el usuario `management_svc` sin conocer su contraseña**.
 
 !!! tip
     **Shadow Credentials** en Active Directory es conceptualmente equivalente a añadir tu clave SSH pública en el archivo `authorized_keys` de otro usuario.
+
+Con `pywhisker` podemos realizar el ataque:
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/hackthebox/certified/content]
@@ -391,7 +393,9 @@ Al añadir mi propia clave pública a este atributo, creo un método alternativo
 [*] A TGT can now be obtained with https://github.com/dirkjanm/PKINITtools
 ```
 
-Ahora con `certipy` y el certificado que generamos puedo obtener un TGT:
+- Esto nos genera un certificado.
+
+Ahora con `certipy` y el certificado que generamos puedo obtener un TGT para el usuario `management_svc`:
 
 ```bash
 ┌──(wndr㉿wndr)-[~/Machines/hackthebox/certified/content]
