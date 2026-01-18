@@ -156,6 +156,7 @@ nav:
       - Maquina TimeLapse: HackTheBox/30-Maquina TimeLapse.md
       - Maquina Puppy: HackTheBox/31-Maquina Puppy.md
       - Maquina Certified: HackTheBox/33-Maquina Certified.md
+      - Maquina Authority: HackTheBox/34-Maquina Authority.md
     - 🚩 DockerLabs:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
