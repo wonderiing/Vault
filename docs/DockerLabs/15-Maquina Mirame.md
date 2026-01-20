@@ -92,7 +92,7 @@ Accedo a `page.php` directamente y encuentro una funcionalidad para consultar la
 
 ### SQL Injection
 
-El formulario de login es vulnerable a **SQL Injection**. Puedo bypassear la autenticación con un payload simple.
+El formulario de login `index.php` es vulnerable a **SQL Injection**. Puedo bypassear la autenticación con un payload simple.
 
 ```sql
 1' or 1=1-- -
