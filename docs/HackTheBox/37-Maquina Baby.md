@@ -1,4 +1,4 @@
-"Propiedades:
+Propiedades:
 - OS: Windows
 - Plataforma: HackTheBox
 - Nivel: Easy
