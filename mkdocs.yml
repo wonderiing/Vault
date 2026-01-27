@@ -161,6 +161,9 @@ nav:
       - Maquina Escape: HackTheBox/36-Maquina Escape.md
       - Maquina Baby: HackTheBox/37-Maquina Baby.md
       - Maquina EscapeTwo: HackTheBox/38-Maquina EscapeTwo.md
+      - Maquina Support: HackTheBox/39-Maquina Support.md
+      - Maquina Return: HackTheBox/40-Maquina Return.md
+      - Maquina Manager: HackTheBox/41-Maquina Manager.md
     - 🚩 DockerLabs:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
