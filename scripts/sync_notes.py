@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 # Configuración
-NOTES_REPO_PATH = r"d:\NOTAS-PROGRA-V1\NOTAS-PROGRA\CiberSeguridad\CTFs"
+NOTES_REPO_PATH = r"c:\NOTAS-PROGRA-V1\NOTAS-PROGRA\CiberSeguridad\CTFs"
 DOCS_PATH = Path(__file__).parent.parent / "docs"
 
 # Mapeo de callouts de Obsidian a admonitions de MkDocs
