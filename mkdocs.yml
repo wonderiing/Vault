@@ -155,6 +155,7 @@ nav:
       - Maquina VulnCicada: HackTheBox/29-Maquina VulnCicada.md
       - Maquina TimeLapse: HackTheBox/30-Maquina TimeLapse.md
       - Maquina Puppy: HackTheBox/31-Maquina Puppy.md
+      - Maquina CodePartTwo: HackTheBox/32-Maquina CodePartTwo.md
       - Maquina Certified: HackTheBox/33-Maquina Certified.md
       - Maquina Authority: HackTheBox/34-Maquina Authority.md
       - Maquina Fluffy: HackTheBox/35-Maquina Fluffy.md
@@ -164,6 +165,11 @@ nav:
       - Maquina Support: HackTheBox/39-Maquina Support.md
       - Maquina Return: HackTheBox/40-Maquina Return.md
       - Maquina Manager: HackTheBox/41-Maquina Manager.md
+      - Maquina Monteverde: HackTheBox/43-Maquina Monteverde.md
+      - Maquina Sauna: HackTheBox/44-Maquina Sauna.md
+      - Maquina Magic: HackTheBox/46-Maquina Magic.md
+      - Maquina Builder: HackTheBox/47-Maquina Builder.md
+      -
     - 🚩 DockerLabs:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
