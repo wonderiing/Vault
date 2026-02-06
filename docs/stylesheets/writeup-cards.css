@@ -1,0 +1,156 @@
+/* WRITEUP GRID STYLING - Catppuccin Mocha Custom Cards */
+
+.writeup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/* Custom writeup cards */
+.writeup-card {
+    border: 1px solid var(--ctp-surface2);
+    border-left: 4px solid var(--ctp-mauve);
+    background: var(--ctp-mantle);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated gradient border on top */
+.writeup-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            var(--ctp-mauve),
+            var(--ctp-blue),
+            var(--ctp-teal),
+            var(--ctp-mauve));
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Subtle glow effect on hover */
+.writeup-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(203, 166, 247, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.writeup-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(203, 166, 247, 0.25),
+        0 0 40px rgba(203, 166, 247, 0.1);
+    border-left-color: var(--ctp-blue);
+    border-color: var(--ctp-surface2);
+}
+
+.writeup-card:hover::before {
+    opacity: 1;
+    animation: gradient-shift 3s ease infinite;
+}
+
+.writeup-card:hover::after {
+    opacity: 1;
+}
+
+@keyframes gradient-shift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Card title styling */
+.writeup-card h3 {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 1rem 0 !important;
+    background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.4 !important;
+}
+
+/* Card content */
+.writeup-card p {
+    font-size: 0.68rem;
+    line-height: 1.7;
+    margin-bottom: 0.6rem;
+    color: var(--ctp-subtext0);
+}
+
+.writeup-card p strong {
+    color: var(--ctp-text);
+    font-weight: 600;
+}
+
+/* Writeup link button */
+.writeup-card .writeup-link,
+.writeup-card a[href*=".md"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--ctp-mauve) !important;
+    font-weight: 600;
+    font-size: 0.70rem;
+    text-decoration: none;
+    margin-top: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background: rgba(203, 166, 247, 0.1);
+    border: 1px solid rgba(203, 166, 247, 0.2);
+    transition: all 0.2s ease;
+}
+
+.writeup-card .writeup-link:hover,
+.writeup-card a[href*=".md"]:hover {
+    color: var(--ctp-blue) !important;
+    background: rgba(137, 180, 250, 0.15);
+    border-color: var(--ctp-blue);
+    transform: translateX(4px);
+    box-shadow: 0 0 15px rgba(137, 180, 250, 0.3);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .writeup-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .writeup-card {
+        padding: 1.2rem;
+    }
+
+    .writeup-card h3 {
+        font-size: 0.80rem !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .writeup-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

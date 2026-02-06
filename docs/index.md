@@ -27,9 +27,50 @@ Este sitio es mi cuaderno digital donde comparto:
 
 ---
 
-## Contenido Actual
+## Últimos Writeups
 
-### [CTF Write-ups](HackTheBox/index.md)
+<div class="writeup-grid" markdown>
+
+<div class="writeup-card" markdown>
+
+### 🆕 HackTheBox - Builder
+
+**Dificultad**: Medium  
+**Fecha**: Febrero 3 2026
+
+Se explota una versión vulnerable de Jenkins que permite leer archivos internos y obtener credenciales, las cuales se usan para abusar de un pipeline y lograr acceso root por SSH.
+
+[Ver Writeup →](HackTheBox/47-Maquina Builder.md){ .writeup-link }
+
+</div>
+
+<div class="writeup-card" markdown>
+
+### 🆕 DockerLabs - LogisticCloud
+
+**Dificultad**: Medium  
+**Fecha**: Enero 15 2026
+
+Se aprovecha una mala configuración en MinIO para acceder a archivos sensibles con credenciales, encadenando el acceso hasta lograr escalada de privilegios a root.
+
+[Ver Writeup →](DockerLabs/25-Maquina LogisticCloud.md){ .writeup-link }
+
+</div>
+
+<div class="writeup-card" markdown>
+
+### 🆕 HackTheBox - Monteverde
+
+**Dificultad**: Medium  
+**Fecha**: Febrero 4 2026
+
+Se enumeran usuarios de Active Directory y se obtiene acceso inicial mediante password spraying, permitiendo extraer credenciales desde Azure AD Connect y escalar a Administrator.
+
+[Ver Writeup →](HackTheBox/43-Maquina Monteverde.md){ .writeup-link }
+
+</div>
+
+</div>
 
 ---
 
