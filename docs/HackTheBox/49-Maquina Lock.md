@@ -461,7 +461,7 @@ PS C:\Users\ellen.freeman\Documents> cat config.xml
 
 El archivo `config.xml` alberga credenciales las cuales puedo desencriptar con la ayuda de la herramienta: 
 
-- [mremoteng_decrypt](https://github.com/kmahyyg/mremoteng-decrypt/blob/master/mremoteng_decrypt.py](https://github.com/kmahyyg/mremoteng-decrypt/blob/master/mremoteng_decrypt.py)
+- [mremoteng_decrypt](https://github.com/kmahyyg/mremoteng-decrypt/blob/master/mremoteng_decrypt.py)
 
 ```bash
 ┌─[us-dedivip-2]─[10.10.15.2]─[wonderiing@htb-ix7zjfxfbj]─[~/lock/mRemoteNG_password_decrypt]
