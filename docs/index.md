@@ -33,14 +33,14 @@ Este sitio es mi cuaderno digital donde comparto:
 
 <div class="writeup-card" markdown>
 
-### 🆕 HackTheBox - Builder
+### 🆕 HackTheBox - Delegate
 
 **Dificultad**: Medium  
-**Fecha**: Febrero 3 2026
+**Fecha**: Febrero 5 2026
 
-Se explota una versión vulnerable de Jenkins que permite leer archivos internos y obtener credenciales, las cuales se usan para abusar de un pipeline y lograr acceso root por SSH.
+Se abusa de un permiso GenericWrite para obtener credenciales mediante Kerberoasting. Luego se crea una máquina con delegación sin restricciones, se fuerza al DC a autenticarse con PetitPotam para robar su TGT y dumpear las credenciales del dominio.
 
-[Ver Writeup →](HackTheBox/47-Maquina Builder.md){ .writeup-link }
+[Ver Writeup →](HackTheBox/48-Maquina%20Delegate.md){ .writeup-link }
 
 </div>
 
@@ -59,14 +59,14 @@ Se aprovecha una mala configuración en MinIO para acceder a archivos sensibles 
 
 <div class="writeup-card" markdown>
 
-### 🆕 HackTheBox - Monteverde
+### 🆕 HackTheBox - Retro
 
-**Dificultad**: Medium  
-**Fecha**: Febrero 4 2026
+**Dificultad**: Easy  
+**Fecha**: Febrero 7 2026
 
-Se enumeran usuarios de Active Directory y se obtiene acceso inicial mediante password spraying, permitiendo extraer credenciales desde Azure AD Connect y escalar a Administrator.
+Máquina de AD donde se obtienen credenciales del usuario trainee mediante password spraying. Se explota una cuenta de máquina antigua con contraseña débil perteneciente al grupo PRE-WINDOWS 2000 COMPATIBLE ACCESS para solicitar un certificado vulnerable a ESC1 y suplantar al administrador obteniendo su hash NTLM.
 
-[Ver Writeup →](HackTheBox/43-Maquina Monteverde.md){ .writeup-link }
+[Ver Writeup →](HackTheBox/50-Maquina%20Retro.md){ .writeup-link }
 
 </div>
 
