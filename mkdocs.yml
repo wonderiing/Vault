@@ -170,6 +170,9 @@ nav:
       - Maquina Sauna: HackTheBox/44-Maquina Sauna.md
       - Maquina Magic: HackTheBox/46-Maquina Magic.md
       - Maquina Builder: HackTheBox/47-Maquina Builder.md
+      - Maquina Delegate: HackTheBox/48-Maquina Delegate.md
+      - Maquina Lock: HackTheBox/49-Maquina Lock.md
+      - Maquina Retro: HackTheBox/50-Maquina Retro.md
     - 🚩 DockerLabs:
       - Inicio: DockerLabs/index.md
       - Maquina Library: DockerLabs/03-Maquina Library DockerLabs.md
