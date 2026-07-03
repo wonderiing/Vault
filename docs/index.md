@@ -1,22 +1,26 @@
-# WNDR23
+# Hola
 
-Soy Carlos Rodriguez, estudiante de Ingenieria en Desarrollo de Software y desarrollador backend en formacion. Este sitio es mi cuaderno digital para documentar write-ups, notas tecnicas y aprendizaje practico.
+Soy Carlos Rodriguez, estudiante de Ingenieria en Desarrollo de Software. Este sitio es una coleccion personal de temas que me gusta estudiar, documentar y practicar: backend, DevOps, cloud, ciberseguridad y cualquier cosa tecnica que me parezca didactica.
 
 ---
 
 ## Sobre Mi
 
-Me enfoco principalmente en:
+Mi enfoque principal esta en backend y DevOps, pero no limito este espacio a una sola area. Lo uso como cuaderno publico para ordenar cosas que he ido estudiando durante mi carrera y por interes propio, no solo por la carrera en si.
 
-- **Backend Development**: Java, Spring Boot, Spring Security, Spring Cloud, Node.js y NestJS.
-- **Cloud & DevOps**: AWS, Docker, GitHub Actions, despliegues y automatizacion.
+Me interesa especialmente:
+
+- **Backend Development**: APIs, microservicios, Java, Spring Boot, Node.js y NestJS.
+- **DevOps & Cloud**: AWS, Docker, GitHub Actions, despliegues y automatizacion.
 - **Cybersecurity**: CTFs, pentesting en laboratorios, enumeracion de servicios y Active Directory.
+- **Software Engineering**: patrones, bases de datos, arquitectura y notas tecnicas variadas.
 
 Este sitio contiene:
 
 - Write-ups de maquinas resueltas.
-- Notas de AWS, Docker, SQL y backend.
-- Tecnicas, herramientas y apuntes que voy consolidando.
+- Notas de backend, DevOps, cloud, SQL y Docker.
+- Apuntes sobre herramientas, conceptos y temas que voy consolidando.
+- Material que encuentro util para aprender explicando y documentando.
 
 [Leer mas sobre mi](about.md)
 
@@ -69,14 +73,14 @@ Active Directory con password spraying, cuenta de maquina antigua y abuso de cer
 
 ---
 
-## Le Muevo A
+## Stack Que Uso
 
-- Java 17+
-- Spring Boot, Spring Security, Spring Data JPA y Spring Cloud
-- TypeScript, Node.js y NestJS
-- PostgreSQL, MySQL y SQL
-- Docker, AWS y GitHub Actions
-- REST APIs, JWT y OAuth2
+- **Lenguajes:** Java, Python, TypeScript y JavaScript.
+- **Frameworks:** Spring Boot, Spring Cloud, NestJS y Express.js.
+- **Bases de Datos:** PostgreSQL, MySQL y SQL.
+- **Cloud & DevOps:** AWS (EC2, S3, RDS), Docker, GitHub Actions y CI/CD.
+- **APIs & Seguridad:** REST APIs, JWT, OAuth2 e integracion de APIs de terceros.
+- **Herramientas:** Git, GitHub, Postman, Maven y npm.
 
 ---
 
