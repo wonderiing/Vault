@@ -1,72 +1,67 @@
-<div class="home-layout" markdown>
+# WNDR23
 
-
-<div class="home-main" markdown>
-
-# 👋 WNDR23
-
-</div>
-
-</div>
+Soy Carlos Rodriguez, estudiante de Ingenieria en Desarrollo de Software y desarrollador backend en formacion. Este sitio es mi cuaderno digital para documentar write-ups, notas tecnicas y aprendizaje practico.
 
 ---
 
-## Sobre Mí
+## Sobre Mi
 
-Soy un estudiante de Ing. en Desarrollo de Software apasionado en
+Me enfoco principalmente en:
 
-- **Backend Development**: Especializado en Java y el ecosistema Spring (Spring Boot, Spring Security, Spring Data, Spring Cloud) 
-- **Cybersecurity**: Practicando pentesting y hacking ético a través de CTFs y laboratorios
-- **Cloud**: Amazon Web Services.
+- **Backend Development**: Java, Spring Boot, Spring Security, Spring Cloud, Node.js y NestJS.
+- **Cloud & DevOps**: AWS, Docker, GitHub Actions, despliegues y automatizacion.
+- **Cybersecurity**: CTFs, pentesting en laboratorios, enumeracion de servicios y Active Directory.
 
-Este sitio es mi cuaderno digital donde comparto:
+Este sitio contiene:
 
-- Write-ups de CTFs resueltos
-- Notas de aprendizaje (próximamente: Spring Backend y otras cosas)
-- Técnicas y herramientas que voy descubriendo
+- Write-ups de maquinas resueltas.
+- Notas de AWS, Docker, SQL y backend.
+- Tecnicas, herramientas y apuntes que voy consolidando.
+
+[Leer mas sobre mi](about.md)
 
 ---
 
-## Últimos Writeups
+## Ultimos Writeups
 
 <div class="writeup-grid" markdown>
 
 <div class="writeup-card" markdown>
 
-### 🆕 HackTheBox - Delegate
+### HackTheBox - Delegate
 
 **Dificultad**: Medium  
 **Fecha**: Febrero 5 2026
 
-Se abusa de un permiso GenericWrite para obtener credenciales mediante Kerberoasting. Luego se crea una máquina con delegación sin restricciones, se fuerza al DC a autenticarse con PetitPotam para robar su TGT y dumpear las credenciales del dominio.
+Abuso de GenericWrite, Kerberoasting, delegacion sin restricciones y dumpeo de credenciales del dominio.
 
-[Ver Writeup →](HackTheBox/48-Maquina%20Delegate.md){ .writeup-link }
+[Ver Writeup](HackTheBox/48-Maquina%20Delegate.md){ .writeup-link }
 
 </div>
 
 <div class="writeup-card" markdown>
 
-### 🆕 DockerLabs - LogisticCloud
+### DockerLabs - LogisticCloud
 
 **Dificultad**: Medium  
 **Fecha**: Enero 15 2026
 
-Se aprovecha una mala configuración en MinIO para acceder a archivos sensibles con credenciales, encadenando el acceso hasta lograr escalada de privilegios a root.
+Mala configuracion en MinIO, acceso a archivos sensibles y escalada de privilegios hasta root.
 
-[Ver Writeup →](DockerLabs/25-Maquina LogisticCloud.md){ .writeup-link }
+[Ver Writeup](DockerLabs/25-Maquina LogisticCloud.md){ .writeup-link }
 
 </div>
 
 <div class="writeup-card" markdown>
 
-### 🆕 HackTheBox - Retro
+### HackTheBox - Retro
 
 **Dificultad**: Easy  
 **Fecha**: Febrero 7 2026
 
-Máquina de AD donde se obtienen credenciales del usuario trainee mediante password spraying. Se explota una cuenta de máquina antigua con contraseña débil perteneciente al grupo PRE-WINDOWS 2000 COMPATIBLE ACCESS para solicitar un certificado vulnerable a ESC1 y suplantar al administrador obteniendo su hash NTLM.
+Active Directory con password spraying, cuenta de maquina antigua y abuso de certificado vulnerable a ESC1.
 
-[Ver Writeup →](HackTheBox/50-Maquina%20Retro.md){ .writeup-link }
+[Ver Writeup](HackTheBox/50-Maquina%20Retro.md){ .writeup-link }
 
 </div>
 
@@ -74,37 +69,33 @@ Máquina de AD donde se obtienen credenciales del usuario trainee mediante passw
 
 ---
 
-## Le muevo a: 
-
-**Backend Development:**
+## Le Muevo A
 
 - Java 17+
-- Spring Framework (Boot, Security, Data JPA, Cloud)
-- PostgreSQL / MySQL
-- REST APIs
-- Docker
-- AWS
-- TypeScript 
-- NodeJs / NestJs
+- Spring Boot, Spring Security, Spring Data JPA y Spring Cloud
+- TypeScript, Node.js y NestJS
+- PostgreSQL, MySQL y SQL
+- Docker, AWS y GitHub Actions
+- REST APIs, JWT y OAuth2
 
 ---
 
-## Próximamente
+## Proximamente
 
-Tengo un monton de notas que inicialmente no escribi para que fueran compartidas ni leidas por alguien mas, por lo cual estan absurdamente mal escritas y solo las entiendo yo por lo cual las planeo reescribir.
+Tengo muchas notas que originalmente escribi solo para mi uso personal. Las estoy reescribiendo para que sean mas claras y utiles.
 
-- Notas Relacionados con Backend (SpringBoot, NestJs, Arquitecturas)
-- Patrones de diseño en Java
-- Notas Relacionadas con el Pentest (Enumeracion de Servicios, Herramientas etc..)
-- Notas de Docker, AWS, SQL
+- Backend con Spring Boot, NestJS y arquitecturas de APIs.
+- Patrones de diseno en Java.
+- Enumeracion, herramientas y tecnicas de pentest.
+- Docker, AWS, SQL y despliegues.
 
 ---
 
-## Conecta Conmigo
+## Contacto
 
 - **GitHub**: [wonderiing](https://github.com/wonderiing)
 - **Correo**: carlos.rdzz@proton.me
----
+- **Ubicacion**: Monterrey, Mexico
 
-> [!note] **Nota Educativa**
-> Todo el contenido de este sitio es con fines educativos. Siempre obtén permiso antes de realizar pruebas de penetración en sistemas que no te pertenecen. El hacking ético requiere autorización explícita.
+!!! note "Nota educativa"
+    Todo el contenido de este sitio es con fines educativos. Siempre obten permiso antes de realizar pruebas de penetracion en sistemas que no te pertenecen.

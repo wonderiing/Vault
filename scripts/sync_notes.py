@@ -9,9 +9,12 @@ import shutil
 from pathlib import Path
 from urllib.parse import quote
 
+from PIL import Image, ImageOps
+
 # Configuración
 NOTES_REPO_PATH = r"c:\NOTAS-PROGRA-V1\NOTAS-PROGRA\CiberSeguridad\CTFs"
 DOCS_PATH = Path(__file__).parent.parent / "docs"
+WEBP_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 
 # Mapeo de callouts de Obsidian a admonitions de MkDocs
 CALLOUT_MAPPING = {
@@ -38,6 +41,9 @@ def convert_obsidian_images(content, relative_path):
     """
     def replace_image(match):
         image_name = match.group(1)
+        image_path = Path(image_name)
+        if image_path.suffix.lower() in WEBP_SOURCE_EXTENSIONS:
+            image_name = str(image_path.with_suffix(".webp"))
         # The assets are in the same directory as the markdown file (in 'assets' subdir)
         # So we don't need relative path calculation like ../
         
@@ -47,6 +53,27 @@ def convert_obsidian_images(content, relative_path):
     
     pattern = r'!\[\[([^\]]+\.(png|jpg|jpeg|gif|webp))\]\]'
     return re.sub(pattern, replace_image, content, flags=re.IGNORECASE)
+
+
+def copy_asset(asset_file, dest_assets):
+    if asset_file.suffix.lower() in WEBP_SOURCE_EXTENSIONS:
+        dest_asset = dest_assets / asset_file.with_suffix(".webp").name
+        if dest_asset.exists():
+            return False
+
+        with Image.open(asset_file) as image:
+            image = ImageOps.exif_transpose(image)
+            if image.mode not in ("RGB", "RGBA"):
+                image = image.convert("RGBA" if "A" in image.getbands() else "RGB")
+            image.save(dest_asset, "WEBP", quality=82, method=6)
+        return True
+
+    dest_asset = dest_assets / asset_file.name
+    if dest_asset.exists():
+        return False
+
+    shutil.copy2(asset_file, dest_asset)
+    return True
 
 
 def convert_obsidian_callouts(content):
@@ -173,11 +200,7 @@ def sync_notes():
             
             for asset_file in assets_path.glob("*"):
                 if asset_file.is_file():
-                    dest_asset = dest_assets / asset_file.name
-                    
-                    # Solo copiar si NO existe
-                    if not dest_asset.exists():
-                        shutil.copy2(asset_file, dest_asset)
+                    if copy_asset(asset_file, dest_assets):
                         new_assets += 1
                         print(f"  🖼️  Nuevo asset: {asset_file.name}")
                     else:

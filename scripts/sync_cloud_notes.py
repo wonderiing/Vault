@@ -10,6 +10,8 @@ import shutil
 from pathlib import Path
 from urllib.parse import quote
 
+from PIL import Image, ImageOps
+
 
 SOURCE_VAULT = Path(r"C:\Users\ca223\Downloads\NOTAS-PROGRA\NOTAS-PROGRA")
 AWS_SOURCE = SOURCE_VAULT / "DevOps" / "AWS"
@@ -25,6 +27,7 @@ ASSET_LOOKUP_DIRS = [
 ]
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+WEBP_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 
 CALLOUT_MAPPING = {
     "note": "note",
@@ -47,6 +50,9 @@ def convert_obsidian_images(content):
     def replace_image(match):
         target = match.group(1).split("|", 1)[0].strip()
         image_name = Path(target).name
+        image_path = Path(image_name)
+        if image_path.suffix.lower() in WEBP_SOURCE_EXTENSIONS:
+            image_name = image_path.with_suffix(".webp").name
         return f"![](assets/{quote(image_name)})"
 
     return re.sub(
@@ -100,6 +106,27 @@ def find_asset(asset_name):
     return matches[0] if matches else None
 
 
+def copy_asset(asset_file, assets_dest):
+    if asset_file.suffix.lower() in WEBP_SOURCE_EXTENSIONS:
+        destination_asset = assets_dest / asset_file.with_suffix(".webp").name
+        if destination_asset.exists():
+            return False
+
+        with Image.open(asset_file) as image:
+            image = ImageOps.exif_transpose(image)
+            if image.mode not in ("RGB", "RGBA"):
+                image = image.convert("RGBA" if "A" in image.getbands() else "RGB")
+            image.save(destination_asset, "WEBP", quality=82, method=6)
+        return True
+
+    destination_asset = assets_dest / asset_file.name
+    if destination_asset.exists():
+        return False
+
+    shutil.copy2(asset_file, destination_asset)
+    return True
+
+
 def write_index_files():
     CLOUD_PATH.mkdir(parents=True, exist_ok=True)
     AWS_DEST.mkdir(parents=True, exist_ok=True)
@@ -140,9 +167,7 @@ def sync_aws_notes():
                 missing_assets.add(image_name)
                 continue
 
-            destination_asset = assets_dest / image_name
-            if not destination_asset.exists():
-                shutil.copy2(source_asset, destination_asset)
+            if copy_asset(source_asset, assets_dest):
                 copied_assets += 1
 
         processed_content = convert_obsidian_callouts(convert_obsidian_images(content))
@@ -151,9 +176,7 @@ def sync_aws_notes():
 
     for asset_file in (AWS_SOURCE / "assets").glob("*"):
         if asset_file.is_file() and asset_file.suffix.lower() in IMAGE_EXTENSIONS:
-            destination_asset = assets_dest / asset_file.name
-            if not destination_asset.exists():
-                shutil.copy2(asset_file, destination_asset)
+            if copy_asset(asset_file, assets_dest):
                 copied_assets += 1
 
     print(f"Notas AWS sincronizadas: {copied_notes}")

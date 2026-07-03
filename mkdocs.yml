@@ -12,7 +12,7 @@ theme:
   name: material
   language: es
   font:
-    text: JetBrains Mono
+    text: Inter
     code: JetBrains Mono
   palette:
     scheme: slate
@@ -123,6 +123,7 @@ extra:
 # Navigation
 nav:
   - Home: index.md
+  - Sobre mi: about.md
   - Cloud:
     - Inicio: Cloud/index.md
     - AWS:
