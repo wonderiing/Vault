@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #smb #base64 #brute-force #suid-abuse
 
-![](assets/Pasted%20image%2020251126163705.png)
+![](assets/Pasted%20image%2020251126163705.webp)
 
 ## Reconocimiento
 
@@ -88,7 +88,7 @@ Host script results:
 
 La página principal muestra un sitio web para reservaciones llamado "Andy's House".
 
-![](assets/Pasted%20image%2020251126152633.png)
+![](assets/Pasted%20image%2020251126152633.webp)
 
 El botón "Go to paradise" redirige a `/galery.html`.
 
@@ -117,7 +117,7 @@ También noto que todas las imágenes se cargan desde el directorio `/img`.
 
 Pruebo acceder al directorio usando el mensaje decodificado: `http://172.17.0.2/estoesunsecreto/`
 
-![](assets/Pasted%20image%2020251126160235.png)
+![](assets/Pasted%20image%2020251126160235.webp)
 
 - Encuentro un archivo llamado `mensaje_para_lucas`
 

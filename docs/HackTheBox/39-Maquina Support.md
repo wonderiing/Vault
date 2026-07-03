@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #psexec #rbcd #resource-based #ad #acl #bloodhound #rusthound #impacket #ldap
 
-![](assets/Pasted%20image%2020260122195147.png)
+![](assets/Pasted%20image%2020260122195147.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad.
@@ -226,18 +226,18 @@ Extraje el zip **UserInfo.exe.zip** y me encuentro con lo siguiente:
 
 Abrí el binario **UsersInfo.exe** en DNSpy y puedo ver que el programa sirve para realizar consultas LDAP.
 
-![](assets/Pasted%20image%2020260122203004.png)
+![](assets/Pasted%20image%2020260122203004.webp)
 
 
 El hecho de que realice consultas LDAP implica que en algún punto se están tramitando credenciales.
 
 - Esto lo podemos ver en el método `LdapQuery()` donde se encuentra el usuario **ldap** y otro metodo llamado `getPassword()`.
 
-![](assets/Pasted%20image%2020260122203219.png)
+![](assets/Pasted%20image%2020260122203219.webp)
 
 Al darle click al método de `getPassword()` soy llevado a esta otra parte del código donde se esta definiendo una clase interna y un método `getPassword()` que se encarga de ofuscar la contraseña
 
-![](assets/Pasted%20image%2020260122204301.png)
+![](assets/Pasted%20image%2020260122204301.webp)
 
 
 Puedo copiarme la función y ejecutarla en Visual Studio 2022 para ver cual es la password.
@@ -257,7 +257,7 @@ for (int i = 0; i < array.Length; i++)
 Console.WriteLine(Encoding.Default.GetString(array2));
 ```
 
-![](assets/Pasted%20image%2020260122204227.png)
+![](assets/Pasted%20image%2020260122204227.webp)
 
 La contraseña es `nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz`
 
@@ -429,7 +429,7 @@ Lo primero que veo es lo siguiente:
 
 - Nuestro usuario support pertenece al grupo **Shared Support Accounts** y tiene el permiso **GenericAll** sobre la cuenta maquina del **DC**.
 
-![](assets/Pasted%20image%2020260122211102.png)
+![](assets/Pasted%20image%2020260122211102.webp)
 
 Podemos abusar de GenericAll realizando un Resource-Based Constrained Delegation (RBCD).
 
@@ -512,4 +512,4 @@ ec34018b49b7b01ff30****
 
 ***PWNED*** 
 
-![](assets/Pasted%20image%2020260126202848.png)
+![](assets/Pasted%20image%2020260126202848.webp)

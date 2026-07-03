@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssrf #git #CVE-2022-24439 #ffuf
 
-![](assets/Pasted%20image%2020251222224452.png)
+![](assets/Pasted%20image%2020251222224452.webp)
 ## Reconocimiento
 
 Tiro un ping para comprobar la conectividad.
@@ -71,29 +71,29 @@ Metemos el dominio al `/etc/hosts`
 
 - Aqui corre la pagina web de una editorial de libros. 
 
-![](assets/Pasted%20image%2020251222225044.png)
+![](assets/Pasted%20image%2020251222225044.webp)
 
 **Publish with us.**
 
 - Aqui al parecer me deja subir un archivo y ver una preview.
 
-![](assets/Pasted%20image%2020251222225337.png)
+![](assets/Pasted%20image%2020251222225337.webp)
 
 Una de las formas de subir una imagen es colocar una URL. Por lo cual yo aquí levante un servidor en python hosteando una imagen.
 
 - Coloque la URL y en efecto la imagen se reflejaba
 
-![](assets/Pasted%20image%2020251222231639.png)
+![](assets/Pasted%20image%2020251222231639.webp)
 
 Intercepte la petición de **Preview** con Burpsuite para ver la respuesta, y vemos que al parecer me regresa la ruta a donde se subio mi imagen.
 
-![](assets/Pasted%20image%2020251222231939.png)
+![](assets/Pasted%20image%2020251222231939.webp)
 
 **About.**
 
 - Aqui no hay nada interesante, mas que un correo.
 
-![](assets/Pasted%20image%2020251222225445.png)
+![](assets/Pasted%20image%2020251222225445.webp)
 
 **Fuzzing de directorios.**
 
@@ -132,7 +132,7 @@ upload                  [Status: 200, Size: 7140, Words: 1952, Lines: 210, Durat
 
 Volví a interceptar la petición de **Preview** con burpsuite y me la pase a un archivo llamado `cover.req`
 
-![](assets/Pasted%20image%2020251223003908.png)
+![](assets/Pasted%20image%2020251223003908.webp)
 
 Debido a que la funcionalidad de subida de portadas acepta una URL (`bookurl`) y el servidor realiza la petición por su cuenta, intenté explotar un **SSRF (Server-Side Request Forgery)**.  
 Aprovechando esto, modifiqué la solicitud para apuntar a `127.0.0.1` y realicé **fuzzing de puertos internos**, con el objetivo de identificar servicios accesibles únicamente desde el propio servidor.
@@ -222,7 +222,7 @@ Podemos ir a ver el Puerto 5000 manualmente.
 
 - Vemos que nos regresa una ruta
 
-![](assets/Pasted%20image%2020251222233752.png)
+![](assets/Pasted%20image%2020251222233752.webp)
 
 Podemos tirarle un `CURL` a esa ruta para ver que contiene.
 
@@ -285,7 +285,7 @@ Podemos intuir que en el puerto interno `5000` corre alguna api.
 
 - El endpoint que mas me interesa es: `/api/latest/metadata/messages/authors`, asi que desde Burpsuite mande una petición a dicho endpoint.
 
-![](assets/Pasted%20image%2020251222234443.png)
+![](assets/Pasted%20image%2020251222234443.webp)
 
 Nos vuelve a regresar una ruta, por lo cual le tiramos un curl para ver que hay en ese archivo.
 
@@ -466,4 +466,4 @@ wndr-5.1# cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251223003741.png)
+![](assets/Pasted%20image%2020251223003741.webp)

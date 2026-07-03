@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #gitea #mremoteng #pdf24 #CVE-2023-49147 #CI/CD #git
 
-![](assets/Pasted%20image%2020260210161404.png)
+![](assets/Pasted%20image%2020260210161404.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad
@@ -181,7 +181,7 @@ Tenemos la siguiente info:
 
 Pagina Principal:
 
-![](assets/Pasted%20image%2020260206141946.png)
+![](assets/Pasted%20image%2020260206141946.webp)
 
 #### Tecnologías Web
 
@@ -207,15 +207,15 @@ En esta web no encontré nada raro.
 
 En este puerto corre Gitea en su versión 1.441
 
-![](assets/Pasted%20image%2020260206141959.png)
+![](assets/Pasted%20image%2020260206141959.webp)
 
 Existe solo un repositorio llamado dev-scripts que pertenece a un usuario ellen.freeman.
 
-![](assets/Pasted%20image%2020260206142006.png)
+![](assets/Pasted%20image%2020260206142006.webp)
 
 Existen 2 commits para este repositorio, el primer commit contiene un token de acceso de gitea hardcodeado:
 
-![](assets/Pasted%20image%2020260206142019.png)
+![](assets/Pasted%20image%2020260206142019.webp)
 
 - Token: `43ce39bb0bd6bc489284f2905f033ca467a6362f`
 
@@ -412,7 +412,7 @@ Puedo acceder a la shell desde el navegador.
 http://<ip>/antak.aspx
 ```
 
-![](assets/Pasted%20image%2020260206142133.png)
+![](assets/Pasted%20image%2020260206142133.webp)
 
 Ahora que tengo ejecucion de comandos voy a entablarme una reverse-shell. En mi caso utilizare Powershell Base64 de [ReverseShellGenerators]([https://www.revshells.com/](https://www.revshells.com/))
 
@@ -494,7 +494,7 @@ Ahora puedo conectarme por rdp a la maquina:
 Obtengo la user flag:
 
 
-![](assets/Pasted%20image%2020260206142307.png)
+![](assets/Pasted%20image%2020260206142307.webp)
 
 
 Dentro de Program Files y en el escritorio me encontré con una app llamada PDF24
@@ -549,23 +549,23 @@ PS C:\Temp> .\SetOpLock.exe "C:\Program Files\PDF24\faxPrnInst.log" r
 
 Abriremos el instalador de `pdf24` ubicado en `C:\_install` y le daremos a la opción de "Repair": 
 
-![](assets/Pasted%20image%2020260206142336.png)
+![](assets/Pasted%20image%2020260206142336.webp)
 
 Al acabar la reparación, se queda una terminal, en su barra superior le daremos click derecho → Properties y se nos mostrara unos ventana de ajustes. En esta ventana de ajustes le daremos click al link de legacy console mode
 
-![](assets/Pasted%20image%2020260206142455.png)
+![](assets/Pasted%20image%2020260206142455.webp)
 
 Al darle click se nos preguntara con cual navegador queremos abrirlo y deberemos elegir Firefox.
 
-![](assets/Pasted%20image%2020260206142535.png)
+![](assets/Pasted%20image%2020260206142535.webp)
 
 Después se nos abrirá Firefox donde tendremos que esperar un poco hasta que nos salte un mensaje de que la pagina no se pudo cargar, cuando veamos el mensaje podemos dar Ctrl + o y se nos abrirá una file explorer, en este file explorer podremos escribir `cmd.exe` para abrir una terminal
 
-![](assets/Pasted%20image%2020260206142542.png)
+![](assets/Pasted%20image%2020260206142542.webp)
 
 La terminal que se nos abre nos convierte en nt authority\system
 
-![](assets/Pasted%20image%2020260206142613.png)
+![](assets/Pasted%20image%2020260206142613.webp)
 
 Flag:
 
@@ -583,4 +583,4 @@ c822e779dbbe80ad4326*******
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260210161439.png)
+![](assets/Pasted%20image%2020260210161439.webp)

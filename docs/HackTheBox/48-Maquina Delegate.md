@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium 
 - Tags: #unconstrained-delegation #SeEnableDelegationPrivilege #smb #bloodhound #bloodyad #password-cracking #krbrelayx #impacket
 
-![](assets/Pasted%20image%2020260210161247.png)
+![](assets/Pasted%20image%2020260210161247.webp)
 ## Reconocimiento.
 
 Comienzo con un ping para comprobar la conectividad.
@@ -282,7 +282,7 @@ Al importar la información a BloodHound puedo ver lo siguiente:
 
 - a.briggs tiene el permiso GenericWrite sobre n.thompson
 
-![](assets/image.png)
+![](assets/image.webp)
 
 El permiso **GenericWrite** sobre un usuario en Active Directory permite modificar ciertos atributos sensibles del objeto, entre ellos `servicePrincipalName`.
 
@@ -643,4 +643,4 @@ evil-winrm-py PS C:\Users\Administrator\Desktop> type root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260210161332.png)
+![](assets/Pasted%20image%2020260210161332.webp)

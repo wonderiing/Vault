@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #jenkins #CVE-2024-23897 #pipeline #password-cracking
 
-![](assets/Pasted%20image%2020260204154447.png)
+![](assets/Pasted%20image%2020260204154447.webp)
 
 ## Reconocimiento
 
@@ -67,15 +67,15 @@ En este puerto esta corriendo Jenkins
 - Jenkins es una herramienta para automatizar el despliegue de software y la ejecución de tests.
 - Podemos ver que se esta usando la versión 2.441 de Jenkins.
 
-![](assets/Pasted%20image%2020260203205230.png)
+![](assets/Pasted%20image%2020260203205230.webp)
 
 En usuarios existe un usuario llamado jennifer.
 
-![](assets/Pasted%20image%2020260203212212.png)
+![](assets/Pasted%20image%2020260203212212.webp)
 
 En credenciales tenemos una clave SSH que presuntamente pertenece al usuario root.
 
-![](assets/Pasted%20image%2020260203212257.png)
+![](assets/Pasted%20image%2020260203212257.webp)
 
 ## Acceso Inicial.
 
@@ -171,11 +171,11 @@ $2a$10$UwR7BpEH.ccfpi1tv6w/XuBtS44S7oUpR2JYiobqxcDQJeN/L4l1a:princess
 
 Con estas credenciales puedo logearme a Jenkins
 
-![](assets/Pasted%20image%2020260203213250.png)
+![](assets/Pasted%20image%2020260203213250.webp)
 
 En MyViews puedo ver que existe un pipeline llamado SSH.
 
-![](assets/Pasted%20image%2020260203214953.png)
+![](assets/Pasted%20image%2020260203214953.webp)
 
 Yo puedo abusar de este pipeline editándolo y colocando un pipeline malicioso que utilice la credencial SSH guardada y la imprima por consola:
 
@@ -205,15 +205,15 @@ pipeline {
 
 Esto lo voy a colocar en MyViews -> All -> SSH -> Configuration -> Pipeline:
 
-![](assets/Pasted%20image%2020260203214009.png)
+![](assets/Pasted%20image%2020260203214009.webp)
 
 Al momento de guardar el pipeline puedo ejecutarlo dándole al botón de Build Now y abajo a la izquierda me saldrá un check verde de que todo se ejecuto correctamente:
 
-![](assets/Pasted%20image%2020260203214146.png)
+![](assets/Pasted%20image%2020260203214146.webp)
 
 Puedo darle al check verde y ver el output de mi pipeline para ver la clave SSH:
 
-![](assets/Pasted%20image%2020260203214207.png)
+![](assets/Pasted%20image%2020260203214207.webp)
 
 Output:
 
@@ -307,4 +307,4 @@ efdf3800aee5ce5f44c0894dcf47a9f1
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260204154526.png)
+![](assets/Pasted%20image%2020260204154526.webp)

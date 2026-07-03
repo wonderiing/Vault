@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #bruteforce #samba #reverse-shell #suid
 
-![](assets/Pasted%20image%2020260106110127.png)
+![](assets/Pasted%20image%2020260106110127.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -77,7 +77,7 @@ Host script results:
 
 Al parecer es una pagina informativa sobre los servicios Samba y SMB.
 
-![](assets/Pasted%20image%2020260106110408.png)
+![](assets/Pasted%20image%2020260106110408.webp)
 
 **Tecnologias Web.**
 

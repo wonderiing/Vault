@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #CVE-2011-1249 #file-upload #ftp #msfvenom
 
-![](assets/Pasted%20image%2020251224181539.png)
+![](assets/Pasted%20image%2020251224181539.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -62,7 +62,7 @@ Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 
 Vemos una simple imagen, nada raro.
 
-![](assets/Pasted%20image%2020251224182136.png)
+![](assets/Pasted%20image%2020251224182136.webp)
 
 **Tecnologias Web.**
 
@@ -154,7 +154,7 @@ ftp> get iisstart.htm
 
 La imagen al parecer no me deja abrirla.
 
-![](assets/Pasted%20image%2020251224182441.png)
+![](assets/Pasted%20image%2020251224182441.webp)
 
 El archivo `html` es exactamente el codigo fuente de la pagina, por lo que tal vez el servidor FTP este directamente linkeado con lo que pueda ver en la web.
 
@@ -214,7 +214,7 @@ local: test.txt remote: test.txt
 
 Y al parecer si me deja verlo en la web
 
-![](assets/Pasted%20image%2020251224183142.png)
+![](assets/Pasted%20image%2020251224183142.webp)
 
 
 ## Explotación
@@ -251,7 +251,7 @@ Listening on 0.0.0.0 9002
 
 - Y me dirigo a rev.aspx
 
-![](assets/Pasted%20image%2020251224191819.png)
+![](assets/Pasted%20image%2020251224191819.webp)
 
 - Recibo la conexión.
 
@@ -334,4 +334,4 @@ type root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251224191721.png)
+![](assets/Pasted%20image%2020251224191721.webp)

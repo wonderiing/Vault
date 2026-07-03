@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #esc1 #certipy #bloodhound #rusthound #rid-brute #PRE-WINDOWS-2000-COMAPTIBLE-ACCESS    
 
-![](assets/Pasted%20image%2020260211213428.png)
+![](assets/Pasted%20image%2020260211213428.webp)
  
 ## Reconocimiento
 
@@ -541,7 +541,7 @@ MAQ         10.129.234.44   389    DC               MachineAccountQuota: 0
 
 Podemos devolvernos a la nota `ToDo.txt` que nos indicaba que existía una maquina muy vieja, esta cuenta la podemos visualizar desde bloodhound y ver que pertenece al grupo `PRE-WINDOWS 2000 COMAPTIBLE ACCESS`.
 
-![](assets/Pasted%20image%2020260206191450.png)
+![](assets/Pasted%20image%2020260206191450.webp)
 
 Las cuentas con PRE-WINDOWS 2000 COMPATIBLEE ACCESS, suelen tener su nombre de usuario en minúsculas como contraseña, esto lo podemos comprobar con `netxec`: 
 
@@ -657,4 +657,4 @@ C:\Users\Administrator\Desktop> type root.txt
 40fce9c3f09024bcab2******
 ```
 
-![](assets/Pasted%20image%2020260206223714.png)
+![](assets/Pasted%20image%2020260206223714.webp)

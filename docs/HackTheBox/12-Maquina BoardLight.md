@@ -5,7 +5,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #dolibarr #suid #enightment #CVE-2023-30253 #CVE-2022-37706
 
-![](assets/Pasted%20image%2020251218013536.png)
+![](assets/Pasted%20image%2020251218013536.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -68,13 +68,13 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - La pagina al parecer es sobre una empresa de ciberseguridad
 
-![](assets/Pasted%20image%2020251218014050.png)
+![](assets/Pasted%20image%2020251218014050.webp)
 
 **Dominio board.htb.**
 
 - Metemos este dominio en nuestro `/etc/hosts`
 
-![](assets/Pasted%20image%2020251218020420.png)
+![](assets/Pasted%20image%2020251218020420.webp)
 
 **Tecnologias Web.**
 
@@ -151,13 +151,13 @@ crm                     [Status: 200, Size: 6360, Words: 397, Lines: 150, Durati
 
 Al entrar a `crm.board.htb` nos encontramos con `Dolibarr` en su version `17.0.0`
 
-![](assets/Pasted%20image%2020251218020756.png)
+![](assets/Pasted%20image%2020251218020756.webp)
 
 Ingrese a Dolibarr con las credenciales default pero al parecer no tengo muchos permisos.
 
 - admin:admin 
 
-![](assets/Pasted%20image%2020251218020941.png)
+![](assets/Pasted%20image%2020251218020941.webp)
 
 
 ## Explotación
@@ -319,4 +319,4 @@ e7901b7*****
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251218030555.png)
+![](assets/Pasted%20image%2020251218030555.webp)

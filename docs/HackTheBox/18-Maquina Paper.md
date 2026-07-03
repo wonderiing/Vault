@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #wordpress #path-traversal #rocket-chat #polkit #CVE-2021-3560 #password-reuse #CVE-2019-17671
 
-![](assets/Pasted%20image%2020251223202636.png)
+![](assets/Pasted%20image%2020251223202636.webp)
 
 ## Reconocimiento
 
@@ -120,7 +120,7 @@ PORT    STATE SERVICE  REASON         VERSION
 
 Aqui simplemente reside la pagina de test de apache:
 
-![](assets/Pasted%20image%2020251223203957.png)
+![](assets/Pasted%20image%2020251223203957.webp)
 
 **Headers.**
 
@@ -152,25 +152,25 @@ Metemos el subdominio al `/etc/hosts`
 
 La pagina es sobre una compañía de papeles
 
-![](assets/Pasted%20image%2020251223211158.png)
+![](assets/Pasted%20image%2020251223211158.webp)
 
 Podemos ver varios Posts de un usuario llamado Prisonmike
 
-![](assets/Pasted%20image%2020251223211343.png)
+![](assets/Pasted%20image%2020251223211343.webp)
 
 También podemos ver un comentario de un presunto trabajador.
 
-![](assets/Pasted%20image%2020251223211722.png)
+![](assets/Pasted%20image%2020251223211722.webp)
 
 **Tecnologias Web.**
 
 Wappalyzer detecta que esto es un Wordpress 
 
-![](assets/Pasted%20image%2020251223211219.png)
+![](assets/Pasted%20image%2020251223211219.webp)
 
 Lo comprobamos accediendo al `wp-admin`
 
-![](assets/Pasted%20image%2020251223211303.png)
+![](assets/Pasted%20image%2020251223211303.webp)
 
 **Wpscan.**
 
@@ -269,25 +269,25 @@ Solo tenemos que hacer un curl y jugar con los parámetros de static y order.
 
 Metí el subdominio al `/etc/hosts` y me dirigo a la url `http://chat.office.paper/register/8qozr226AhkCHZdyY` para crearme una cuenta.
 
-![](assets/Pasted%20image%2020251223212542.png)
+![](assets/Pasted%20image%2020251223212542.webp)
 
 Al entrar me encuentro con un chat general y un bot que ejecuta comandos y al cual le puedo enviar mensaje directo.
 
-![](assets/Pasted%20image%2020251223213437.png)
+![](assets/Pasted%20image%2020251223213437.webp)
 
 El bot me permite listar directorios y ver archivos usando `list`, `file` y pasándole la ruta. 
 
-![](assets/Pasted%20image%2020251223214459.png)
+![](assets/Pasted%20image%2020251223214459.webp)
 
 Puedo hacer PathTraversal para listar otros directorios, en este caso el home.
 
-![](assets/Pasted%20image%2020251223214825.png)
+![](assets/Pasted%20image%2020251223214825.webp)
 
 Después de buscar entre la multitud de archivos, me encuentro con un `.env` en la carpeta de `hubot`
 
 - Veo una password Queenofblad3s!23 
 
-![](assets/Pasted%20image%2020251223215150.png)
+![](assets/Pasted%20image%2020251223215150.webp)
 
 Se que existe el usuario dwight por lo cual puedo tratar de reutilizar la password en el `SSH`. Alternativamente podriamos echarle un vistazo al `/etc/passwd` para confirmar el usuario.
 
@@ -401,4 +401,4 @@ Por lo cual ahora podemos spawnear una bash como root.
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251223225207.png)
+![](assets/Pasted%20image%2020251223225207.webp)

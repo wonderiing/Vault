@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #joomla #CVE-2023-23752 #subdomain-enumeration  #apport #CVE-2023-1326
  
-![](assets/Pasted%20image%2020251214175135.png)
+![](assets/Pasted%20image%2020251214175135.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -76,7 +76,7 @@ sudo nano /etc/hosts
 
 - La pagina es sobre un equipo de desarrolladores, es una pagina estática no contiene nada raro
 
-![](assets/Pasted%20image%2020251214175727.png)
+![](assets/Pasted%20image%2020251214175727.webp)
 
 **Tecnologías Web.**
 
@@ -134,13 +134,13 @@ sudo nano /etc/hosts
 
 Este subdominio es prácticamente la misma pagina pero rediseñada
 
-![](assets/Pasted%20image%2020251214181322.png)
+![](assets/Pasted%20image%2020251214181322.webp)
 
 **Tecnologías Web.**
 
 - Wappalyzer detecta que la pagina esta utilizando un CMS `Joomla`.
 
-![](assets/Pasted%20image%2020251214181447.png)
+![](assets/Pasted%20image%2020251214181447.webp)
 
 **Enumeracion de Joomla.**
 
@@ -209,7 +209,7 @@ http://dev.devvortex.htb/tmp/
 
 Login panel en `http://dev.devvortex.htb/administrator/`
 
-![](assets/Pasted%20image%2020251214183104.png)
+![](assets/Pasted%20image%2020251214183104.webp)
 
 
 ## Explotación
@@ -226,18 +226,18 @@ http://dev.devvortex.htb/api/index.php/v1/config/application?public=true
 
 - Conseguimos las credenciales lewis:P4ntherg0t1n5r3c0n##
 
-![](assets/Pasted%20image%2020251214183002.png)
+![](assets/Pasted%20image%2020251214183002.webp)
 
 
 Ingresamos al dashboard administrativo con las credenciales lewis:P4ntherg0t1n5r3c0n## y nos dirigimos a la parte de site templates
 
-![](assets/Pasted%20image%2020251214184239.png)
+![](assets/Pasted%20image%2020251214184239.webp)
 
 Dentro de Site Templates podremos ver los temas que estan instalados, en este caso es `Cassiopeia Details and Files`. Voy a editar algun archivo `.php` de dicho tema para colocar una reverse-shell.
 
 - Utilice la [reverse-shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) de pentest monkey
 
-![](assets/Pasted%20image%2020251214184509.png)
+![](assets/Pasted%20image%2020251214184509.webp)
 
 Ahora nos ponemos en escucha
 
@@ -350,7 +350,7 @@ Ahora tenemos las credenciales
 
 Con ayuda de [hashes.com](hashes.com) crackeamos el hash. 
 
-![](assets/Pasted%20image%2020251214190526.png)
+![](assets/Pasted%20image%2020251214190526.webp)
 
 Ahora tenemos las credenciales del usuario logan por lo cual podemos migrar a el:
 
@@ -457,4 +457,4 @@ uid=0(root) gid=0(root) groups=0(root)
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251214192753.png)
+![](assets/Pasted%20image%2020251214192753.webp)

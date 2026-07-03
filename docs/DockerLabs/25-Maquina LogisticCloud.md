@@ -150,7 +150,7 @@ Tenemos la siguiente informacion:
 
 Al entrar por el puerto 80 podemos ver un panel login.
 
-![](assets/Pasted%20image%2020260112080647.png)
+![](assets/Pasted%20image%2020260112080647.webp)
 
 En su codigo fuente tiene lo siguiente:
 
@@ -254,7 +254,7 @@ Le tire un curl a este archivo para ver que contenía.
 
 Podemos ver que la interfaz Web para Minio corre por el 9001.
 
-![](assets/Pasted%20image%2020260112081539.png)
+![](assets/Pasted%20image%2020260112081539.webp)
 
 #### API Minio Puerto 9000
 
@@ -356,7 +356,7 @@ Este archivo corresponde a una hoja de calculo  de Microsoft Excel.
 
 - Al tratar de abrirlo con LibreOffice me pide contraseña.
 
-![](assets/Pasted%20image%2020260112090015.png)
+![](assets/Pasted%20image%2020260112090015.webp)
 
 Lo puedo crackear con John.
 
@@ -391,7 +391,7 @@ Session completed
 
 Al abrir el archivo me encuentro con 50 registros de usuarios y credenciales.
 
-![](assets/Pasted%20image%2020260112090439.png)
+![](assets/Pasted%20image%2020260112090439.webp)
 
 - Este archivo lo guarde como `csv` para poder manipularlo mas cómodamente.
 
@@ -465,13 +465,13 @@ Al ingresar me topo con un panel de administración donde se me indica lo siguie
 - Departamento: Almacén
 - Teléfono xxx
 
-![](assets/Pasted%20image%2020260112092522.png)
+![](assets/Pasted%20image%2020260112092522.webp)
 
 En la tab de **Usuarios** podemos ver informacion de todos los usuarios.
 
 - Al parecer es casi idéntico al **/backup.xlsx** 
 
-![](assets/Pasted%20image%2020260112092848.png)
+![](assets/Pasted%20image%2020260112092848.webp)
 
 Aparte de eso, no se observan muchos elementos relevantes. Sin embargo, destaca la existencia de distintos **roles de usuario**, como **Operador**, **Jefe de Área** y **Administrativo**, entre otros.
 Asimismo, se identifican **departamentos** como **Logística**, **Inventario** y **Transporte**.
@@ -501,7 +501,7 @@ Al ingresar a la web con las nuevas credenciales me topo con una nueva tab llama
 - Usuario: prudencia-de-ferrera
 - Contraseña PuT3r3stA#SH
 
-![](assets/Pasted%20image%2020260112093920.png)
+![](assets/Pasted%20image%2020260112093920.webp)
 
 Ahora debería de poder acceder por SSH:
 
@@ -542,7 +542,7 @@ Puedo ingresar a través de la web.
 http://172.17.0.2:9001
 ```
 
-![](assets/Pasted%20image%2020260112094822.png)
+![](assets/Pasted%20image%2020260112094822.webp)
 
 Pero al parecer es un rabbit-hole, no encontré manera de escalar a root mediante esto.
 
@@ -657,19 +657,19 @@ Para abrir este archivo voy a utilizar `kepassx`
 
 Le daremos a **Database -> Import -> KeePass 1 Database.** y colocaremos el archivo `.kdb` y la contraseña.
 
-![](assets/Pasted%20image%2020260112101259.png)
+![](assets/Pasted%20image%2020260112101259.webp)
 
 Al momento de darle al boton de **Continue** se nos muestra una vista previa de la base de datos.
 
 - Se puede notar que la contraseña de pablo no se ve completa.
 
-![](assets/Pasted%20image%2020260112101343.png)
+![](assets/Pasted%20image%2020260112101343.webp)
 
 - Le daremos al boton de Done y seguiremos el proceso que nos indica `keepasx` para poder ver las credenciales completas.
 
 Una vez importada la base de datos correctamente ya vamos a poder ver las 2 credenciales de los usuarios.
 
-![](assets/Pasted%20image%2020260112101756.png)
+![](assets/Pasted%20image%2020260112101756.webp)
 
 Por si solas estas 2 credenciales no significan nada pero siempre es bueno reutilizarlas en algun otro servicio.
 

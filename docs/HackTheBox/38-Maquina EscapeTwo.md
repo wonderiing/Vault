@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #mssql #bloodhound #bloodyad #impacket #ad #esc4 #esc1 #certipy #password-spraying
 
-![](assets/Pasted%20image%2020260121110733.png)
+![](assets/Pasted%20image%2020260121110733.webp)
 
 Credenciales iniciales rose / KxEPkKe6R8su
 ## Reconocimiento
@@ -580,7 +580,7 @@ Al importar la data a bloodhound ve lo siguiente:
 
 - ryan tiene el permiso **WriteOwner** sobre el usuario ca_svc.
 
-![](assets/Pasted%20image%2020260121120848.png)
+![](assets/Pasted%20image%2020260121120848.webp)
 
 **WriteOwner** me permitirá convertirme en propietario del usuario **ca_svc** y, a su vez, otorgarme control total sobre dicha cuenta.
 
@@ -827,4 +827,4 @@ sequel\administrator
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260122115707.png)
+![](assets/Pasted%20image%2020260122115707.webp)

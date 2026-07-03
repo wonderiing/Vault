@@ -1,17 +1,17 @@
 
 Primero necesitamos crear un Proveedor de Identidad para que GitHub pueda llamar a AWS desde el Workflow y asi poder desplegar nuestro codigo:
 
-![](assets/Pasted%20image%2020260418164018.png)
+![](assets/Pasted%20image%2020260418164018.webp)
 
 Después vamos a necesitar crear un Rol para GitHub actions
 
 - Este rol se va a permitir a github actions poder enviar comandos a través de SSM para poder desplegar el codigo
 
-![](assets/Pasted%20image%2020260418164250.png)
+![](assets/Pasted%20image%2020260418164250.webp)
 
 Permiso para el rol:
 
-![](assets/Pasted%20image%2020260418164500.png)
+![](assets/Pasted%20image%2020260418164500.webp)
 
 
 - Entonces, este rol solo lo puede asumir mi repositorio desde un token emitido por el provedor de identidad que cree anteriormente
@@ -63,23 +63,23 @@ Por ultimo deberemos agregarle permisos al rol para poder enviar comandos a trav
 }
 ```
 
-![](assets/Pasted%20image%2020260418174613.png)
+![](assets/Pasted%20image%2020260418174613.webp)
 
 
 Luego deberemos crear una instancia EC2 y crear un Rol IAM
 
 - El rol EC2 le permite a tu instancia **registrarse y mantenerse conectada a SSM** para poder recibir comandos.
 
-![](assets/Pasted%20image%2020260418175152.png)
+![](assets/Pasted%20image%2020260418175152.webp)
 
 Con el permiso:
 
-![](assets/Pasted%20image%2020260418175204.png)
+![](assets/Pasted%20image%2020260418175204.webp)
 
 
 Y desde las configuraciones de la instancia modificaremos el rol para poner el que creamos:
 
-![](assets/Pasted%20image%2020260418183252.png)
+![](assets/Pasted%20image%2020260418183252.webp)
 
 
 
@@ -201,7 +201,7 @@ Ahora desde los ajustes del repositorio en github deberemos configurar nuestros 
 
 - En este caso el Workflow utiliza como variables el ID de la instancia y la region:
 
-![](assets/Pasted%20image%2020260418183611.png)
+![](assets/Pasted%20image%2020260418183611.webp)
 
 ## Problemas comunes:
 

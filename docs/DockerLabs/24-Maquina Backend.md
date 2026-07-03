@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #sqli #suid #grep
 
-![](assets/Pasted%20image%2020260110013037.png)
+![](assets/Pasted%20image%2020260110013037.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad
@@ -65,11 +65,11 @@ Tenemos:
 
 La pagina no me dice mucho, solo que esta en desarrollo.
 
-![](assets/Pasted%20image%2020260110013324.png)
+![](assets/Pasted%20image%2020260110013324.webp)
 
 También tenemos una pagina de login:
 
-![](assets/Pasted%20image%2020260110013545.png)
+![](assets/Pasted%20image%2020260110013545.webp)
 
 Si coloco credenciales erróneas soy redirigido a una pagina que me dice Wrong Credentials:
 
@@ -161,7 +161,7 @@ Por lo cual intercepte la petición de `login` y coloque una simple comilla para
 username='&password=pepe
 ```
 
-![](assets/Pasted%20image%2020260110015710.png)
+![](assets/Pasted%20image%2020260110015710.webp)
 
 - Obtenemos una excepción de mysql la cual nos indica que seguramente este formulario sea vulnerable a SQLi.
 
@@ -171,7 +171,7 @@ Jugando con `ORDER BY` para encontrar el numero de columnas que regresa la query
 username=' order by 3-- -&password=pepe
 ```
 
-![](assets/Pasted%20image%2020260110015859.png)
+![](assets/Pasted%20image%2020260110015859.webp)
 
 - Me redirigue a la pagina de Wrong Credentials lo que implica que bypasse el login.
 
@@ -181,7 +181,7 @@ Jugando con `union select` para ver cuales columnas son visibles obtengo que no 
 username=' union select 1,2,3-- -&password=pepe
 ```
 
-![](assets/Pasted%20image%2020260110020130.png)
+![](assets/Pasted%20image%2020260110020130.webp)
 
 Ya que no tengo output y no puedo realizar la SQLi de manera manual opte por utilizar `sqlmap`
 

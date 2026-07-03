@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #sudo #js2py #npbackup #CVE-2024-28397
 
-![](assets/Pasted%20image%2020260113200151.png)
+![](assets/Pasted%20image%2020260113200151.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -64,19 +64,19 @@ Tenemos:
 
 Al parecer la pagina es una aplicaciones para ejecutar y guardar codigo JavaScript. La aplicaciones es open source y nos brindan el codigo de la app en un `zip`.
 
-![](assets/Pasted%20image%2020260113163346.png)
+![](assets/Pasted%20image%2020260113163346.webp)
 
 
 Tenemos un formulario de registro:
 
 
-![](assets/Pasted%20image%2020260113163404.png)
+![](assets/Pasted%20image%2020260113163404.webp)
 
 Me cree una cuenta y accedí al dashboard general:
 
 - Aqui puedo ejecutar codigo javascript y se ve reflejado.
 
-![](assets/Pasted%20image%2020260113184617.png)
+![](assets/Pasted%20image%2020260113184617.webp)
 
 #### Headers.
 
@@ -322,7 +322,7 @@ n11[0].decode()
 ```
 
 
-![](assets/Pasted%20image%2020260113171155.png)
+![](assets/Pasted%20image%2020260113171155.webp)
 
 Ahora que tengo RCE puedo entablarme una reverse-shell:
 
@@ -655,4 +655,4 @@ d10bcdcc4dfd*******
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260113173843.png)
+![](assets/Pasted%20image%2020260113173843.webp)

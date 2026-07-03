@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #ad #certipy #esc1 #mssql #responder #nxc #smb
 
-![](assets/Pasted%20image%2020260119171506.png)
+![](assets/Pasted%20image%2020260119171506.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad.
@@ -291,10 +291,10 @@ smb: \>
 
 El contenido del PDF indica lo siguiente:
 
-![](assets/Pasted%20image%2020260119172710.png)
+![](assets/Pasted%20image%2020260119172710.webp)
 
 
-![](assets/Pasted%20image%2020260119172728.png)
+![](assets/Pasted%20image%2020260119172728.webp)
 
 Básicamente dice que hay una instancia de MSSQL corriendo en el `DC` y se mencionan credenciales para nuevos usuarios:
 
@@ -693,4 +693,4 @@ d235ba6fe6d9f754a7710e8db3abedcf
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260119182737.png)
+![](assets/Pasted%20image%2020260119182737.webp)

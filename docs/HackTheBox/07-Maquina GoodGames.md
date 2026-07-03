@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssti #sqli #docker #password-cracking
 
-![](assets/Pasted%20image%2020251213231140.png)
+![](assets/Pasted%20image%2020251213231140.webp)
 
 ## Reconocimiento
 
@@ -58,7 +58,7 @@ Service Info: Host: goodgames.htb
 - Al parecer es una pagina de blogs:
 - Al parecer existen 3 usuarios que crean posts, Wolfenstein, Hitman y Witch Murder
 
-![](assets/Pasted%20image%2020251213233210.png)
+![](assets/Pasted%20image%2020251213233210.webp)
 
 **Whatweb.**
 
@@ -111,7 +111,7 @@ server-status           [Status: 403, Size: 276, Words: 20, Lines: 10, Duration:
 
 - En esta tab es donde nos registramos como usuario
 
-![](assets/Pasted%20image%2020251213234405.png)
+![](assets/Pasted%20image%2020251213234405.webp)
 
 ## Explotación SQLi
 
@@ -121,15 +121,15 @@ La tab `signup/` era vulnerable a `SQLi` lo primero que hice fue detectar la bas
 
 - Saque todas las tablas de la base de datos `main`.
 
-![](assets/Pasted%20image%2020251214004620.png)
+![](assets/Pasted%20image%2020251214004620.webp)
 
 - La tabla que me interesa es la de `user` por lo cual decidí listar sus columnas.
 
-![](assets/Pasted%20image%2020251214004830.png)
+![](assets/Pasted%20image%2020251214004830.webp)
 
 - Me interesan las columnas email y password por lo cual decidí volcar todo el contenido
 
-![](assets/Pasted%20image%2020251214004917.png)
+![](assets/Pasted%20image%2020251214004917.webp)
 
 Aqui es donde me encuentro al usuario admin y su hash.
 
@@ -154,7 +154,7 @@ Status...........: Cracked
 
 Me logeo en la web y le doy al icono de settings.
 
-![](assets/Pasted%20image%2020251214005316.png)
+![](assets/Pasted%20image%2020251214005316.webp)
 
 
 Al darle clic me redirigue a una pagina cuyo dominio es `internal-administration.goodgames.htb` el cual decido meter al `/etc/host`
@@ -170,7 +170,7 @@ Accedo con las credenciales anteriormente encontradas
 
 - admin:superadministrator
 
-![](assets/Pasted%20image%2020251214005449.png)
+![](assets/Pasted%20image%2020251214005449.webp)
 
 **WhatWeb.**
 
@@ -185,7 +185,7 @@ Al saber que corre con `Python` lo primero que intento es un `SSTI` simple para 
 
 - Aqui veo que la web efectivamente me lo interpreta.
 
-![](assets/Pasted%20image%2020251214001911.png)
+![](assets/Pasted%20image%2020251214001911.webp)
 
 Por lo cual ahora decido buscar algun payload para entablarme una reverse-shell.
 
@@ -315,4 +315,4 @@ root
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251214004648.png)
+![](assets/Pasted%20image%2020251214004648.webp)

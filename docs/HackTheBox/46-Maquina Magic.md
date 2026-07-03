@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #file-upload #sqli #magic-numbers #suid #ltrace #php
 
-![](assets/Pasted%20image%2020260201192300.png)
+![](assets/Pasted%20image%2020260201192300.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad.
@@ -63,11 +63,11 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La pagina al parecer es una galería de imagenes.
 
-![](assets/Pasted%20image%2020260201195703.png)
+![](assets/Pasted%20image%2020260201195703.webp)
 
 También existe un tab de login.
 
-![](assets/Pasted%20image%2020260201200019.png)
+![](assets/Pasted%20image%2020260201200019.webp)
 
 #### Tecnologias Web.
 
@@ -128,7 +128,7 @@ Bypasse de manera sencilla el login con una SQLi:
 ' or 1=1-- -
 ```
 
-![](assets/Pasted%20image%2020260201220654.png)
+![](assets/Pasted%20image%2020260201220654.webp)
 
 Al bypassear el login puedo acceder a la tab de subir una imagen.
 
@@ -137,11 +137,11 @@ Probé la subida de archivos y pude ver que:
 - La web solo acepta `PNG`, `JPG` y `JPEG`
 - Si trato de subir cualquier otro archivo que no sea un PNG, JPG Y JPEG obtengo una alerta de que este tipo de archivos no se aceptan.
 
-![](assets/Pasted%20image%2020260201200925.png)
+![](assets/Pasted%20image%2020260201200925.webp)
 
 Al subir una imagen puedo verla reflejada en la pagina main:
 
-![](assets/Pasted%20image%2020260201201055.png)
+![](assets/Pasted%20image%2020260201201055.webp)
 
 El codigo fuente me revela la ruta donde se sube mi imagen
 
@@ -168,7 +168,7 @@ El payload se mira asi:
 - Primero los magic numbers
 - Segundo la reverse shell de [PentestMonkey](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
 
-![](assets/Pasted%20image%2020260201205310.png)
+![](assets/Pasted%20image%2020260201205310.webp)
 
 - Al subirla podemos ver que nos regresa un "The file reev.php.png has been uploaded."
 

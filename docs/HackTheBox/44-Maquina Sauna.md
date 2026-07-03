@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #diccionario #username-anarchy #ldap #dcsync #bloodhound #ad #winpeas #pass-the-hash #asrep-roasting-attack
 
-![](assets/Pasted%20image%2020260131002706.png)
+![](assets/Pasted%20image%2020260131002706.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad.
@@ -118,11 +118,11 @@ Por la informacion que tengo puedo intuir que estoy contra un `DC`.
 
 La web es sobre un banco que quiere tu dinero (todos).
 
-![](assets/Pasted%20image%2020260130231640.png)
+![](assets/Pasted%20image%2020260130231640.webp)
 
 En la tab de about tenemos una lista de los empleados:
 
-![](assets/Pasted%20image%2020260130235201.png)
+![](assets/Pasted%20image%2020260130235201.webp)
 
 #### Tecnologias Web.
 
@@ -572,7 +572,7 @@ Al echarle un vistazo a `bloodhound` para ver si mi usuario **svc_loanmgr** tien
 
 - **svc_loanmgr** tiene permisos de DCSync sobre el DC.
 
-![](assets/Pasted%20image%2020260131001952.png)
+![](assets/Pasted%20image%2020260131001952.webp)
 
 DCSync es un conjunto de permisos que suele darse a `DCs` y que les permite replicar toda la informacion del dominio incluidas las credenciales.
 
@@ -637,4 +637,4 @@ evil-winrm-py PS C:\Users\Administrator\Desktop> type root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260131002238.png)
+![](assets/Pasted%20image%2020260131002238.webp)

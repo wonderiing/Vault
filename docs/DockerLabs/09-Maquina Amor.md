@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #hydra #bruteforce #dockerlabs #esteganografia
  
-![](assets/Pasted%20image%2020251105215000.png)
+![](assets/Pasted%20image%2020251105215000.webp)
 
 ## Reconocimiento
 
@@ -55,7 +55,7 @@ Al parecer es una pagina web relacionada una empresa donde se publican noticias 
 
 - Lo único resaltable es este anuncion donde se me indican 2 posibles usuarios, **juan** y **carlota**
 
-![](assets/Pasted%20image%2020251105215238.png)
+![](assets/Pasted%20image%2020251105215238.webp)
 
 Esa es prácticamente toda la informacion que nos da la web.
 

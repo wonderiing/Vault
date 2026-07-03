@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #port-knocking #ssh #brute-force #sudo-abuse
 
-![](assets/Pasted%20image%2020251111220929.png)
+![](assets/Pasted%20image%2020251111220929.webp)
 
 ## Reconocimiento
 
@@ -54,7 +54,7 @@ MAC Address: 72:F4:83:41:09:BF (Unknown)
 
 La página principal muestra la página por defecto de Apache2.
 
-![](assets/Pasted%20image%2020251111213632.png)
+![](assets/Pasted%20image%2020251111213632.webp)
 
 **Fuzzing de Directorios.**
 
@@ -85,7 +85,7 @@ El contenido del archivo contiene un mensaje raro: `toctoc 7000 8000 9000`.
 
 - Una secuencia de numeros y un posible usuario `toctoc`
 
-![](assets/Pasted%20image%2020251111213750.png)
+![](assets/Pasted%20image%2020251111213750.webp)
 
 Sabiendo que nmap solo identificó un puerto abierto (80), esta frase sugiere que podría existir un puerto oculto detrás de **Port Knocking**. La secuencia `7000 8000 9000` podría ser la "contraseña" para abrir el puerto, y `toctoc` podría ser un usuario.
 
@@ -149,7 +149,7 @@ toctoc@c561ed7e00d4:~$ id
 uid=1000(toctoc) gid=1000(toctoc) groups=1000(toctoc)
 ```
 
-![](assets/Pasted%20image%2020251111220554.png)
+![](assets/Pasted%20image%2020251111220554.webp)
 
 ## Escalada de Privilegios
 
@@ -176,6 +176,6 @@ root@c561ed7e00d4:/home/toctoc# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-![](assets/Pasted%20image%2020251111220534.png)
+![](assets/Pasted%20image%2020251111220534.webp)
 
 ***PWNED***

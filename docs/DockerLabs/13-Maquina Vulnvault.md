@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #command-injection #ssh #cron-abuse #reverse-shell
  
 
-![](assets/Pasted%20image%2020251108192308.png)
+![](assets/Pasted%20image%2020251108192308.webp)
 
 
 ## Reconocimiento
@@ -60,11 +60,11 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La página principal muestra un **generador de reportes** que permite crear reportes con nombre y fecha, devolviendo la ruta donde se guardó y el contenido indicado.
 
-![](assets/Pasted%20image%2020251108194014.png)
+![](assets/Pasted%20image%2020251108194014.webp)
 
 También existe una pestaña para **subir archivos**.
 
-![](assets/Pasted%20image%2020251108194043.png)
+![](assets/Pasted%20image%2020251108194043.webp)
 
 **Fuzzing de Directorios.**
 
@@ -95,7 +95,7 @@ Utilizo `gobuster` para descubrir posibles recursos en el servidor web.
 
 Mi primer enfoque fue intentar subir una reverse shell PHP mediante la funcionalidad de upload.
 
-![](assets/Pasted%20image%2020251108201528.png)
+![](assets/Pasted%20image%2020251108201528.webp)
 
 El archivo se sube correctamente, pero no encuentro un directorio accesible para ejecutarlo.
 
@@ -103,11 +103,11 @@ El archivo se sube correctamente, pero no encuentro un directorio accesible para
 
 Decido probar **inyección de comandos** en el formulario del generador de reportes. Intento inyectar comandos directamente en el campo de nombre.
 
-![](assets/Pasted%20image%2020251108202027.png)
+![](assets/Pasted%20image%2020251108202027.webp)
 
 El servidor no interpreta el comando, simplemente lo trata como texto literal.
 
-![](assets/Pasted%20image%2020251108202037.png)
+![](assets/Pasted%20image%2020251108202037.webp)
 
 Mi hipótesis es que internamente el servidor ejecuta algo similar a:
 
@@ -119,7 +119,7 @@ echo 'Nombre: cat /etc/passwd' > archivo.txt
 
 Intento usar el separador `;` para encadenar comandos. Los separadores de comandos en bash permiten ejecutar múltiples comandos secuencialmente.
 
-![](assets/Pasted%20image%2020251108202319.png)
+![](assets/Pasted%20image%2020251108202319.webp)
 
 Internamente, esto debería resultar en:
 
@@ -129,7 +129,7 @@ echo 'Nombre: ; cat /etc/passwd' > archivo.txt
 
 El servidor interpreta correctamente el comando y vuelca el contenido de `/etc/passwd`.
 
-![](assets/Pasted%20image%2020251108202403.png)
+![](assets/Pasted%20image%2020251108202403.webp)
 
 - Descubro un usuario llamado `samara`
 
@@ -142,11 +142,11 @@ Con la capacidad de ejecutar comandos, tengo varias opciones:
 
 Opto por leer la clave SSH privada, ya que una reverse shell me daría acceso como `www-data` y probablemente necesitaría migrar a `samara` de todas formas.
 
-![](assets/Pasted%20image%2020251108202905.png)
+![](assets/Pasted%20image%2020251108202905.webp)
 
 La clave SSH se vuelca correctamente.
 
-![](assets/Pasted%20image%2020251108202949.png)
+![](assets/Pasted%20image%2020251108202949.webp)
 
 Descargo la clave en mi sistema, ajusto los permisos y me conecto por SSH.
 

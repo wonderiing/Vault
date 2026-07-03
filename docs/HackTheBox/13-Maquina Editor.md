@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags:  #port-forwarding #xwiki #CVE-2025-24893 #ntedata #CVE-2024-32019 #path-hijacking
 
-![](assets/Pasted%20image%2020251218174737.png)
+![](assets/Pasted%20image%2020251218174737.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -97,13 +97,13 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 Al parecer la pagina es sobre un editor de codigo.
 
-![](assets/Pasted%20image%2020251218175600.png)
+![](assets/Pasted%20image%2020251218175600.webp)
 
 **Tecnologias Web.**
 
 Wappalyzer detecta que la web esta principalmente hecha con `React`
 
-![](assets/Pasted%20image%2020251218175637.png)
+![](assets/Pasted%20image%2020251218175637.webp)
 
 **Fuzzing.**
 
@@ -144,11 +144,11 @@ Al parecer en este puerto esta corriendo `XWiki`
 
 - `XWiki` no es mas que un software open source para poder crear tu propia wiki customizada.
 
-![](assets/Pasted%20image%2020251218180609.png)
+![](assets/Pasted%20image%2020251218180609.webp)
 
 - Su pagina de login nos da la version `15.10.8`
 
-![](assets/Pasted%20image%2020251218180656.png)
+![](assets/Pasted%20image%2020251218180656.webp)
 
 ## Explotación
 
@@ -193,7 +193,7 @@ Listening on 0.0.0.0 4444
 
 Url encodeamos el payload usando burpsuite.
 
-![](assets/Pasted%20image%2020251218194614.png)
+![](assets/Pasted%20image%2020251218194614.webp)
 
 La url quedaría tal que asi:
 
@@ -319,13 +319,13 @@ ssh -L 8081:127.0.0.1:19999 oliver@10.129.10.75
 
 NetData Agent Control es parte de una **herramienta de monitoreo de rendimiento y observabilidad para sistemas, servidores y aplicaciones en tiempo real**.
 
-![](assets/Pasted%20image%2020251218192323.png)
+![](assets/Pasted%20image%2020251218192323.webp)
 
 En el apartado de warnings me cruzo con esto.
 
 - Netdata version `1.45.2` y al parecer tiene alguna falla de seguridad critica.
 
-![](assets/Pasted%20image%2020251218192820.png)
+![](assets/Pasted%20image%2020251218192820.webp)
 
 Al buscar por CVE para la versione de `netdata 1.45.2` me encuentro con esto.
 
@@ -406,4 +406,4 @@ wndr-5.1# cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251218194407.png)
+![](assets/Pasted%20image%2020251218194407.webp)

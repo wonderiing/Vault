@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #xss #lfi #port-forwarding #csrf 
 
-![](assets/Pasted%20image%2020260101215054.png)
+![](assets/Pasted%20image%2020260101215054.webp)
 ## Reconocimiento
 
 Empiezo Tirando un ping para comprobar la conectividad.
@@ -75,7 +75,7 @@ Meti el dominio al /etc/hosts.
 
 La pagina es un Markdown Viewer, podemos subir y visualizar archivos MarkDown.
 
-![](assets/Pasted%20image%2020260101215744.png)
+![](assets/Pasted%20image%2020260101215744.webp)
 
 Subí un `.md` de prueba.
 
@@ -87,7 +87,7 @@ Subí un `.md` de prueba.
 **Pepe**
 ```
 
-![](assets/Pasted%20image%2020260101220004.png)
+![](assets/Pasted%20image%2020260101220004.webp)
 
 - El boton Share Markdown crea un link con formato: `http://alert.htb/visualizer.php?link_share=695744fe1ad9a7.20695477.md` para poder visualizar el archivo.
 
@@ -103,7 +103,7 @@ Probé subiendo un archivo `html` y también se interpreta correctamente.
 <p>la web interpreta html</p>
 ```
 
-![](assets/Pasted%20image%2020260101220546.png)
+![](assets/Pasted%20image%2020260101220546.webp)
 
 Probé subiendo un javascript para probar un XSS. Y en efecto se interpreta correctamente. 
 
@@ -115,14 +115,14 @@ Probé subiendo un javascript para probar un XSS. Y en efecto se interpreta corr
 
 ```
 
-![](assets/Pasted%20image%2020260101220700.png)
+![](assets/Pasted%20image%2020260101220700.webp)
 
 
 **/about us**
 
 Se nos indica que los administradores revisan nuestros mensajes recurrentemente.
 
-![](assets/Pasted%20image%2020260101223732.png)
+![](assets/Pasted%20image%2020260101223732.webp)
 
 Y podemos notar en la URL que el parametro `?page` es quien lista la pagina:
 
@@ -231,7 +231,7 @@ Se que hay XSS por lo cual me voy a crear un archivo `.md` que intente cargar un
 
 Subí el archivo **exfiltrate.md** y genere un link usando el boton de **Share Markdown.** Este link se lo voy a enviar al administrador diciendole que tengo un problema para ver si el administrador accedo.
 
-![](assets/Pasted%20image%2020260101232234.png)
+![](assets/Pasted%20image%2020260101232234.webp)
 
 Podemos ver que el administrador si da clic al link de nuestro documento y se realiza una petición nuestro servidor.
 
@@ -261,7 +261,7 @@ data.send()
 
 Subimos denuevo el archivo **exfiltrate.md** y generamos un link de visualización el cual se lo vamos a mandar al administrador.
 
-![](assets/Pasted%20image%2020260101232916.png)
+![](assets/Pasted%20image%2020260101232916.webp)
 
 Una vez lo mandamos podemos ver lo siguiente en nuestro servidor:
 
@@ -323,7 +323,7 @@ data.send()
 
 Ahora volvemos a subir el archivo `exfiltrate.md` y generamos un link de visualización para enviárselo al administrador.
 
-![](assets/Pasted%20image%2020260101231433.png)
+![](assets/Pasted%20image%2020260101231433.webp)
 
 Y a nuestro servidor nos llega:
 
@@ -559,7 +559,7 @@ albert@alert:/opt/website-monitor/config$ chmod +x test.php
 
 Desde la web puedo acceder a la ruta de **/config/test.php** y ver que se me interpreta correctamente.
 
-![](assets/Pasted%20image%2020260102000756.png)
+![](assets/Pasted%20image%2020260102000756.webp)
 
 Por lo cual puedo entablarme una reverse-shell.
 
@@ -597,4 +597,4 @@ d3f1669d2aea35e0a1e2b1202ba0ffa3
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260102001433.png)
+![](assets/Pasted%20image%2020260102001433.webp)

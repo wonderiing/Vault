@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #ad #certipy #certificates #ESC8 #kerberos-relay #petitpotam #nfs #bloodyad #krbrelayx
 
-![](assets/Pasted%20image%2020260107181945.png)
+![](assets/Pasted%20image%2020260107181945.webp)
 
 ## Reconocimiento
 
@@ -293,7 +293,7 @@ Al abrir ambas imágenes encontré algo interesante en **Rosie.Powell/marketing.
 └─$ sudo open Rosie.Powell/marketing.png
 ```
 
-![](assets/Pasted%20image%2020260107191657.png)
+![](assets/Pasted%20image%2020260107191657.webp)
 
 - Al parecer es una contraseña en un post it: **Cicada123**
 
@@ -712,4 +712,4 @@ C:\Users\Administrator\Desktop> type user.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260107202327.png)
+![](assets/Pasted%20image%2020260107202327.webp)

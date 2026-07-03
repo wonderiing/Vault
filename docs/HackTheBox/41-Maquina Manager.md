@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #xp_dirtree #mssql #password-spraying #esc7 #certificates #adcs
  
-![](assets/Pasted%20image%2020260125232215.png)
+![](assets/Pasted%20image%2020260125232215.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -225,14 +225,14 @@ SMB         10.129.74.99    445    DC01             1119: MANAGER\Operator (SidT
 
 En el puerto 80 corre una web sobre escritura.
 
-![](assets/Pasted%20image%2020260125233222.png)
+![](assets/Pasted%20image%2020260125233222.webp)
 
 - Aparte de la landing page no había nada raro
 #### Tecnologías Web.
 
 Wappalyzer detecta que corre sobre un IIS.
 
-![](assets/Pasted%20image%2020260125233239.png)
+![](assets/Pasted%20image%2020260125233239.webp)
 
 #### Fuzzing de Directorios.
 
@@ -723,4 +723,4 @@ fa673b72d8141448*****
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260126004627.png)
+![](assets/Pasted%20image%2020260126004627.webp)

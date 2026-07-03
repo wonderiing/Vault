@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #sqli #sqlmap #steganography #password-cracking #suid-abuse
 
-![](assets/Pasted%20image%2020251109234535.png)
+![](assets/Pasted%20image%2020251109234535.webp)
 
 ## Reconocimiento
 
@@ -61,7 +61,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La página principal muestra un formulario de login simple.
 
-![](assets/Pasted%20image%2020251109194933.png)
+![](assets/Pasted%20image%2020251109194933.webp)
 
 
 **Fuzzing de Directorios.**
@@ -86,7 +86,7 @@ Starting gobuster in directory enumeration mode
 
 Accedo a `page.php` directamente y encuentro una funcionalidad para consultar la temperatura.
 
-![](assets/Pasted%20image%2020251109195426.png)
+![](assets/Pasted%20image%2020251109195426.webp)
 
 ## Explotación
 
@@ -166,7 +166,7 @@ Table: usuarios
 
 Uno de los passwords encontrados es `directoriotravieso`, lo cual sugiere que podría ser un directorio. Accedo a `http://172.17.0.2/directoriotravieso/`.
 
-![](assets/Pasted%20image%2020251109202221.png)
+![](assets/Pasted%20image%2020251109202221.webp)
 
 - Encuentro una imagen llamada `miramebien.jpg`
 

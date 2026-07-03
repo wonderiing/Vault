@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #credential-leak #ssh #sudo-abuse #cron-abuse #reverse-shell
  
-![](assets/Pasted%20image%2020251108153451.png)
+![](assets/Pasted%20image%2020251108153451.webp)
 
 ## Reconocimiento
 
@@ -60,13 +60,13 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La página principal es una landing page personal sobre ciberseguridad.
 
-![](assets/Pasted%20image%2020251108154912.png)
+![](assets/Pasted%20image%2020251108154912.webp)
 
 **Código Fuente.**
 
 Inspeccionando el código fuente encuentro referencias a varios archivos JavaScript.
 
-![](assets/Pasted%20image%2020251108165633.png)
+![](assets/Pasted%20image%2020251108165633.webp)
 
 **Fuzzing de Directorios.**
 
@@ -114,7 +114,7 @@ http://172.17.0.2/.env_de_baluchingon
 
 El archivo es accesible y contiene credenciales en texto plano.
 
-![](assets/Pasted%20image%2020251108160744.png)
+![](assets/Pasted%20image%2020251108160744.webp)
 
 - Encuentro credenciales: `balu:baluchingon123`
 

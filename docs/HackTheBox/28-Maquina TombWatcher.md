@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #certipy #acl #bloodhound #bloodyad #ESC15 #ESC3 #ad #certificates #gMSA #targeted-kerberoast
 
-![](assets/Pasted%20image%2020260106224806.png)
+![](assets/Pasted%20image%2020260106224806.webp)
 
 Credenciales iniciales:  henry / H3nry_987TGV!
 ## Reconocimiento
@@ -320,7 +320,7 @@ Ejecute bloodhound e importe el zip.
 
 - Jugando con los Outbound objects pude encontrar esta path para moverme lateralmente al usuario **john.** **john** tiene permisos GenericAll sobre el ACDS.
 
-![](assets/Pasted%20image%2020260107230636.png)
+![](assets/Pasted%20image%2020260107230636.webp)
 
 
 
@@ -328,7 +328,7 @@ Ejecute bloodhound e importe el zip.
 
 - Lo primero que veo es que mi usuario **henry** tiene el permiso **WriteSPN** sobre el usuario **alfred.**
 
-![](assets/Pasted%20image%2020260106234528.png)
+![](assets/Pasted%20image%2020260106234528.webp)
 
 Este permiso **WriteSPN** nos permite realizar un ataque Targeted Kerberoast que consiste en:
 
@@ -378,7 +378,7 @@ Ahora que tenemos acceso al usuario **alfred** podemos ver en bloodhound lo sigu
 
 - **alfred** tiene el permiso **AddSelf** sobre el grupo **Infrastructure**
 
-![](assets/Pasted%20image%2020260106235436.png)
+![](assets/Pasted%20image%2020260106235436.webp)
 
 Podemos abusar del derecho **AddSelf** para que meter a alfred al grupo de **Infrastructure** con`bloodyad`
 
@@ -394,7 +394,7 @@ Ahora que ya somos parte del group Infrastructure pasemos al siguiente nodo.
 
 - El grupo **Infrastructure** tiene el permiso **ReadGMSAPassword** sobre la cuenta de maquina **ansible_dev$**
 
-![](assets/Pasted%20image%2020260107000402.png)
+![](assets/Pasted%20image%2020260107000402.webp)
 
 Vamos a abusar del derecho **ReadGMSAPassword**.
 
@@ -419,7 +419,7 @@ Ahora podemos pasar al siguiente nodo.
 
 - La cuenta de ANSIBLE tiene el derecho **Force Change Password** sobre el usuario Sam, lo cual nos va a permitir cambiar la contraseña de dicho usuario para tener acceso a el.
 
-![](assets/Pasted%20image%2020260107001953.png)
+![](assets/Pasted%20image%2020260107001953.webp)
 
 Con `pth-net` vamos a realizar el ataque para cambiarle la contraseña al usuario sam y tener acceso a el.
 
@@ -447,7 +447,7 @@ Ahora podemos pasar al siguiente nodo.
 
 - El usuario Sam tiene el derecho **WriteOwner** sobre le usuario **John** lo que nos permite indirectamente el control total del usuario.
 
-![](assets/Pasted%20image%2020260107002717.png)
+![](assets/Pasted%20image%2020260107002717.webp)
 
 Para **abusar del permiso `WriteOwner`**, primero es necesario **tomar posesión del objeto objetivo**, asignándonos como **propietarios (owner)** del mismo.  
 Una vez que somos propietarios, podremos otorgarnos permisos más elevados sobre el objeto..
@@ -643,7 +643,7 @@ SMB         10.129.232.167  445    DC01             [+] tombwatcher.htb\cert_adm
 
 Devuelta a bloodhound podemos ver que el usuario john tiene permisos **GenericAll** sobre el **ADCS** que es donde se encuentra **cert_admin**.
 
-![](assets/Pasted%20image%2020260107013833.png)
+![](assets/Pasted%20image%2020260107013833.webp)
 
 - **Active Directory Certificate Services (AD CS)**: Es el sistema que se encarga de emitir y gestionar los certificados.
 
@@ -851,7 +851,7 @@ tombwatcher\administrator
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260107023326.png)
+![](assets/Pasted%20image%2020260107023326.webp)
 
 
 

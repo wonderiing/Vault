@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #ssrf #CVE-2023-27163 #request-basket #maltrail
 
 
-![](assets/Pasted%20image%2020251213185022.png)
+![](assets/Pasted%20image%2020251213185022.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -122,7 +122,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - En este puerto corre el servicio `request-baskets` que basicamente se utiliza para recolectar e inspeccionar peticiones HTTP. Podemos ver que la version es `1.2.1`
 
-![](assets/Pasted%20image%2020251213185755.png)
+![](assets/Pasted%20image%2020251213185755.webp)
 
 Al crear una basket podemos enviarle request y ver toda la informacion de la request.
 
@@ -130,13 +130,13 @@ Al crear una basket podemos enviarle request y ver toda la informacion de la req
 > curl http://10.129.6.20:55555/fui786f
 ```
 
-![](assets/Pasted%20image%2020251213191910.png)
+![](assets/Pasted%20image%2020251213191910.webp)
 
 **Forward URL**
 
 Aqui esta lo importante, `request-basket` nos permite colocar una Forward Url. Básicamente al nosotros realizar una petición a nuestro basket nos debería de redirigir a la url que coloquemos.
 
-![](assets/Pasted%20image%2020251213194245.png)
+![](assets/Pasted%20image%2020251213194245.webp)
 
 
 ## Explotación Manual
@@ -147,13 +147,13 @@ Sabemos que gracias a la función de Forward Url nosotros podemos redirigir peti
 
 - Colocamos la URL y nuestro basket llamado `test` debería de redirigir al servicio/web que este corriendo en el puerto 80 de la maquina
 
-![](assets/Pasted%20image%2020251213194446.png)
+![](assets/Pasted%20image%2020251213194446.webp)
 
 Ahora podemos realizarle una petición a nuestro basket `http://10.129.6.27:55555/test/`
 
 - La petición es redirigida a la web del puerto `80` donde nos topamos con `Maltrail` en su version `v0.53`
 
-![](assets/Pasted%20image%2020251213194645.png)
+![](assets/Pasted%20image%2020251213194645.webp)
 
 **Maltrail.**
 
@@ -273,4 +273,4 @@ Tenemos la flag de root:
 bf05eec28778c625094f9d49ca2882a4
 ```
 
-![](assets/Pasted%20image%2020251213191229.png)
+![](assets/Pasted%20image%2020251213191229.webp)

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #backdrop #credential-reutilization #sudo 
 
-![](assets/Pasted%20image%2020251221170137.png)
+![](assets/Pasted%20image%2020251221170137.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -78,24 +78,24 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 Aqui corre `BackdropCMS` y la pagina es sobre perros obesitos.
 
-![](assets/Pasted%20image%2020251221170806.png)
+![](assets/Pasted%20image%2020251221170806.webp)
 
 Tenemos pagina de Login:
 
-![](assets/Pasted%20image%2020251221172353.png)
+![](assets/Pasted%20image%2020251221172353.webp)
 
 
 **Tecnologias Web.**
 
 Wappalyzer nos confirma lo que ya sabíamos.
 
-![](assets/Pasted%20image%2020251221170856.png)
+![](assets/Pasted%20image%2020251221170856.webp)
 
 **Repositorio .git**.
 
 nmap nos indico que habia un repositorio `.git` expuesto y aquí lo confirmamos.
 
-![](assets/Pasted%20image%2020251221171216.png)
+![](assets/Pasted%20image%2020251221171216.webp)
 
 Descargue el repositorio con la herramienta de `git-dumper`
 
@@ -139,11 +139,11 @@ El funcionamiento es simple mandamos peticiones a:
 
 Y si el usuario existe, BackDrop nos regresa una pagina de Access Denied
 
-![](assets/Pasted%20image%2020251221184449.png)
+![](assets/Pasted%20image%2020251221184449.webp)
 
 Si no existe nos regresa una pagina Not Found.
 
-![](assets/Pasted%20image%2020251221184507.png)
+![](assets/Pasted%20image%2020251221184507.webp)
 
 ```bash
 python3 BackDropScan.py --url http://10.129.12.61/ --userslist /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt --userenum
@@ -168,7 +168,7 @@ Reutilice la credencial que habíamos encontrado en el repositorio para tratar d
 
 - Tuve acceso con tiffany:BackDropJ2024DS2024
 
-![](assets/Pasted%20image%2020251221174047.png)
+![](assets/Pasted%20image%2020251221174047.webp)
 
 Dentro de `BackDrop` me aproveche de la función de Modulos que nos permite subir un modulo malicioso.
 
@@ -221,11 +221,11 @@ Ahora zipeamos la carpeta.
 
 Ahora nos vamos a la parte de **Functionalty -> Install Modules**
 
-![](assets/Pasted%20image%2020251221174459.png)
+![](assets/Pasted%20image%2020251221174459.webp)
 
 Le daremos a **Manual Installation** y subiremos nuestro `.tar`
 
-![](assets/Pasted%20image%2020251221174834.png)
+![](assets/Pasted%20image%2020251221174834.webp)
 
 Nos iremos a la ruta donde se instalo nuestro modulo
 
@@ -233,7 +233,7 @@ Nos iremos a la ruta donde se instalo nuestro modulo
 /modules/shell
 ```
 
-![](assets/Pasted%20image%2020251221185704.png)
+![](assets/Pasted%20image%2020251221185704.webp)
 
 Nos ponemos en escucha:
 
@@ -357,4 +357,4 @@ root@dog:~# cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251221191157.png)
+![](assets/Pasted%20image%2020251221191157.webp)

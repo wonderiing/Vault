@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ad #ldap #server-operators #hive-system #hive-sam
 
-![](assets/Pasted%20image%2020260124205213.png)
+![](assets/Pasted%20image%2020260124205213.webp)
 
 ## Reconocimiento
 
@@ -159,17 +159,17 @@ SMB         10.129.95.241   445    PRINTER          [-] return.local\guest: STAT
 
 En este puerto al parecer corre una pagina que sirve como Panel Admin para una impresora.
 
-![](assets/Pasted%20image%2020260124205718.png)
+![](assets/Pasted%20image%2020260124205718.webp)
 
 En la tab de **Settings** puedo ver el servidor LDAP al cual la web se esta conectando.
 
-![](assets/Pasted%20image%2020260124205857.png)
+![](assets/Pasted%20image%2020260124205857.webp)
 
 #### Tecnologías Web.
 
 Wappalyzer detecta que corre PHP.
 
-![](assets/Pasted%20image%2020260124205803.png)
+![](assets/Pasted%20image%2020260124205803.webp)
 
 #### Fuzzing de Directorios.
 
@@ -214,7 +214,7 @@ INDEX.php               [Status: 200, Size: 28274, Words: 4370, Lines: 1346, Dur
 
 Puedo tratar de cambiar la configuración para que la web se conecte a mi maquina por el puerto 389 (LDAP) y asi obtener la contraseña en texto plano.
 
-![](assets/Pasted%20image%2020260124210148.png)
+![](assets/Pasted%20image%2020260124210148.webp)
 
 Me puse en escucha por el puerto 389 y al momento de actualizar los ajustes obtengo la contraseña.
 
@@ -229,7 +229,7 @@ connect to [10.10.16.34] from (UNKNOWN) [10.129.95.241] 63320
 
 También lo puedo ver por WireShark
 
-![](assets/Pasted%20image%2020260124210516.png)
+![](assets/Pasted%20image%2020260124210516.webp)
 
 - Obtuve las credenciales svc-printer / 1edFg43012!!
 
@@ -471,4 +471,4 @@ type root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260126202813.png)
+![](assets/Pasted%20image%2020260126202813.webp)

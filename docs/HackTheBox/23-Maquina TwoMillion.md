@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #api-abuse #overlay-fs #CVE-2023-038 #javascript-deobfuscation
 
-![](assets/Pasted%20image%2020251230213717.png)
+![](assets/Pasted%20image%2020251230213717.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -70,11 +70,11 @@ Metí el dominio al `/etc/hosts`
 
 Podemos ver que la pagina es una version de HackTheBox vieja
 
-![](assets/Pasted%20image%2020251230214428.png)
+![](assets/Pasted%20image%2020251230214428.webp)
 
 Para registrarse es necesario "hackear" el codigo de invitación.
 
-![](assets/Pasted%20image%2020251230220414.png)
+![](assets/Pasted%20image%2020251230220414.webp)
 
 **Tecnologias Web.**
 
@@ -83,7 +83,7 @@ Wappalyzer detecta lo siguiente:
 - `PHP` como lenguaje.
 - `Nginx` como Servidor Web y Reverse Proxy
 
-![](assets/Pasted%20image%2020251230214613.png)
+![](assets/Pasted%20image%2020251230214613.webp)
 
 **Fuzzing de Directorios.**
 
@@ -185,7 +185,7 @@ Le hacemos la petición al endpoint.
 
 Decodificamos el mensaje dentro de **data** y vemos lo siguiente
 
-![](assets/Pasted%20image%2020251230222658.png)
+![](assets/Pasted%20image%2020251230222658.webp)
 
 - Otro endpoint `/api/v1/invite/generate` al cual le podemos hacer una petición por POST para generar un codigo.
 
@@ -209,11 +209,11 @@ HDIHJ-QTC74-A886B-6QI1R
 
 Ahora tenemos un codigo para registrarnos. Por lo cual me cree una cuenta.
 
-![](assets/Pasted%20image%2020251230222951.png)
+![](assets/Pasted%20image%2020251230222951.webp)
 
 Una vez logeados podemos ver el dashboard.
 
-![](assets/Pasted%20image%2020251230223140.png)
+![](assets/Pasted%20image%2020251230223140.webp)
 
 ## Intrusion.
 
@@ -595,5 +595,5 @@ uid=0(root) gid=0(root) groups=0(root), 1000(admin)
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251231013800.png)
+![](assets/Pasted%20image%2020251231013800.webp)
 

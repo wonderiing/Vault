@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #nibbles #fuzzing #CVE-2015-6967
 
-![](assets/Pasted%20image%2020251215200419.png)
+![](assets/Pasted%20image%2020251215200419.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -64,19 +64,19 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Podemos ver una pagina en blanco con un solo texto
 
-![](assets/Pasted%20image%2020251215201145.png)
+![](assets/Pasted%20image%2020251215201145.webp)
 
 **Source Code.** 
 
 En su codigo fuente podemos ver lo siguiente:
 
-![](assets/Pasted%20image%2020251215201213.png)
+![](assets/Pasted%20image%2020251215201213.webp)
 
 ##### **nibbleblog/ enumeration.** 
 
 - En la ruta `http://10.129.7.152/nibbleblog/` tenemos un `CMS` llamado Nibbleblog, no hay nada de contenido interesante.
 
-![](assets/Pasted%20image%2020251215201436.png)
+![](assets/Pasted%20image%2020251215201436.webp)
 
 **Fuzzing nibbleblog/.**
 
@@ -121,13 +121,13 @@ Starting gobuster in directory enumeration mode
 
 - Esta ruta es el login para el panel de administración.
 
-![](assets/Pasted%20image%2020251215202943.png)
+![](assets/Pasted%20image%2020251215202943.webp)
 
 **README/**
 
 - El readme nos proporciona la version `4.0.3`  de Nibbleblog
 
-![](assets/Pasted%20image%2020251215202912.png)
+![](assets/Pasted%20image%2020251215202912.webp)
 
 **content/private/user.xml.**
 
@@ -135,7 +135,7 @@ El directorio **content/** muestra variedad de carpetas y archivos, entre ellos 
 
 - Nos confirma la existencia de un usuario llamado admin
 
-![](assets/Pasted%20image%2020251215203321.png)
+![](assets/Pasted%20image%2020251215203321.webp)
 
 ## Explotación
 
@@ -144,7 +144,7 @@ Fui incapaz de localizar la contraseña en algun directorio y brute-forcear el l
 
 - Credenciales fueron admin:nibbles
 
-![](assets/Pasted%20image%2020251215204413.png)
+![](assets/Pasted%20image%2020251215204413.webp)
 
 Recordemos que tenemos la version `4.0.3` por lo cual ahora que tenemos acceso al dashboard podemos tratar de buscar exploits. 
 
@@ -152,7 +152,7 @@ Nos encontramos con el siguiente CVE [CVE-2015-6967](https://www.incibe.es/index
 
 Podemos ver que el plugin **My image** existe si nos vamos al apartado de **Plugins**
 
-![](assets/Pasted%20image%2020251215214029.png)
+![](assets/Pasted%20image%2020251215214029.webp)
 
 Entonces ahora procederemos con la explotacion.
 
@@ -166,21 +166,21 @@ Entonces ahora procederemos con la explotacion.
 
 - Y lo subí en el apartado de Plugins/My Image.
 
-![](assets/Pasted%20image%2020251215205156.png)
+![](assets/Pasted%20image%2020251215205156.webp)
 
 - Accedemos a `http://10.129.7.159/nibbleblog/content/private/plugins/my_image/`
 
-![](assets/Pasted%20image%2020251215205259.png)
+![](assets/Pasted%20image%2020251215205259.webp)
 
 - Y nuestro archivo `image.php` es interpretado correctamente.
 
-![](assets/Pasted%20image%2020251215205320.png)
+![](assets/Pasted%20image%2020251215205320.webp)
 
 - Por lo cual ahora podemos entablarnos una reverse-shell. Yo utilice esta: [Pentest Monkey Reverse-Shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
 
 Es importante cambiar la ip y el puerto
 
-![](assets/Pasted%20image%2020251215205440.png)
+![](assets/Pasted%20image%2020251215205440.webp)
 
 - Ahora nos ponemos en escucha
 
@@ -192,13 +192,13 @@ Listening on 0.0.0.0 443
 
 - Y subimos la reverse-shell.
 
-![](assets/Pasted%20image%2020251215205542.png)
+![](assets/Pasted%20image%2020251215205542.webp)
 
 - Ahora nos dirigimos al directorio: `http://10.129.7.159/nibbleblog/content/private/plugins/my_image/`
 
 - Click a image.php
 
-![](assets/Pasted%20image%2020251215205632.png)
+![](assets/Pasted%20image%2020251215205632.webp)
 
 Recibimos la conexion:
 
@@ -294,4 +294,4 @@ cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251215210449.png)
+![](assets/Pasted%20image%2020251215210449.webp)

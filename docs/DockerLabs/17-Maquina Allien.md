@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #smb #brute-force #reverse-shell #sudo-abuse
 
-![](assets/Pasted%20image%2020251110203526.png)
+![](assets/Pasted%20image%2020251110203526.webp)
 
 ## Reconocimiento
 
@@ -68,7 +68,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La página principal muestra un formulario de login simple.
 
-![](assets/Pasted%20image%2020251110204129.png)
+![](assets/Pasted%20image%2020251110204129.webp)
 
 **Fuzzing de Directorios.**
 
@@ -90,13 +90,13 @@ Starting gobuster in directory enumeration mode
 
 El archivo `info.php` muestra la configuración de PHP. En la sección `disable_functions` no hay ninguna función deshabilitada, lo cual es útil para la ejecución de comandos.
 
-![](assets/Pasted%20image%2020251110204600.png)
+![](assets/Pasted%20image%2020251110204600.webp)
 
 **productos.php**
 
 Esta página parece ser la principal de la aplicación, probablemente a donde redirige después del login.
 
-![](assets/Pasted%20image%2020251110204745.png)
+![](assets/Pasted%20image%2020251110204745.webp)
 
 ### Puertos 139 y 445 SMB
 
@@ -325,6 +325,6 @@ uid=0(root) gid=0(root) groups=0(root)
 - Somos root.
 
 
-![](assets/Pasted%20image%2020251110214639.png)
+![](assets/Pasted%20image%2020251110214639.webp)
 
 ***PWNED***

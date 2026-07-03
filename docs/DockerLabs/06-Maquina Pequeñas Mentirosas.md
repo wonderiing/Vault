@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #criptografia #dockerlabs 
 
-![](assets/Pasted%20image%2020251103001103.png)
+![](assets/Pasted%20image%2020251103001103.webp)
 
 ## Reconocimiento
 
@@ -39,7 +39,7 @@ PORT   STATE SERVICE VERSION
 
 - Se nos indica encontrar la contraseña del usuario **`a`**, lo que indica claramente que el objetivo inicial será obtener acceso al servicio **SSH**.
 
-![](assets/Pasted%20image%2020251102225050.png)
+![](assets/Pasted%20image%2020251102225050.webp)
 
 ## Explotación
 

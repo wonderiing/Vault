@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #wordpress #wpscan #brute-force #mysql #password-reuse #theme-editor
 
-![](assets/Pasted%20image%2020251107001007.png)
+![](assets/Pasted%20image%2020251107001007.webp)
 
 ## Reconocimiento
 
@@ -51,11 +51,11 @@ MAC Address: 02:29:1E:07:C2:61 (Unknown)
 
 La página principal muestra una landing page simple del CTF.
 
-![](assets/Pasted%20image%2020251107001538.png)
+![](assets/Pasted%20image%2020251107001538.webp)
 
 También existe una página de login accesible.
 
-![](assets/Pasted%20image%2020251107001818.png)
+![](assets/Pasted%20image%2020251107001818.webp)
 
 **Código Fuente.**
 
@@ -81,11 +81,11 @@ Agrego el dominio al archivo `/etc/hosts`.
 
 Accedo al dominio `pressenter.hl` y Wappalyzer detecta que se trata de un sitio WordPress.
 
-![](assets/Pasted%20image%2020251107003510.png)
+![](assets/Pasted%20image%2020251107003510.webp)
 
 Confirmo que el panel de administración de WordPress está expuesto en la ruta `/wp-admin`.
 
-![](assets/Pasted%20image%2020251107003605.png)
+![](assets/Pasted%20image%2020251107003605.webp)
 
 **Enumeración de WordPress con WPScan.**
 
@@ -137,7 +137,7 @@ Accedo al panel de administración de WordPress con estas credenciales.
 
 Una vez dentro del panel de WordPress, me dirijo a **Herramientas → Editor de archivos de temas** y selecciono el tema `Twenty Twenty Two`. Edito el archivo `index.php` del tema para incluir una reverse shell en PHP. Yo utilice la Reverse-shell de [PentestMonkeyRevSh](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
 
-![](assets/Pasted%20image%2020251107010844.png)
+![](assets/Pasted%20image%2020251107010844.webp)
 
 Me pongo en escucha en mi máquina atacante.
 

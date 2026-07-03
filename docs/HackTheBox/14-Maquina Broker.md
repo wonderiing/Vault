@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #nginx #deserialization #apache-mq #CVE-2023-46604
 
-![](assets/Pasted%20image%2020251219164656.png)
+![](assets/Pasted%20image%2020251219164656.webp)
 
 ## Reconocimiento
 
@@ -194,19 +194,19 @@ En este puerto se encuentra **nginx**, el cual actúa como **reverse proxy**, re
 
 - Lo primero que me apareció una vez me metí a la pagina fue un login al cual ingrese con las credenciales default admin:admin
 
-![](assets/Pasted%20image%2020251219165530.png)
+![](assets/Pasted%20image%2020251219165530.webp)
 
 Al momento de darle al boton de **Manage ActiveMQ broker** me tope con esto:
 
 - Version 5.15.15 de ActiveMQ
 
-![](assets/Pasted%20image%2020251219170351.png)
+![](assets/Pasted%20image%2020251219170351.webp)
 
 Otra cosa a tener en cuenta es que los otros puertos/servicios también se esta redirigiendo al **Active MQ**
 
 - Puerto 8161
 
-![](assets/Pasted%20image%2020251219170527.png)
+![](assets/Pasted%20image%2020251219170527.webp)
 
 
 ## Explotación
@@ -496,4 +496,4 @@ root@broker:~# cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251219175032.png)
+![](assets/Pasted%20image%2020251219175032.webp)

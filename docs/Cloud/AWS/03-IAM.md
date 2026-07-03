@@ -23,15 +23,15 @@ Podemos crear un usuario IAM siguiendo la siguiente ruta:
 
 `IAM -> Usuarios IAM -> Crear Usuario`
 
-![](assets/Pasted%20image%2020260630115147.png)
+![](assets/Pasted%20image%2020260630115147.webp)
 
 Después podemos adjuntarle políticas al usuario directamente o asignarlo a un grupo. En este caso yo cree un nuevo grupo llamado admin y asigne la política de `AdministratorAcess` que da un acceso completo a AWS
 
-![](assets/Pasted%20image%2020260630115400.png)
+![](assets/Pasted%20image%2020260630115400.webp)
 
 Por ultimo, crearemos la persona y se nos mostrara un resumen del usuario creado al cual podremos enviarle la invitación de acceso por correo o darle sus credenciales:
 
-![](assets/Pasted%20image%2020260630115544.png)
+![](assets/Pasted%20image%2020260630115544.webp)
 
 ## Acceso a usuarios IAM
 
@@ -39,20 +39,20 @@ Para acceder al panel de AWS como un usuario IAM es necesario dirigirnos a `IAM 
 
 - Le daremos a Crear alias de cuenta.
 
-![](assets/Pasted%20image%2020260630115839.png)
+![](assets/Pasted%20image%2020260630115839.webp)
 
 Cuando creemos el alias se mostrara algo así:
 
 - Esta URL es la que necesitaran nuestros usuarios IAM, para poder acceder al panel de AWS (si tienen permisos.)
 - Solo es necesario crear el Alias una vez, una vez creado podremos utilizarlo para todas las cuentas IAM.
 
-![](assets/Pasted%20image%2020260630115928.png)
+![](assets/Pasted%20image%2020260630115928.webp)
 
 Al utilizar esa URL accederemos directamente al panel de login de AWS IAM, donde los usuarios podrán ingresar sus credenciales y acceder al panel.
 
 - La primera vez que ingresen normalmente pedirá un cambio de password.
 
-![](assets/Pasted%20image%2020260630120401.png)
+![](assets/Pasted%20image%2020260630120401.webp)
 
 ## Cuentas Simultaneas en AWS.
 
@@ -60,15 +60,15 @@ Podemos tener mas de una cuenta iniciada en la consola de AWS, para no tener que
 
 - Activamos la compatibilidad con varias sesiones.
 
-![](assets/Pasted%20image%2020260630120916.png)
+![](assets/Pasted%20image%2020260630120916.webp)
 
 Al activarlo podemos volver a darle a nuestro nombre y veremos un nuevo botón llamado Agregar sesión:
 
-![](assets/Pasted%20image%2020260630121023.png)
+![](assets/Pasted%20image%2020260630121023.webp)
 
 Al darle click nos llevara al login y podremos ingresar nuestras credenciales y al volver al panel ahora podemos ver las distintas sesiones que tenemos activas. Al darle click a cada una nos llevara a su respectiva consola de AWS
 
-![](assets/Pasted%20image%2020260630121159.png)
+![](assets/Pasted%20image%2020260630121159.webp)
 
 ## Políticas IAM
 
@@ -77,7 +77,7 @@ Una política define los permisos que los usuarios tienen.
 - **Identity-based policies:** se attachean a un usuario, grupo o rol. No llevan `Principal` en el statement, ya que el "quién" queda definido por la identidad a la que se attachea la política (si se attachea a un grupo, aplica a todos sus miembros).
 - **Resource-based policies:** se attachean directamente a un recurso (ej. un bucket de S3). Estas sí llevan `Principal`, porque es el recurso el que define explícitamente quién tiene permiso de acceder a él.
 
-![](assets/Pasted%20image%2020260630122751.png)
+![](assets/Pasted%20image%2020260630122751.webp)
 
 Ejemplo de política y su estructura:
 
@@ -126,14 +126,14 @@ Hay 2 tipos de creación de políticas la primera es visual:
 
 - Aquí básicamente podemos ir eligiendo a través de menús, el recurso, las acciones, los arns de la politica.
 
-![](assets/Pasted%20image%2020260630124043.png)
+![](assets/Pasted%20image%2020260630124043.webp)
 
 
 La segunda es a través de JSON y sigue la estructura que mencionamos anteriormente:
 
 - Aquí la IA nos puede ayudar mucho a crear políticas.
 
-![](assets/Pasted%20image%2020260630123419.png)
+![](assets/Pasted%20image%2020260630123419.webp)
 
 ## Politicas de Contraseñas y MFA
 
@@ -151,11 +151,11 @@ Hay 2 opciones para las políticas de contraseña.
 
 - Personalizado (Tu pones las reglas. Ej: Longitud, Símbolos, Caducidad)
 
-![](assets/Pasted%20image%2020260701222117.png)
+![](assets/Pasted%20image%2020260701222117.webp)
 
 - Reglas Predeterminadas:
 
-![](assets/Pasted%20image%2020260701222022.png)
+![](assets/Pasted%20image%2020260701222022.webp)
 
 **MFA - Multi Factor Authentication**
 
@@ -171,12 +171,12 @@ AWS solo permite OTPs virtuales y dispositivos físicos.
 
 Para añadir un MFA podemos darle click a nuestro nombre de cuenta arriba a la derecha y elegir la opción de `Credenciales de Seguridad`
 
-![](assets/Pasted%20image%2020260701222435.png)
+![](assets/Pasted%20image%2020260701222435.webp)
 
 
 Podemos darle a `Asignar dispositivo MFA` y continuar con el proceso:
 
-![](assets/Pasted%20image%2020260701222530.png)
+![](assets/Pasted%20image%2020260701222530.webp)
 
 ## AWS CLI y SDK
 
@@ -201,16 +201,16 @@ Para utilizar el CLI primero tenemos que crear una clave de acceso:
 IAM -> Usuarios de IAM -> (Eliges el usuario) -> Credenciales de Seguridad
 ```
 
-![](assets/Pasted%20image%2020260701224219.png)
+![](assets/Pasted%20image%2020260701224219.webp)
 
 Al darle a crear claves de acceso podemos ver las distintas opciones que hay, en este caso vamos a crear una clave de accesso para la CLI:
 
 
-![](assets/Pasted%20image%2020260701224357.png)
+![](assets/Pasted%20image%2020260701224357.webp)
 
 Al crearla vamos a poder ver las credenciales:
 
-![](assets/Pasted%20image%2020260701224436.png)
+![](assets/Pasted%20image%2020260701224436.webp)
 
 Y desde la CLI podemos configurarlo:
 
@@ -251,15 +251,15 @@ Para crear asignar un rol debemos ir a `IAM -> Roles -> Crear Rol`
 - Caso de uso: Servicio de AWS al que le asignaremos el rol.
 
 
-![](assets/Pasted%20image%2020260701230403.png)
+![](assets/Pasted%20image%2020260701230403.webp)
 
 Después le podemos agregar las políticas que querramos:
 
-![](assets/Pasted%20image%2020260701230600.png)
+![](assets/Pasted%20image%2020260701230600.webp)
 
 Por ultimo deberemos asignar un nombre y descripción al rol:
 
-![](assets/Pasted%20image%2020260701230719.png)
+![](assets/Pasted%20image%2020260701230719.webp)
 
 ## Herramientas de IAM
 
@@ -267,10 +267,10 @@ Por ultimo deberemos asignar un nombre y descripción al rol:
 
 - Para descargar el informe debemos ir a `IAM -> Informe de Credenciales` ahí nos toparemos con un botón que nos descargar el informe en formato `.csv`
 
-![](assets/Pasted%20image%2020260701231550.png)
+![](assets/Pasted%20image%2020260701231550.webp)
 
 **IAM Access Advisor** (nivel usuario): Muestra los permisos concedidos a un usuario y cuando se accedió a esos servicios por ultima vez.
 
 - Para ver la info de un usuario nos vamos a `IAM -> Usuarios -> Ultimo Acceso`
 
-![](assets/Pasted%20image%2020260701231754.png)
+![](assets/Pasted%20image%2020260701231754.webp)

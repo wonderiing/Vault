@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #certipy #esc16 #shadow-credentials #pywhisker #ad #CVE-2025-24071 #smb #bloodhound #rusthound
 
-![](assets/Pasted%20image%2020260117221236.png)
+![](assets/Pasted%20image%2020260117221236.webp)
 
 Credenciales iniciales:  j.fleischman / J0elTHEM4n1990!
 ## Reconocimiento
@@ -299,7 +299,7 @@ El archivo **Upgrade_Notice.pdf** revela que la infraestructura actual tiene alg
 - CVE-2025-24996
 - CVE-2025-24071
 
-![](assets/Pasted%20image%2020260117225536.png)
+![](assets/Pasted%20image%2020260117225536.webp)
 
 ## Acceso Inicial.
 
@@ -484,7 +484,7 @@ Al importar la informacion en bloodhound puedo ver lo siguiente.
 
 - **p.agila** tiene el permiso GenericAll sobre el grupo **Service Accounts**.
 
-![](assets/Pasted%20image%2020260117232625.png)
+![](assets/Pasted%20image%2020260117232625.webp)
 
 Este permiso me permite agregar al usuario **p.agila** al grupo **Service Accounts**. 
 
@@ -501,7 +501,7 @@ Ahora que somos parte del grupo **Service Accounts** podemos volver a bloodhound
 
 - El grupo **Service Accounts** tiene el permiso **Generic Write** sobre las cuentas **ldap_svc**, **winrm_svc** y **ca_svc**.
 
-![](assets/Pasted%20image%2020260117232823.png)
+![](assets/Pasted%20image%2020260117232823.webp)
 
 El permiso **GenericWrite** permite escribir sobre los atributos de estas cuentas. Una forma de abusar de este permiso consiste en modificar el atributo **`msDS-KeyCredentialLink`**, agregando una **credencial alternativa** basada en un **par de claves y un certificado**, lo que permite obtener acceso a la cuenta objetivo.
 
@@ -764,5 +764,5 @@ fluffy\administrator
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260117235724.png)
+![](assets/Pasted%20image%2020260117235724.webp)
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #file-upload #dockerlabs #burpsuite
 
-![](assets/Pasted%20image%2020251103001143.png)
+![](assets/Pasted%20image%2020251103001143.webp)
 ## Reconocimiento
 
 Empezamos con un escaneo con Nmap para listar todos los puertos abiertos:
@@ -77,7 +77,7 @@ Al conectarnos al servicio FTP con el usuario _anonymous_ al parecer lo que nos 
 
 Al parecer simplemente es la pagina default de apache
 
-![](assets/Pasted%20image%2020251101214354.png)
+![](assets/Pasted%20image%2020251101214354.webp)
 
 **Fuzzing.**
 
@@ -104,20 +104,20 @@ Starting gobuster in directory enumeration mode
 El recurso **/file_upload.php** nos permite subir un archivo a la web y visualizarlo en el directorio **/uplaods.**
 
 
-![](assets/Pasted%20image%2020251101220545.png)
+![](assets/Pasted%20image%2020251101220545.webp)
 
 Con BurpSuite Interceptamos la petición para ver que es lo se envié por detrás y para realizar un ataque **Sniper** para ver que extensiones permite esa subida de archivos:
 
-![](assets/Pasted%20image%2020251101220710.png)
+![](assets/Pasted%20image%2020251101220710.webp)
 
 El resultado es que la subida de archivos permite los archivos  _.phar_ por lo cual ahora nos creamos una web-shell simple en php
 
 
-![](assets/Pasted%20image%2020251101220837.png)
+![](assets/Pasted%20image%2020251101220837.webp)
 
 Subimos el archivo y nos dirigimos a la directorio **/uploads** para ver si nuestro archivo se subió correctamente
 
-![](assets/Pasted%20image%2020251101221020.png)
+![](assets/Pasted%20image%2020251101221020.webp)
 
 - Efectivamente nuestro archivo ha sido subido
 
@@ -125,7 +125,7 @@ Nos dirigimos a la ruta de nuestro archivo para comprobar que si nos esta interp
 
 - Lanzamos el comando _whoami_
 
-![](assets/Pasted%20image%2020251101221108.png)
+![](assets/Pasted%20image%2020251101221108.webp)
 
 Ahora que sabemos que si nos esta interpretando el script procedemos a ponernos en escucha por el puerto 443 para establecer una reverse shell:
 

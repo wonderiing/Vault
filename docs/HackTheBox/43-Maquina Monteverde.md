@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #azure-connect #azure #adsync #password-spraying #mssql
 
-![](assets/Pasted%20image%2020260128113006.png)
+![](assets/Pasted%20image%2020260128113006.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.

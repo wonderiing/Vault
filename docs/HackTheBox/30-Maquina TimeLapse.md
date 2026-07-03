@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #laps #certificate #certificate-cracking #ad #password-cracking #smb #openssl
 
-![](assets/Pasted%20image%2020260108234946.png)
+![](assets/Pasted%20image%2020260108234946.webp)
 
 ## Reconocimiento
 
@@ -471,4 +471,4 @@ La flag se encontraba en el usuario TRX.
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260109011518.png)
+![](assets/Pasted%20image%2020260109011518.webp)

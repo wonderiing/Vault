@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #smb #CVE-2007-2447 #CVE-2011-2523:
 
 
-![](assets/Pasted%20image%2020251210135756.png)
+![](assets/Pasted%20image%2020251210135756.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar conectividad:
@@ -239,4 +239,4 @@ root
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251210145112.png)
+![](assets/Pasted%20image%2020251210145112.webp)

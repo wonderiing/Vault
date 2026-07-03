@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy 
 - Tags: #ad #smb #pass-the-hash #netexec #SeBackupPrivilege #hive-sam #hive-system
 
-![](assets/Pasted%20image%2020251227064537.png)
+![](assets/Pasted%20image%2020251227064537.webp)
 
 ## Reconocimiento
 
@@ -581,4 +581,4 @@ Flags
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251227061000.png)
+![](assets/Pasted%20image%2020251227061000.webp)

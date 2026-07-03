@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #tomcat #msfvenom #bruteforce 
 
-![](assets/Pasted%20image%2020251210165646.png)
+![](assets/Pasted%20image%2020251210165646.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad:
@@ -52,13 +52,13 @@ PORT     STATE SERVICE VERSION
 
 - Apache Tomcat es un servidor de aplicaciones Java el cual nos permite desplegar y administrar aplicaciones.
 
-![](assets/Pasted%20image%2020251210163030.png)
+![](assets/Pasted%20image%2020251210163030.webp)
 
 **manager/html.**
 
 - Esta ruta es donde vamos a poder desplegar y administrar aplicaciones pero como vemos nos pide credenciales:
 
-![](assets/Pasted%20image%2020251210163207.png)
+![](assets/Pasted%20image%2020251210163207.webp)
 
 ## Explotación
 
@@ -89,7 +89,7 @@ Saved as: shell.war
 
 Ahora vamos a desplegar el payload en el tomcat
 
-![](assets/Pasted%20image%2020251210164847.png)
+![](assets/Pasted%20image%2020251210164847.webp)
 
 Una vez desplegada podemos ponernos en escucha.
 
@@ -100,7 +100,7 @@ Listening on 0.0.0.0 443
 
 Y procedemos a darle clic a la ruta de la app:
 
-![](assets/Pasted%20image%2020251210165221.png)
+![](assets/Pasted%20image%2020251210165221.webp)
 
 Recibimos la conexión:
 
@@ -127,4 +127,4 @@ root.txt
 
 ***PWND***
 
-![](assets/Pasted%20image%2020251210165545.png)
+![](assets/Pasted%20image%2020251210165545.webp)

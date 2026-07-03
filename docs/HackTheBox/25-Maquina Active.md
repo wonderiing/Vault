@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #smb #impacket #kerberoasting #psexec #sysvol
 
-![](assets/Pasted%20image%2020260102204453.png)
+![](assets/Pasted%20image%2020260102204453.webp)
 
 ## Reconocimiento
 
@@ -367,4 +367,4 @@ nt authority\system
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260102213037.png)
+![](assets/Pasted%20image%2020260102213037.webp)

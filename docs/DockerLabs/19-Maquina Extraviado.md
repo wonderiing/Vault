@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #base64 #password-reuse #riddle
 
-![](assets/Pasted%20image%2020251111230145.png)
+![](assets/Pasted%20image%2020251111230145.webp)
 
 ## Reconocimiento
 
@@ -63,11 +63,11 @@ La página principal muestra la página por defecto de Apache2. Al final de la p
 #.........................................................................................................ZGFuaWVsYQ== : Zm9jYXJvamE=
 ```
 
-![](assets/Pasted%20image%2020251111223116.png)
+![](assets/Pasted%20image%2020251111223116.webp)
 
 La cadena parece estar codificada en Base64. Utilizo Burp Suite para decodificarla.
 
-![](assets/Pasted%20image%2020251111223301.png)
+![](assets/Pasted%20image%2020251111223301.webp)
 
 - Credenciales decodificadas: `daniela:focaroja`
 
@@ -86,7 +86,7 @@ daniela@dockerlabs:~$ id
 uid=1000(daniela) gid=1000(daniela) groups=1000(daniela)
 ```
 
-![](assets/Pasted%20image%2020251111223633.png)
+![](assets/Pasted%20image%2020251111223633.webp)
 
 ## Escalada de Privilegios
 
@@ -112,7 +112,7 @@ drwxrwxr-x 1 daniela daniela    8 Jan  9  2025 Desktop
 
 Dentro del directorio encuentro un archivo llamado `passdiego`.
 
-![](assets/Pasted%20image%2020251111223755.png)
+![](assets/Pasted%20image%2020251111223755.webp)
 
 La contraseña parece estar codificada en Base64. La decodifico.
 
@@ -172,6 +172,6 @@ root@dockerlabs:/home/diego/.local/share# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-![](assets/Pasted%20image%2020251111225700.png)
+![](assets/Pasted%20image%2020251111225700.webp)
 
 ***PWNED***

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #certipy #esc9 #bloodhound #bloodyad #rusthound #ad #acl
 
-![](assets/Pasted%20image%2020260115110310.png)
+![](assets/Pasted%20image%2020260115110310.webp)
 
 Credenciales iniciales: judith.mader / judith09
 ## Reconocimiento
@@ -315,7 +315,7 @@ Al importar la data lo primero que veo es lo siguiente:
 
 - Mi usuario judith.mader tiene el derecho **WriteOwner** sobre el grupo Management.
 
-![](assets/Pasted%20image%2020260115113526.png)
+![](assets/Pasted%20image%2020260115113526.webp)
 
 Este derecho me permite convertirme en dueño del "objeto" y tener control total sobre el. 
 
@@ -363,7 +363,7 @@ Devuelta a `bloodhound` podemos ver lo siguiente:
 
 - El grupo Management tiene el derecho **GenericWrite** sobre el usuario **management_svc**.
 
-![](assets/Pasted%20image%2020260115115752.png)
+![](assets/Pasted%20image%2020260115115752.webp)
 
 El permiso **GenericWrite** me permite modificar distintos atributos del objeto *usuario* en Active Directory.
 
@@ -435,7 +435,7 @@ Devuelta a `bloodhound` podemos ver lo siguiente:
 
 - El usuario **management_svc** tiene el permiso **GenericAll** sobre el usuario **ca_operator**.
 
-![](assets/Pasted%20image%2020260115120657.png)
+![](assets/Pasted%20image%2020260115120657.webp)
 
 El permiso **GenericAll** me da control total del objeto.
 
@@ -685,4 +685,4 @@ c7f5ecbaaac8ebc44b23****
 4662cf359494a0663ada*****
 ```
 
-![](assets/Pasted%20image%2020260115124050.png)
+![](assets/Pasted%20image%2020260115124050.webp)

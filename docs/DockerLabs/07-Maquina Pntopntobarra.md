@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #lfi #dockerlabs
 
-![](assets/Pasted%20image%2020251105000419.png)
+![](assets/Pasted%20image%2020251105000419.webp)
 
 ## Reconocimiento
 
@@ -54,7 +54,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 Al parecer es una pagina donde me clavaron un virus.......
 
-![](assets/Pasted%20image%2020251105001227.png)
+![](assets/Pasted%20image%2020251105001227.webp)
 
 Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra vista
 
@@ -62,7 +62,7 @@ Al darle al boton de ejemplos de computadoras infectadas nos lleva a esta otra v
 > http://172.17.0.2/ejemplos.php?images=./ejemplo1.png
 ```
 
-![](assets/Pasted%20image%2020251105002745.png)
+![](assets/Pasted%20image%2020251105002745.webp)
 
 - Podemos notar en la URL que el parametro `images` cuyo valor es la ruta del archivo `ejemplo1.png` es quien esta tratando de listar el archivo.
 

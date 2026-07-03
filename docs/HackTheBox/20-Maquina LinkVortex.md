@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ghost #git #subdomain-enumeration #CVE-2023-40028 #symlinks
 
-![](assets/Pasted%20image%2020251225212310.png)
+![](assets/Pasted%20image%2020251225212310.webp)
 
 ## Reconocimiento
 
@@ -68,17 +68,17 @@ Metemos el dominio al `/etc/hosts`
 
 La pagina es una pagina informativa sobre partes de computadoras:
 
-![](assets/Pasted%20image%2020251225212833.png)
+![](assets/Pasted%20image%2020251225212833.webp)
 
 En el footer podemos ver **Powered By Ghost**
 
 - Ghost es un `CMS` que nos permite crear posts y muchas otras cosas..
 
-![](assets/Pasted%20image%2020251225212912.png)
+![](assets/Pasted%20image%2020251225212912.webp)
 
 Podemos ver que existen variedad de posts y todos estan hechos por el usuario `admin`
 
-![](assets/Pasted%20image%2020251225213213.png)
+![](assets/Pasted%20image%2020251225213213.webp)
 
 En su `robots.txt` podemos ver las siguiente rutas:
 
@@ -94,11 +94,11 @@ Disallow: /r/
 
 En la ruta `/ghost` podemos ver el panel de login para el CMS
 
-![](assets/Pasted%20image%2020251225213513.png)
+![](assets/Pasted%20image%2020251225213513.webp)
 
 Al colocar un usuario que no existe `ghost` nos indica que efectivamente ese usuario no existe por lo cual tenemos una vía potencial de enumerar usuarios validos.
 
-![](assets/Pasted%20image%2020251225213828.png)
+![](assets/Pasted%20image%2020251225213828.webp)
 
 **Tecnologias Web.**
 
@@ -107,7 +107,7 @@ Wappalyzer detecta que corren las siguiente tecnologías:
 - `expressjs` - Framework de backend que corre sobre `nodejs`
 - `React` - Framework frontend
 
-![](assets/Pasted%20image%2020251225213018.png)
+![](assets/Pasted%20image%2020251225213018.webp)
 
 Viendo los headers podemos confirmar la existencia de `expressjs`
 
@@ -169,7 +169,7 @@ Metí el subdominio en el `/etc/hosts`
 
 Al parecer la pagina esta en construcción y no hay nada raro, sus tecnologías web son solo un servidor `Apache`
 
-![](assets/Pasted%20image%2020251225214403.png)
+![](assets/Pasted%20image%2020251225214403.webp)
 
 **Fuzzing de Directorios.**
 
@@ -211,7 +211,7 @@ index.html              [Status: 200, Size: 2538, Words: 670, Lines: 116, Durati
 
 Podemos comprobar que esta expuesto accediendo desde la web
 
-![](assets/Pasted%20image%2020251225214753.png)
+![](assets/Pasted%20image%2020251225214753.webp)
 
 Utilice la herramienta `git-dumper` para reconstruir el repositorio en mi host.
 
@@ -290,7 +290,7 @@ Haciéndole un cat podemos ver lo siguiente
 
 Anteriormente vimos que todos los posts son de un usuario llamado `admin` por lo cual puedo tratar de utilizar este usuario para ver si es valido
 
-![](assets/Pasted%20image%2020251225213952.png)
+![](assets/Pasted%20image%2020251225213952.webp)
 
 - A diferencia de la otra solicitud donde se me indicaba que el usuario no existía, en esta solo se me indica que la password es incorrecta por lo cual admin puede ser un usuario valido.
 
@@ -298,11 +298,11 @@ Por lo cual ahora puedo tratar de reutilizar la credencial que me encontré en e
 
 - `admin@linkvortex.htb:OctopiFociPilfer45`
 
-![](assets/Pasted%20image%2020251225220707.png)
+![](assets/Pasted%20image%2020251225220707.webp)
 
 Y entramos al CMS
 
-![](assets/Pasted%20image%2020251225220839.png)
+![](assets/Pasted%20image%2020251225220839.webp)
 
 
 Dentro del CMS la verdad que no habia nada interesante que me dejara explotar para tener acceso a la maquina. Por lo cual decidí buscar vulnerabilidades para la versions `5.58.0` de Ghost y me encontré con lo siguiente: [CVE-2023-40028](https://nvd.nist.gov/vuln/detail/CVE-2023-40028).
@@ -591,4 +591,4 @@ c343af9ed9dc45fc98dc3591e301908e
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251225231446.png)
+![](assets/Pasted%20image%2020251225231446.webp)

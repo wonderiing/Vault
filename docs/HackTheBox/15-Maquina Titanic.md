@@ -5,7 +5,7 @@ Propiedades:
 - Tags: #gitea #lfi #path-traversal #path-hijacking #magick 
 
 
-![](assets/Pasted%20image%2020251220231520.png)
+![](assets/Pasted%20image%2020251220231520.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar conectividad.
@@ -71,11 +71,11 @@ Metemos el dominio al `/etc/hosts`
 
 Al parecer la pagina es para reservar un viaje en el titanic y morir en el intento.
 
-![](assets/Pasted%20image%2020251220204707.png)
+![](assets/Pasted%20image%2020251220204707.webp)
 
 Al darle al boton de **Book Your Trip** nos promptea un formulario y nos descarga un archivo `.json` donde se ven reflejados nuestros datos.
 
-![](assets/Pasted%20image%2020251220204758.png)
+![](assets/Pasted%20image%2020251220204758.webp)
 
 ```bash
 cat titanic.json | jq
@@ -92,7 +92,7 @@ cat titanic.json | jq
 
 Wappalyzer detecta que la pagina corre con `Python` mas especifico con el framework `Flask`
 
-![](assets/Pasted%20image%2020251220205010.png)
+![](assets/Pasted%20image%2020251220205010.webp)
 
 **Fuzzing de Directorios.**
 
@@ -170,20 +170,20 @@ En este subdominio esta corriendo **Gitea.**
 
 - Gitea es un software para el control de versiones auto-alojado similar a GitHub y Gitlab.
 
-![](assets/Pasted%20image%2020251220205914.png)
+![](assets/Pasted%20image%2020251220205914.webp)
 
 Podemos ver que se esta usando la version `1.22.1` de **Gitea**
 
-![](assets/Pasted%20image%2020251220205935.png)
+![](assets/Pasted%20image%2020251220205935.webp)
 
 
 Me cree una cuenta en **Gitea** para ver que me encontraba:
 
-![](assets/Pasted%20image%2020251220210536.png)
+![](assets/Pasted%20image%2020251220210536.webp)
 
 Me encontré 2 repositorios.
 
-![](assets/Pasted%20image%2020251220210639.png)
+![](assets/Pasted%20image%2020251220210639.webp)
 
 **Repositorio docker-config.**
 
@@ -231,29 +231,29 @@ services:
 
 También encontramos 2 usuarios.
 
-![](assets/Pasted%20image%2020251220210654.png)
+![](assets/Pasted%20image%2020251220210654.webp)
 
 
 ## Explotación
 
 Con burpsuite intercepta la petición de reservación:
 
-![](assets/Pasted%20image%2020251220204758.png)
+![](assets/Pasted%20image%2020251220204758.webp)
 
 
 Podemos ver que nos trata de redirigir a `/download?ticket=`
 
-![](assets/Pasted%20image%2020251220212254.png)
+![](assets/Pasted%20image%2020251220212254.webp)
 
 Al momento de la redireccion podemos ver que `ticket=` recibe como parametro un archivo.
 
-![](assets/Pasted%20image%2020251220212316.png)
+![](assets/Pasted%20image%2020251220212316.webp)
 
 Lo primero que intente fue un LFI y funciono correctamente.
 
 - el `/etc/passwd` me indico el usuario `developer`
 
-![](assets/Pasted%20image%2020251220212410.png)
+![](assets/Pasted%20image%2020251220212410.webp)
 
 Ahora anteriormente descubrimos que el repositorio **docker-config** contenía un archivo **docker-compose.yml** donde nos mostraba donde estaba la ruta de instalación de Gitea.
 
@@ -289,7 +289,7 @@ Por lo cual la petición quedaría asi:
 GET /download?ticket=../../../../../../../../../home/developer/gitea/data/gitea/conf/app.ini
 ```
 
-![](assets/Pasted%20image%2020251220214140.png)
+![](assets/Pasted%20image%2020251220214140.webp)
 
 Obtenemos la informacion de la ruta de la `db`
 
@@ -320,7 +320,7 @@ curl --path-as-is -s -k "http://titanic.htb/download?ticket=../../../../../../..
 
 Inspeccionando el archivo me encuentro con credenciales para los usuarios administrador y developer.
 
-![](assets/Pasted%20image%2020251220215026.png)
+![](assets/Pasted%20image%2020251220215026.webp)
 
 **Gitea** guarda las credenciales en varias columnas por lo cual voy a utilizar el siguiente script para convertir los hashes a formato hashcat crackeables: [gitea2hashcat](https://raw.githubusercontent.com/hashcat/hashcat/refs/heads/master/tools/gitea2hashcat.py)
 
@@ -448,4 +448,4 @@ cat root.txt
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251220231429.png)
+![](assets/Pasted%20image%2020251220231429.webp)

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #bloodhound #bloodyad #ad #acl #keepass #dpapi #rusthound 
 
-![](assets/Pasted%20image%2020260109133818.png)
+![](assets/Pasted%20image%2020260109133818.webp)
 
 Credenciales Iniciales: levi.james / KingofAkron2025!
 ## Reconocimiento
@@ -261,7 +261,7 @@ Al importar el zip a bloodhound puedo ver lo siguiente:
 
 - levi.james pertenece al grupo HR y el grupo HR tiene el derecho **GenericWrite** sobre el grupo **Developers.** Esto me permite agregar al usuario levi.james a dicho grupo.
 
-![](assets/Pasted%20image%2020260109141402.png)
+![](assets/Pasted%20image%2020260109141402.webp)
 
 !!! info
     **GenericWrite** es un derecho ACL que permite modificar la mayoría de atributos de un objeto. En este caso, podemos: - Agregar/eliminar miembros del grupo - Modificar propiedades del grupo - Cambiar la descripción
@@ -362,7 +362,7 @@ Y  obtenemos esto:
 
 - Credenciales para distintos usuarios.
 
-![](assets/Pasted%20image%2020260109143627.png)
+![](assets/Pasted%20image%2020260109143627.webp)
 
 Voy a guardarme estas credenciales en 2 archivos y voy a probarlas con `netexec` para ver cuales son validas:
 
@@ -388,7 +388,7 @@ Ahora que tengo acceso como el usuario **ant.edwards** puedo ir devuelta a `bloo
 - ant.edwards es miembro del grupo **Senior Devs** que a su vez tiene el derecho **GenericAll** sobre el usuario adam.silver
 - adam.silver es miembro de Remote Managment Users, lo que nos permite acceso a la maquina.
 
-![](assets/Pasted%20image%2020260109144251.png)
+![](assets/Pasted%20image%2020260109144251.webp)
 
 Una de las formas de abusar de **GenericWrite** es realizar un cambio de contraseña sobre el usuario adam.silver. Esto lo podemos hacer con net rpc.
 
@@ -410,7 +410,7 @@ SMB         10.129.232.75   445    DC               [-] PUPPY.HTB\adam.silver:wn
 
 De hecho BloodHound también nos lo indica, pero como soy ciego y no leo pues no lo vi.
 
-![](assets/Pasted%20image%2020260109145051.png)
+![](assets/Pasted%20image%2020260109145051.webp)
 
 Podemos activar la cuenta con `bloodyAD`.
 
@@ -747,4 +747,4 @@ d85630b77d5204b5f5725bffb6f7d95e
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260109165843.png)
+![](assets/Pasted%20image%2020260109165843.webp)

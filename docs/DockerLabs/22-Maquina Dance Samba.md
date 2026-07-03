@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medio
 - Tags: #password-gueessing #samba #enum4linux #netexec #ftp
 
-![](assets/Pasted%20image%2020260103005159.png)
+![](assets/Pasted%20image%2020260103005159.webp)
 
 ## Reconocimiento
 

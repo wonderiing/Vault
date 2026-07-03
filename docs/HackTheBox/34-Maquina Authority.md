@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #pwm #domain-computer #esc1 #impacket #netexec #ad #certipy #certificate #ldap #pass-the-cert
 
-![](assets/Pasted%20image%2020260117060851.png)
+![](assets/Pasted%20image%2020260117060851.webp)
 ## Reconocimiento
 
 Comienzo con un ping para comprobar la conectividad.
@@ -318,7 +318,7 @@ SMB         10.129.45.67    445    AUTHORITY        SYSVOL                      
 
 Aqui corre un IIS Server. Realice fuzzing pero no encontré nada raro.
 
-![](assets/Pasted%20image%2020260117061836.png)
+![](assets/Pasted%20image%2020260117061836.webp)
 
 ### Puerto 8843 pwm.
 
@@ -326,7 +326,7 @@ En este puerto corre pwm.
 
 - PWM es un portal web comúnmente utilizado en Active Directory para resetear contraseñas de usuario que se conecta directamente con LDAP.
 
-![](assets/Pasted%20image%2020260117070042.png)
+![](assets/Pasted%20image%2020260117070042.webp)
 
 El modo configuración esta habilitado por lo cual puedo tratar de acceder al Configuration Manager.
 
@@ -517,16 +517,16 @@ Probé las credenciales encontradas en distintos servicios, entre ellos `Pwm` pa
 
 - Tuve éxito con pWm_@dm!N_!23
 
-![](assets/Pasted%20image%2020260117075328.png)
+![](assets/Pasted%20image%2020260117075328.webp)
 
 Puedo ver esto dentro del panel de configuracion:
 
-![](assets/Pasted%20image%2020260117072522.png)
+![](assets/Pasted%20image%2020260117072522.webp)
 
 
 En el editor de configuraciones puedo ver el siguiente usuario:
 
-![](assets/Pasted%20image%2020260117074214.png)
+![](assets/Pasted%20image%2020260117074214.webp)
 
 - Este usuario es el que descubrimos via `rid-brute`.
 
@@ -543,7 +543,7 @@ Ahora cambio la configuración para que LDAP URLs apunte a mi -> `ip`
 
 - Utilizando el protocolo LDAP (389) en vez de LDAPS.
 
-![](assets/Pasted%20image%2020260117073305.png)
+![](assets/Pasted%20image%2020260117073305.webp)
 
 Click a **Test LDAP Profile** y me llega la conexión:
 
@@ -559,7 +559,7 @@ connect to [10.10.16.34] from (UNKNOWN) [10.129.45.67] 51549
 
 También lo podemos ver en WireShark
 
-![](assets/Pasted%20image%2020260117073251.png)
+![](assets/Pasted%20image%2020260117073251.webp)
 
 Ahora puedo probar las credenciales:
 
@@ -821,4 +821,4 @@ Y podemos obtener la flag:
 ```
 
 
-![](assets/Pasted%20image%2020260117083030.png)
+![](assets/Pasted%20image%2020260117083030.webp)

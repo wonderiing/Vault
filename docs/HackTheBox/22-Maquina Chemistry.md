@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #port-forwarding #CVE-2024-23334 #cif #aiohttp #CVE-2024-23346 #lfi
 
-![](assets/Pasted%20image%2020251229123956.png)
+![](assets/Pasted%20image%2020251229123956.webp)
 ## Reconocimiento
 
 Comienzo tirando un ping para comprobar la conectividad.
@@ -67,15 +67,15 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La web es una herramienta para analizar archivos CIF.
 
-![](assets/Pasted%20image%2020251229124546.png)
+![](assets/Pasted%20image%2020251229124546.webp)
 
 Me cree una cuenta para acceder a la pagina:
 
-![](assets/Pasted%20image%2020251229124826.png)
+![](assets/Pasted%20image%2020251229124826.webp)
 
 Al momento de entrar podemos ver que tenemos la capacidad de subir archivos CIF y verlos desde la web.
 
-![](assets/Pasted%20image%2020251229133648.png)
+![](assets/Pasted%20image%2020251229133648.webp)
 
 **Tecnologias Web.**
 
@@ -168,7 +168,7 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 
 Subo el payload.
 
-![](assets/Pasted%20image%2020251229133507.png)
+![](assets/Pasted%20image%2020251229133507.webp)
 
 Y  al momento de darle a **view** me llega la petición a mi maquina.
 
@@ -210,7 +210,7 @@ _space_group_magn.name_BNS  "P  n'  m  a'  "
 
 - Subí el archivo y al momento de darle a view me llego la conexión
 
-![](assets/Pasted%20image%2020251229135203.png)
+![](assets/Pasted%20image%2020251229135203.webp)
 
 
 ```bash
@@ -372,11 +372,11 @@ Sabiendo que es una web, puedo realizar **Port Forwarding** para poder acceder a
 
 La web es una dashboard de ventas o algo asi
 
-![](assets/Pasted%20image%2020251229143539.png)
+![](assets/Pasted%20image%2020251229143539.webp)
 
 Tiene varias tabs entre ellas la que muestra servicios corriendo:
 
-![](assets/Pasted%20image%2020251229143610.png)
+![](assets/Pasted%20image%2020251229143610.webp)
 
 **Tecnologias Web.**
 
@@ -498,4 +498,4 @@ e72e650e69f********
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251229150820.png)
+![](assets/Pasted%20image%2020251229150820.webp)

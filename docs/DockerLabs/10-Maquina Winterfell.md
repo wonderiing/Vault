@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #smb #password-reuse #sudo-abuse #python-hijacking #base64
 
-![](assets/Pasted%20image%2020251107000945.png)
+![](assets/Pasted%20image%2020251107000945.webp)
 
 ## Reconocimiento
 
@@ -71,7 +71,7 @@ La página principal es una landing page temática de Juego de Tronos. En el con
 - `daenerys`
 - `arya`
 
-![](assets/Pasted%20image%2020251106200304.png)
+![](assets/Pasted%20image%2020251106200304.webp)
 
 **Fuzzing de Directorios.**
 
@@ -91,7 +91,7 @@ Starting gobuster in directory enumeration mode
 
 Accediendo al directorio `/dragon` encuentro un archivo de texto llamado `EpisodiosT1` que contiene lo que parecen ser posibles contraseñas.
 
-![](assets/Pasted%20image%2020251106200637.png)
+![](assets/Pasted%20image%2020251106200637.webp)
 
 Descargo el archivo para utilizarlo como diccionario en posibles ataques de fuerza bruta.
 

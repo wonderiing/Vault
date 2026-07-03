@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #idor #capabilites #set_uid
 
-![](assets/Pasted%20image%2020251207151109.png)
+![](assets/Pasted%20image%2020251207151109.webp)
 
 ## Reconocimiento
 
@@ -161,12 +161,12 @@ Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
 **Puerto 80 HTTP**
 
 - Al parecer la pagina es como un SIEM
-![](assets/Pasted%20image%2020251207151907.png)
+![](assets/Pasted%20image%2020251207151907.webp)
 
 - En el apartado de security snapshot podemos ver informacion sobre paquetes de red, cada que nos metemos a esa tab el numero de `data` cambia y el numero de paquetes también, por lo cual podemos intuir que cada que cambiemos el valor en `/data/$id` vamos a ver distintos paquetes de red.
 - Podemos descargar cada archivo en formato `.pcap` para poder visualizarlos en Wireshark.
 
-![](assets/Pasted%20image%2020251207153534.png)
+![](assets/Pasted%20image%2020251207153534.webp)
 
 - Un **IDOR** (_Insecure Direct Object Reference_) es una vulnerabilidad donde una aplicación permite acceder a datos u objetos **solo cambiando un identificador**, sin verificar permisos en este caso el valor de `/data/$id`. Gracias a que la web es vulnerable a `IDOR` vamos a tener acceso a varios archivos `.pcap` los cuales vamos a inspeccionar profundamente para ver si encontramos algo
 ## Explotación
@@ -192,7 +192,7 @@ Inspeccionando el archivo `0.pcap` me encuentro con esto:
 
 - Es una serie de paquetes donde podemos ver el trafico del servicio `FTP` y las credenciales utilizadas para autenticarse a este servicio. Esto ocurre por que el protocolo `FTP` por defecto no cifra absolutamente nada lo que significa que todo el trafico viaja en texto plano.
 
-![](assets/Pasted%20image%2020251207154242.png)
+![](assets/Pasted%20image%2020251207154242.webp)
 
 - Credenciales nathan:Buck3tH4TF0RM3!
 
@@ -289,4 +289,4 @@ root.txt  snap
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020251207162502.png)
+![](assets/Pasted%20image%2020251207162502.webp)

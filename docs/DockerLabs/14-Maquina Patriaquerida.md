@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #lfi #parameter-fuzzing #password-reuse #suid-abuse
 
-![](assets/Pasted%20image%2020251109193730.png)
+![](assets/Pasted%20image%2020251109193730.webp)
 
 ## Reconocimiento
 
@@ -60,7 +60,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 La página principal muestra la página por defecto de Apache2.
 
-![](assets/Pasted%20image%2020251109144335.png)
+![](assets/Pasted%20image%2020251109144335.webp)
 
 **Fuzzing de Directorios.**
 
@@ -78,11 +78,11 @@ Starting gobuster in directory enumeration mode
 
 Encuentro un archivo `index.php` que contiene el siguiente mensaje:
 
-![](assets/Pasted%20image%2020251109144427.png)
+![](assets/Pasted%20image%2020251109144427.webp)
 
 El mensaje indica que existe un archivo llamado `balu` en algún lugar del sistema. Como estamos en un servidor Apache2, la ruta por defecto es `/var/www/html`, por lo que intento acceder directamente al archivo.
 
-![](assets/Pasted%20image%2020251109150235.png)
+![](assets/Pasted%20image%2020251109150235.webp)
 
 - Encuentro un texto que dice: `balu`
 
@@ -104,7 +104,7 @@ Ahora puedo leer archivos del sistema accediendo a `http://172.17.0.2/index.php?
 
 - En este caso lei el `/etc/passwd`
 
-![](assets/Pasted%20image%2020251109151030.png)
+![](assets/Pasted%20image%2020251109151030.webp)
 
 El archivo `/etc/passwd` me muestra dos usuarios del sistema:
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #bruteforce #dockerlabs #python-library-hijacking #password-spraying
 
-![](assets/Pasted%20image%2020251103001202.png)
+![](assets/Pasted%20image%2020251103001202.webp)
 ## Reconocimiento
 
 Empezamos Listando los puertos abiertos TCP del objetivo:
@@ -49,7 +49,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Es la web default de apache, lo cual no nos dice mucho
 
-![](assets/Pasted%20image%2020251031194304.png)
+![](assets/Pasted%20image%2020251031194304.webp)
 
 **Fuzzing.**
 
@@ -70,7 +70,7 @@ Dentro del archivo `index.php` pudimos encontrar un texto
 
 - _JIFGHDS87GYDFIGD_ puede ser alguna credencial.
 
-![](assets/Pasted%20image%2020251031192525.png)
+![](assets/Pasted%20image%2020251031192525.webp)
 
 ## Explotación
 
@@ -90,7 +90,7 @@ Accedemos al servicio SSH cona las credenciales:
 
 - carlos:JIFGHDS87GYDFIGD
 
-![](assets/Pasted%20image%2020251031192744.png)
+![](assets/Pasted%20image%2020251031192744.webp)
 
 
 ## Escalada de Privilegios
@@ -151,5 +151,5 @@ Procedemos a ejecutar el `script.py` como el usuario `root`.
 
 Ya somos root:
 
-![](assets/Pasted%20image%2020251031194151.png)
+![](assets/Pasted%20image%2020251031194151.webp)
 

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ldap #SeBackupPrivilege #ntdsdit #ad #password-spraying
 
-![](assets/Pasted%20image%2020260120064009.png)
+![](assets/Pasted%20image%2020260120064009.webp)
 
 ## Reconocimiento
 
@@ -546,4 +546,4 @@ Ahora que tengo acceso me voy a conectar por WinRm.
 baby\administrator
 ```
 
-![](assets/Pasted%20image%2020260122111423.png)
+![](assets/Pasted%20image%2020260122111423.webp)

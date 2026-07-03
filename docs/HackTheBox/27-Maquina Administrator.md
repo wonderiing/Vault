@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Medium
 - Tags: #bloodhound #genericall #genericwrite #smb #targeted-kerberoast #dcsync #getchanges #acl
 
-![](assets/Pasted%20image%2020260105222756.png)
+![](assets/Pasted%20image%2020260105222756.webp)
 
 Credenciales iniciales: **Username: Olivia Password: ichliebedich**
 
@@ -262,7 +262,7 @@ Ejecutare `bloodhound` e importare mi zip a la app.
 
 A partir del usuario **olivia**, BloodHound permitió identificar, mediante los **Outbound Control Objects**, distintos caminos de **movimiento lateral y escalada de privilegios** hacia otros usuarios del dominio, como **michael** y **benjamin**.
 
-![](assets/Pasted%20image%2020260105231543.png)
+![](assets/Pasted%20image%2020260105231543.webp)
 
 ### Abusando de GenericAll sobre el usuario michael
 
@@ -387,7 +387,7 @@ Session completed.
 
 Voy a abrir el archivo con Password Safe:
 
-![](assets/Pasted%20image%2020260105234608.png)
+![](assets/Pasted%20image%2020260105234608.webp)
 
 Al momento de abrirlo me encuentro con 3 usuarios y sus credenciales las cuales exporte a un archivo.
 
@@ -448,12 +448,12 @@ Devuelta a BloodHound con nuestro nuevo usuario **emily** podemos volver a jugar
 - Podemos ver que Emily tiene permisos **GenericWrite** sobre el usuario **Ethan**
 - Este permiso nos permite modificar la mayoría de atributos de un usuario, en este caso **ethan**.
 
-![](assets/Pasted%20image%2020260106010016.png)
+![](assets/Pasted%20image%2020260106010016.webp)
 
 - Y a su vez **ethan** tiene permisos **GetChanges** y **GetChangesAll** sobre el DC.
 - Estos permisos combinados nos permite replicar objetos del dominio, leer atributos sensibles y solicitar hashes de usuarios. Estos permisos nos permiten realizar ataques DCSync.
 
-![](assets/Pasted%20image%2020260106004721.png)
+![](assets/Pasted%20image%2020260106004721.webp)
 
 BloodHound nos indica 2 formas de abusar de **GenericWrite**.
 
@@ -592,4 +592,4 @@ Flag:
 
 ***PWNED***
 
-![](assets/Pasted%20image%2020260106003430.png)
+![](assets/Pasted%20image%2020260106003430.webp)

@@ -4,7 +4,7 @@ Propiedades:
 - Nivel: Easy
 - Tags: #ssh #lfi #dockerlabs
 
-![](assets/Pasted%20image%2020251103001153.png)
+![](assets/Pasted%20image%2020251103001153.webp)
 ## Reconocimiento
 
 Empezamos tirando un reconocimiento a la maquina para verificar sus puertos abiertos:
@@ -47,7 +47,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 - Vemos una pagina creada por un tal Luisillo pero nada de informacion relevante
 
-![](assets/Pasted%20image%2020251101210028.png)
+![](assets/Pasted%20image%2020251101210028.webp)
 
 **Fuzzing de Directorios.**
 
@@ -65,7 +65,7 @@ Starting gobuster in directory enumeration mode
 
 Lo primero que me llama la atención es la carpeta assets pero no encontramos nada
 
-![](assets/Pasted%20image%2020251101210542.png)
+![](assets/Pasted%20image%2020251101210542.webp)
 
 **Fuzzing de Parámetros.**
 
@@ -95,7 +95,7 @@ Efectivamente la web es vulnerable a Local File Inclusion y nos lista el conteni
 
 - Notamos 2 usuarios aparte de root los cuales son _vaxei_ y _lusillo_
 
-![](assets/Pasted%20image%2020251101211127.png)
+![](assets/Pasted%20image%2020251101211127.webp)
 
 Podemos tratar de listar la clave `ssh` id_rsa de alguno de estos usuarios aprovechándonos del LFI.
 
@@ -105,7 +105,7 @@ Podemos tratar de listar la clave `ssh` id_rsa de alguno de estos usuarios aprov
 
 - Pudimos acceder a la clave ssh del usuario `vaxei`.
 
-![](assets/Pasted%20image%2020251101211411.png)
+![](assets/Pasted%20image%2020251101211411.webp)
 
 Con la clave _rsa_ guardada en nuestro sistema procedimos a darle permisos y a conectarnos mediante _ssh_
 
@@ -136,7 +136,7 @@ Procedimos a explotar el binario _perl_ y migrar al usuario `luisillo`
 > sudo -u luisillo /usr/bin/perl -e 'exec "/bin/sh";'
 ```
 
-![](assets/Pasted%20image%2020251101212006.png)
+![](assets/Pasted%20image%2020251101212006.webp)
 
 Denuevo realizamos el mismo proceso de enumerar binarios con privilegios de `SUDO`.
 
@@ -150,7 +150,7 @@ User luisillo may run the following commands on 2dfea34fe709:
 
 Inspeccione el script para ver que hace:
 
-![](assets/Pasted%20image%2020251101212209.png)
+![](assets/Pasted%20image%2020251101212209.webp)
 
 Al ejecutar el script me di cuenta que llama a un modulo `subprocess` que no existe, por lo cual podemos realizar un **Python Library Hijacking** que consiste en forzar a `Python` para que cargue una librería malicioso en lugar de la legitima aprovechando como `Python` busca modulos.
 
@@ -172,4 +172,4 @@ $ sudo -u root /usr/bin/python3 /opt/paw.py
 
 Somos root:
 
-![](assets/Pasted%20image%2020251101212443.png)
+![](assets/Pasted%20image%2020251101212443.webp)
