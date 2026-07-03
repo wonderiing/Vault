@@ -4,6 +4,11 @@ Soy Carlos Rodriguez, desarrollador backend en formacion y estudiante de Ingenie
 
 Este sitio documenta mi aprendizaje practico: laboratorios de ciberseguridad, notas de cloud, backend, Docker, SQL y proyectos que voy desarrollando.
 
+<div class="cv-actions" markdown>
+<a class="cv-button" href="cv/CV-CarlosRodriguez-ES.pdf" download>Descargar CV ES</a>
+<a class="cv-button cv-button--secondary" href="cv/CV-CarlosRodriguez-EN.pdf" download>Download CV EN</a>
+</div>
+
 ## Perfil Profesional
 
 Desarrollador Backend en formacion con experiencia practica en **Java (Spring Boot)**, **Node.js** y **NestJS**, con proyectos reales en arquitecturas de microservicios, APIs REST y despliegue en **AWS**.

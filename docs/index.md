@@ -2,6 +2,11 @@
 
 Soy Carlos Rodriguez, estudiante de Ingenieria en Desarrollo de Software. Este sitio es una coleccion personal de temas que me gusta estudiar, documentar y practicar: backend, DevOps, cloud, ciberseguridad y cualquier cosa tecnica que me parezca didactica.
 
+<div class="cv-actions" markdown>
+<a class="cv-button" href="cv/CV-CarlosRodriguez-ES.pdf" download>Descargar CV ES</a>
+<a class="cv-button cv-button--secondary" href="cv/CV-CarlosRodriguez-EN.pdf" download>Download CV EN</a>
+</div>
+
 ---
 
 ## Sobre Mi

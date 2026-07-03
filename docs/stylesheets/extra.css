@@ -446,6 +446,36 @@
     margin-bottom: 2rem;
 }
 
+.cv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 1.4rem;
+}
+
+.md-typeset .cv-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.65rem;
+    padding: 0.28rem 0.55rem;
+    border: 1px solid var(--ctp-surface2);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ctp-subtext1) !important;
+    font-weight: 600;
+    font-size: 0.62rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.md-typeset .cv-button:hover {
+    border-color: var(--ctp-mauve);
+    background: rgba(203, 166, 247, 0.08);
+    color: var(--ctp-mauve) !important;
+    text-decoration: none;
+}
+
 .category-grid h4 {
     background: transparent;
     border: 1px solid var(--gitbook-border);
