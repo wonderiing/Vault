@@ -55,20 +55,10 @@ En la parte de red usaré estos ajustes:
 
 ## 2. Crear Target Group, ALB y Security Groups
 
-El ALB será el punto de entrada público hacia la API. Los usuarios no le pegarán directamente a una task de ECS, sino al balanceador.
-
-El Target Group agrupa las IPs de las tasks que están corriendo. Esto es importante porque en Fargate las tasks pueden cambiar de IP cuando se reinician o cuando hacemos un nuevo deploy.
-
-Los Security Groups funcionan como reglas de firewall:
-
-- El ALB debería aceptar tráfico desde internet por `80` y/o `443`.
-- Las tasks de ECS deberían aceptar tráfico desde el ALB por el puerto de la API.
-- RDS debería aceptar tráfico desde ECS por `5432`.
-
 ### Target Group
 
 !!! info "Target Group"
-    El Target Group es el grupo de destinos al que el ALB enviará tráfico. En este caso, los destinos serán las IPs de las tasks de Fargate. Esto es importante porque las tasks pueden cambiar de IP cuando se reinician o cuando hacemos un nuevo deploy.
+    El Target Group es el grupo de destinos al que el ALB enviará tráfico. En este caso, los destinos serán las IPs de las tasks (contenedores) de ECS. Esto es importante porque las tasks pueden cambiar de IP cuando se reinician o cuando hacemos un nuevo deploy.
 
 Lo crearemos en:
 
@@ -91,7 +81,7 @@ Cuando AWS pida registrar destinos, lo dejamos en blanco. Fargate se encargará 
 ### Application Load Balancer
 
 !!! info "Application Load Balancer"
-    El ALB es la entrada pública hacia la API. Los usuarios hacen peticiones al DNS del Load Balancer, no directamente a las tasks. Luego el ALB reparte el tráfico hacia las tasks disponibles dentro del Target Group.
+    El ALB es la entrada pública hacia la API. Los usuarios hacen peticiones al DNS del Load Balancer, no directamente a las tasks (contenedores). Luego el ALB reparte el tráfico hacia las tasks disponibles dentro del Target Group.
 
 El balanceador lo crearemos en:
 
@@ -103,7 +93,7 @@ Será de tipo `Application Load Balancer`.
 
 ![](assets/Pasted%20image%2020260721182348.webp)
 
-Le colocamos el nombre que queramos y usamos `IPv4`.
+Le colocamos el nombre que queramos y lo exponemos a internet.
 
 ![](assets/Pasted%20image%2020260721182426.webp)
 
@@ -166,7 +156,7 @@ La URI `ghcr.io/usuario/aero-api:latest` será la que colocaremos después en EC
 
 Este paso es opcional. Si usas el package público de ejemplo, no necesitas crear un secreto para GHCR porque ECS puede descargar la imagen sin autenticarse.
 
-Si la imagen está privada, ECS necesita credenciales para descargarla desde GitHub Container Registry. Para eso usaremos Secrets Manager.
+Si tu imagen está privada, ECS necesita credenciales para descargarla desde GitHub Container Registry. Para eso usaremos Secrets Manager.
 
 En mi caso creé un Classic Token en GitHub con permisos para leer paquetes:
 
@@ -176,9 +166,7 @@ Settings -> Developer Settings -> Personal Access Tokens -> Tokens Classic
 
 ![](assets/Pasted%20image%2020260721183525.webp)
 
-Cuando tengamos el token, creamos un nuevo secreto en AWS Secrets Manager. Este secreto debe guardar las credenciales que ECS usará para autenticarse contra el registry, normalmente usuario de GitHub y token.
-
-Después del primer paso AWS pedirá más configuraciones, pero se pueden dejar en default si no necesitas algo especial.
+Cuando tengamos el token, creamos un nuevo secreto en AWS Secrets Manager. Este secreto debe guardar las credenciales que ECS usará para autenticarse contra el registry.
 
 ![](assets/Pasted%20image%2020260721183109.webp)
 
@@ -193,15 +181,13 @@ Esto permite que ECS lea el secreto y pueda autenticarse para pullear la imagen 
 !!! info "Task Definition"
     La Task Definition es la plantilla del contenedor. Ahí se define qué imagen Docker se usará, qué puerto expone, qué variables de entorno necesita, cuánta CPU y memoria tendrá, y si enviará logs a CloudWatch. No ejecuta nada por sí sola; solo describe cómo debe ejecutarse.
 
-La Task Definition es la plantilla de ejecución del contenedor. Aquí indicamos qué imagen usar, qué puerto expone, qué variables de entorno necesita, qué recursos tendrá y si queremos activar logs.
-
 Vamos a:
 
 ```txt
 ECS -> Definición de Tareas
 ```
 
-Creamos una nueva definición de tarea. En mi caso usaré Fargate.
+La primera parte de la configuración consiste en seleccionar los recursos y el tipo de arquitectura que vamos a usar. En mi caso usare Fargate y los recursos minimos:
 
 ![](assets/Pasted%20image%2020260721183804.webp)
 
@@ -213,8 +199,8 @@ Más abajo aparece el rol de ejecución de tarea. Este rol debe tener permisos p
 
 Aquí configuramos el contenedor que correrá dentro de la task:
 
-- URI de la imagen en GitHub Container Registry.
-- ARN del secreto con las credenciales del registry, solo si la imagen es privada.
+- URI de la imagen en GitHub Conteiner Registry. [Imageen de Ejemplo](https://github.com/wonderiing/aero-api/pkgs/container/aero-api)
+- ARN del secreto con las credenciales del registry. (solo si la imagen es privada).
 - Puerto del contenedor. Mi API corre en `3000`.
 
 ![](assets/Pasted%20image%2020260721184141.webp)
@@ -224,7 +210,7 @@ Más abajo podemos agregar las variables de entorno que necesita la API para con
 Las credenciales las podemos sacar desde:
 
 ```txt
-RDS -> dev (nombre de la DB) -> Conectividad y Seguridad
+RDS -> dev (id de rds) -> Conectividad y Seguridad
 ```
 
 ![](assets/Pasted%20image%2020260721185005.webp)
@@ -234,6 +220,7 @@ Variables importantes:
 - Host: usar el punto de enlace de RDS.
 - `POSTGRES_PASSWORD`: contraseña master que colocaste al crear la DB.
 - También deberías colocar el usuario, nombre de la base de datos, puerto y cualquier otra variable que use tu API.
+- En Las variables de `JWT` puedes colocar lo que quieras.
 
 ![](assets/Pasted%20image%2020260721185048.webp)
 
@@ -261,23 +248,26 @@ Creamos el cluster en:
 ECS -> Crear Cluster
 ```
 
+No hay mucho que setear mas que colocarle un nombre y el tipo de infra que usaremos.
+
 ![](assets/Pasted%20image%2020260721185345.webp)
 
 ## 7. Crear el servicio de ECS
 
-!!! info "Service"
-    El Service mantiene vivas las tasks. Si una task falla o se detiene, ECS crea otra para reemplazarla. También permite definir cuántas réplicas queremos y conectar esas tasks con un Load Balancer para recibir tráfico externo.
 
 !!! info "Task"
     Una Task es una ejecución real de una Task Definition. Si la Task Definition es como el molde, la Task es el contenedor corriendo de verdad. Por ejemplo, si el servicio tiene 2 réplicas, ECS levantará 2 tasks usando la misma definición.
 
-El servicio mantiene corriendo las tasks. Por ejemplo, si configuramos `2` réplicas, ECS intentará mantener siempre dos tasks activas. Si una se cae, ECS levanta otra usando la misma Task Definition.
+El Servicio mantiene corriendo las tasks. Por ejemplo, si configuramos `2` réplicas, ECS intentará mantener siempre dos tasks activas. Si una se cae, ECS levanta otra usando la misma Task Definition. Para crear un servicio solo tenemos que ir a a la parte de 
 
-También conectaremos el servicio con el Load Balancer para que el tráfico externo llegue a los contenedores.
+```
+Definicion de Tareas -> Seleccionas la Tarea que Creamos -> Implementara y crear un nuevo servicio
+```
+
 
 ![](assets/Pasted%20image%2020260721185903.webp)
 
-Elegimos el cluster donde se ejecutará y el proveedor. En mi caso usaré `FARGATE`.
+Elegimos el cluster que creamos y el proveedor de capacidad. En mi caso usaré `FARGATE`.
 
 ![](assets/Pasted%20image%2020260721180714.webp)
 
