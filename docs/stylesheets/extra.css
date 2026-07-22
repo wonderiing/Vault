@@ -138,31 +138,48 @@
     padding: 0.3rem;
 }
 
-/* Compact Table of Contents */
+/* Table of Contents */
+.md-nav--secondary .md-nav__title {
+    margin-bottom: 0.45rem;
+    padding: 0 0.55rem;
+    color: var(--ctp-subtext0);
+    font-size: 0.64rem;
+    font-weight: 700;
+}
+
 .md-nav--secondary .md-nav__link {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.65rem;
-    line-height: 1.4;
+    margin: 0;
+    padding: 0.28rem 0.55rem;
+    color: var(--ctp-subtext1);
+    font-size: 0.64rem;
+    line-height: 1.35;
+    border-radius: 5px;
 }
 
 .md-nav--secondary .md-nav__item {
-    margin: 0.1rem 0;
+    margin: 0.02rem 0;
     padding: 0;
 }
 
-.md-nav--secondary .md-nav__list {
+.md-nav--secondary>.md-nav__list {
     padding: 0;
 }
 
-/* Fix nested TOC items padding */
+.md-nav--secondary>.md-nav__list>.md-nav__item>.md-nav__link {
+    font-weight: 600;
+}
+
 .md-nav--secondary .md-nav .md-nav__list {
-    padding-left: 0.8rem;
-    margin-top: 0.3rem;
+    margin: 0.12rem 0 0.25rem 0.7rem;
+    padding: 0 0 0 0.45rem;
+    border-left: 1px solid var(--ctp-surface1);
 }
 
-.md-nav--secondary .md-nav .md-nav .md-nav__list {
-    padding-left: 0.8rem;
-    margin-top: 0.3rem;
+.md-nav--secondary .md-nav .md-nav__link {
+    padding: 0.22rem 0.5rem;
+    color: var(--ctp-subtext0);
+    font-size: 0.60rem;
+    font-weight: 500;
 }
 
 
