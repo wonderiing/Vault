@@ -17,6 +17,16 @@ Mejores Practicas:
 - Utilizar claves de acceso para CLI Y SDK
 - No compartir usuarios IAM ni claves de acceso
 
+## Creación de Grupos
+
+Podemos crearlos en `IAM -> Crear Grupos`
+
+- Los grupos nos ayudan a segmentar a los usuarios IAM.
+- Los grupo tienen políticas que se les aplican a todos los usuarios del grupo
+- Los grupos no contienen otros grupos
+
+![](assets/Pasted%20image%2020260710130435.webp)
+
 ## Creación de Usuarios.
 
 Podemos crear un usuario IAM siguiendo la siguiente ruta:
@@ -116,7 +126,7 @@ Los `Statements` están estructurados de la siguiente manera:
 
 *Nota: esta política en particular es una resourced based policy mas en concreto una bucket policy*
 
-#### Creando Politicas.
+### Creando Politicas.
 
 Podemos crear políticas en `IAM -> Politicas -> Crear Politicas`
 
@@ -243,13 +253,16 @@ La podemos probar:
 
 ## Roles IAM a Servicios
 
-Podemos asignar roles a servicios para que hagan cosas a nuestro nombre. Ej: Asignar algún rol a Lambda para hacer un backup de un DB y subir a un bucket.
+Podemos asignar roles a servicios, cuentas aws, identidad web etc para que hagan cosas a nuestro nombre. Ej: Asignar algún rol a Lambda para permitirle hacer un backup de un DB y subirlo a un bucket S3.
+
+- Los roles generan credenciales temporales y AWS las rota automáticamente por ti mientras el rol siga en uso
 
 Para crear asignar un rol debemos ir a `IAM -> Roles -> Crear Rol`
 
+En este caso crearemos un Rol para el servicio `EC2`
+
 - Tipo de Entidad de Confianza: Servicio de AWS
 - Caso de uso: Servicio de AWS al que le asignaremos el rol.
-
 
 ![](assets/Pasted%20image%2020260701230403.webp)
 

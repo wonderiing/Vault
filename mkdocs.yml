@@ -130,6 +130,7 @@ nav:
       - Inicio: Cloud/AWS/index.md
       - IAM: Cloud/AWS/03-IAM.md
       - CloudShell: Cloud/AWS/04-CloudShell.md
+      - ECS: Cloud/AWS/ECS-Demo.md
   - CTFs:
     - 🚩 HackTheBox:
       - Inicio: HackTheBox/index.md
